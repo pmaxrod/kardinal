@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}
+  template-postpage
+{% endblock %}
+
+{% block content %}
+  {% image page.header_image fill-200x200 %}
+
+  <div class="tags">
+    {% for tag in page.tags.all %}
+      <label>{{ tag }}</label>
+    {% endfor %}
+  </div>
+{% endblock %}

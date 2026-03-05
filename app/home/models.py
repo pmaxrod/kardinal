@@ -33,3 +33,6 @@ class HomePage(Page):
         ),
         FieldPanel('body'),
     ]
+    
+    class Meta:
+        verbose_name = "Página de Inicio"

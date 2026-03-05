@@ -33,6 +33,8 @@ class NavigationSettings(BaseGenericSetting):
             "Configuración de redes sociales",
         )
     ]
+    class Meta:
+        verbose_name = "Configruación de Navegación"
 
 @register_snippet
 class FooterText(

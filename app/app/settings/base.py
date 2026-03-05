@@ -24,9 +24,12 @@ SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
+    # Principales
     "base",
     "home",
     "search",
+    "blog",
+    # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.settings",
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    # Django
     "django_filters",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    # De terceros
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

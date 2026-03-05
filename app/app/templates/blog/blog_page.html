@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}
+  template-blogpage
+{% endblock %}
+
+{% block content %}
+  {% for post in page.get_children %}
+    <a href="{% pageurl post %}">{{ post.title }}</a>
+  {% endfor %}
+{% endblock %}
