@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% block body_class %}
+  template-homepage
+{% endblock %}
 
 {% block content %}
-    <div>
-        <h1>{{ page.title }}</h1>
-        {% image page.image fill-480x320 %}
-        <p>{{ page.hero_text }}</p>
-    </div>
+  <div>
+    <h1>{{ page.title }}</h1>
+    {% image page.image fill-480x320 %}
+    <p>{{ page.hero_text }}</p>
+  </div>
 
   {{ page.body|richtext }}
-{% endblock content %}
+{% endblock %}
