@@ -29,13 +29,16 @@ INSTALLED_APPS = [
     "home",
     "search",
     "blog",
+    "users",
+    "app.apps.CustomUsersAppConfig",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.settings",
     "wagtail.embeds",
     "wagtail.sites",
-    "wagtail.users",
+    # Se utiliza una configuración de usuarios personalizada
+    #"wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
@@ -118,13 +121,16 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+AUTH_USER_MODEL = "users.User" 
+
 # Django All-Auth
-#LOGIN_URL = '/login/'
-#LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*']
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = None
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
@@ -177,7 +183,6 @@ STORAGES = {
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 # Wagtail settings
-
 WAGTAIL_SITE_NAME = "Kardinal"
 WAGTAIL_APPEND_SLASH = True
 WAGTAIL_DATE_FORMAT = "%d/%m/%Y"

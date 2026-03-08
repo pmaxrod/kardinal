@@ -1,6 +1,7 @@
 from django.db import models
 from wagtail.models import Page
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.field import RichTextField
+from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from taggit.models import Tag as TaggitTag, TaggedItemBase
 from modelcluster.fields import ParentalKey
@@ -19,16 +20,21 @@ class PostPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-
+    content = RichTextField(blank=True)
     tags = ClusterTaggableManager(through="blog.PostPageTag", blank=True)
- 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     content_panels = Page.content_panels + [
         FieldPanel("header_image"),
         # InlinePanel("categories", label="categoría"),
+        FieldPanel("content"),
         FieldPanel("tags"),
     ]
     class Meta:
-        verbose_name = "Página de Post"
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
+        get_latest_by = "created_at"
+        index = models.Index(fields="tags", name="tags_index")
 
 # Etiquetas
 @register_snippet
