@@ -18,6 +18,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
 SITE_ID = 1
+#AUTH_USER_MODEL = "users.CustomUser" 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -29,8 +30,8 @@ INSTALLED_APPS = [
     "home",
     "search",
     "blog",
-    "users",
-    "app.apps.CustomUsersAppConfig",
+    #"users",
+    #"apps.CustomUsersAppConfig",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     "wagtail.embeds",
     "wagtail.sites",
     # Se utiliza una configuración de usuarios personalizada
-    #"wagtail.users",
+    "wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
@@ -121,8 +122,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-AUTH_USER_MODEL = "users.User" 
-
 # Django All-Auth
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -130,7 +129,7 @@ ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*']
 #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True

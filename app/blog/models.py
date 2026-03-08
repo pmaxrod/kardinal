@@ -1,6 +1,6 @@
 from django.db import models
 from wagtail.models import Page
-from wagtail.field import RichTextField
+from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from taggit.models import Tag as TaggitTag, TaggedItemBase
@@ -34,7 +34,7 @@ class PostPage(Page):
         verbose_name = "Post"
         verbose_name_plural = "Posts"
         get_latest_by = "created_at"
-        index = models.Index(fields="tags", name="tags_index")
+        #indexes = [models.Index(fields=["tags"], name="tags_index")]
 
 # Etiquetas
 @register_snippet
