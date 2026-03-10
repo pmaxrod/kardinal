@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
@@ -23,6 +25,7 @@ class PostPage(Page):
     content = RichTextField(blank=True)
     tags = ClusterTaggableManager(through="blog.PostPageTag", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="user")
 
     content_panels = Page.content_panels + [
         FieldPanel("header_image"),

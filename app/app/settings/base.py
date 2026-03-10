@@ -18,7 +18,8 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
 SITE_ID = 1
-#AUTH_USER_MODEL = "users.CustomUser" 
+# Ya no estamos reemplazando el modelo de usuarios
+# AUTH_USER_MODEL = "users.CustomUser" 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -30,7 +31,7 @@ INSTALLED_APPS = [
     "home",
     "search",
     "blog",
-    #"users",
+    "users",
     #"apps.CustomUsersAppConfig",
     # Wagtail
     "wagtail.contrib.forms",
