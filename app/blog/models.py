@@ -10,7 +10,10 @@ from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 
 class BlogPage(Page):
-    pass
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1, related_name="user")
+    content_panels = Page.content_panels + [
+        FieldPanel("user"),
+    ]
     class Meta:
         verbose_name = "Página de Blog"
  
@@ -25,7 +28,6 @@ class PostPage(Page):
     content = RichTextField(blank=True)
     tags = ClusterTaggableManager(through="blog.PostPageTag", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="user")
 
     content_panels = Page.content_panels + [
         FieldPanel("header_image"),
