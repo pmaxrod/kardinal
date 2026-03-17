@@ -1,3 +1,13 @@
+/* Enlace para saltar al contenido */
+.skip-link {
+    position: absolute;
+    top: -30px;
+}
+
+.skip-link:focus-visible {
+    top: 5px;
+}
+/*
 *,
 ::before,
 ::after {
@@ -35,11 +45,3 @@ header {
     text-align: center;
 }
 
-.skip-link {
-    position: absolute;
-    top: -30px;
-}
-
-.skip-link:focus-visible {
-    top: 5px;
-}

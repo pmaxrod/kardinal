@@ -1,7 +1,8 @@
 {% load static wagtailcore_tags %}
+{% load tailwind_cli %}
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="{{ theme }}">
   <head>
     <meta charset="utf-8" />
     <title>
@@ -32,21 +33,20 @@
     {% endif %}
 
     {# Temas soportados #}
-    <meta name="color-scheme" content="light dark" />
+    {# <meta name="color-scheme" content="light dark" /> #}
 
     {# Icono de las pestañas #}
     <link rel="icon" type="image/x-icon" href="{% static 'img/kardinal-logo.svg' %}" alt="Icono del sitio" />
 
     {# CSS Global #}
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+    {% tailwind_css %}
     {% block extra_css %}
       {# Override this in templates to add extra stylesheets #}
     {% endblock %}
   </head>
 
-  <body class="{% block body_class %}
-
-    {% endblock %}">
+  <body class="{% block body_class %}{% endblock %}">
     {% include 'includes/header.html' %}
     <main id="main">
       {% block content %}
