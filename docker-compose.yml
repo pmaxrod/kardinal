@@ -1,7 +1,9 @@
 services:
   web:
     build: app
-    command: python manage.py runserver 0.0.0.0:8000 --settings=app.settings.dev
+    command: python manage.py tailwind runserver 0.0.0.0:8000
+    tty: true
+    #command: python manage.py runserver 0.0.0.0:8000 --settings=app.settings.dev
     volumes:
       - ./app/:/usr/src/app/
     ports:

@@ -19,6 +19,9 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+TAILWIND_CLI_VERSION = 'latest'
+TAILWIND_CLI_AUTOMATIC_DOWNLOAD = True
+
 try:
     from .local import *
 except ImportError:

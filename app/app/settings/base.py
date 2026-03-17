@@ -17,9 +17,7 @@ import os
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
-SITE_ID = 1
-# Ya no estamos reemplazando el modelo de usuarios
-# AUTH_USER_MODEL = "users.CustomUser" 
+SITE_ID = 1 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -32,7 +30,6 @@ INSTALLED_APPS = [
     "search",
     "blog",
     "users",
-    #"apps.CustomUsersAppConfig",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -62,6 +59,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "django_tailwind_cli"
 ]
 
 MIDDLEWARE = [
@@ -91,7 +89,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-		"wagtail.contrib.settings.context_processors.settings",
+		        "wagtail.contrib.settings.context_processors.settings",
+                "base.context_processors.theme"
             ],
         },
     },
@@ -141,6 +140,10 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*']
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 
+# Django Tailwind CLI
+TAILWIND_CLI_CSS_MAP = [
+    ("css/input_themes.css", "css/output_themes.css")
+]
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 

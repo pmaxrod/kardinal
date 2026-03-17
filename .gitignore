@@ -9,7 +9,7 @@ migrations/
 dumps/
 media/
 # No se puede almacenar en Github
-app/.django_tailwind_cli/tailwindcss-linux-x64-4.2.1
+app/.django_tailwind_cli/*
 
 # Virtual Environment
 .env
