@@ -10,13 +10,14 @@
         {% if not forloop.last %} | {% endif %}
       {% endfor %}
     </p>
-    <form action="{% url 'toggle_theme' %}" method="post" class="text-gray-700 font-semibold mb-1">
+    <form action="{% url 'toggle_theme' %}" method="post" class="text-foreground font-semibold mb-1">
       {% csrf_token %}
       <select name="theme" class="w-full p-2 border border-gray-300 rounded-md form-select">
+          <option value="system" {% if theme == 'system' %}selected{% endif %}>Sistema</option>
           <option value="light" {% if theme == 'light' %}selected{% endif %}>Claro</option>
           <option value="dark" {% if theme == 'dark' %}selected{% endif %}>Oscuro</option>
       </select>
-      <button type="submit">Seleccionar tema</button>
+      <button class="text-foreground" type="submit">Seleccionar tema</button>
     </form>
   </nav>
   {% wagtailuserbar 'top-right' %}

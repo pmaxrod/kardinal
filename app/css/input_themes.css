@@ -3,14 +3,26 @@
 @theme {
         --color-background: var(--background);
         --color-foreground: var(--foreground);
-    }
+}
 
 :root {
     --background: hsl(100,100,100);
     --foreground: hsl(10,10,10);
 }
 
-[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: hsl(0,0,0);
+        --foreground: hsl(100,100,100);
+    }
+}
+
+html[data-theme="light"] {
+    --background: hsl(100,100,100);
+    --foreground: hsl(10,10,10);
+}
+
+html[data-theme="dark"] {
     --background: hsl(0,0,0);
     --foreground: hsl(100,100,100);
 }
