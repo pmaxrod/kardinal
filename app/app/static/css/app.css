@@ -7,6 +7,14 @@
 .skip-link:focus-visible {
     top: 5px;
 }
+
+.font-sans {
+    font-family: sans-serif;
+}
+
+.font-serif {
+    font-family: serif;
+}
 /*
 *,
 ::before,

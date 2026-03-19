@@ -10,14 +10,15 @@
         {% if not forloop.last %} | {% endif %}
       {% endfor %}
     </p>
-    <form action="{% url 'toggle_theme' %}" method="post" class="text-foreground font-semibold mb-1">
+
+    {% get_theme_select %}
+    <form action="{% url 'change_font' %}" method="post" class="text-foreground font-semibold mb-1">
       {% csrf_token %}
-      <select name="theme" class="w-full p-2 border border-gray-300 rounded-md form-select">
-          <option value="system" {% if theme == 'system' %}selected{% endif %}>Sistema</option>
-          <option value="light" {% if theme == 'light' %}selected{% endif %}>Claro</option>
-          <option value="dark" {% if theme == 'dark' %}selected{% endif %}>Oscuro</option>
+      <select name="font" class="w-full p-2 border border-gray-300 rounded-md form-select">
+          <option value="font-sans" {% if font == 'font-sans' %}selected{% endif %}>Fuente sans-serif</option>
+          <option value="font-serif" {% if font == 'font-serif' %}selected{% endif %}>Fuente serif</option>
       </select>
-      <button class="text-foreground" type="submit">Seleccionar tema</button>
+      <button class="text-foreground" type="submit">Seleccionar tipo de fuente</button>
     </form>
   </nav>
   {% wagtailuserbar 'top-right' %}

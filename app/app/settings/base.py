@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.settings",
     "wagtail.embeds",
     "wagtail.sites",
-    # Se utiliza una configuración de usuarios personalizada
     "wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
@@ -90,7 +89,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
 		        "wagtail.contrib.settings.context_processors.settings",
-                "base.context_processors.theme"
+                "base.context_processors.theme",
+                "base.context_processors.font"
             ],
         },
     },

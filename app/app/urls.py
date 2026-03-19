@@ -7,7 +7,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
-from base.views import ToggleThemeView
+from base.views import ToggleThemeView, ChangeFontView
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -26,6 +26,7 @@ if settings.DEBUG:
 
 urlpatterns = urlpatterns + [
     path("toggle-theme/", ToggleThemeView.as_view(), name="toggle_theme"),
+    path("change-font/", ChangeFontView.as_view(), name="change_font"),
     path("accounts/", include('allauth.urls')),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
