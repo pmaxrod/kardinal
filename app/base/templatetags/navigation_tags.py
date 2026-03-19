@@ -1,7 +1,7 @@
 from django import template
 
 from wagtail.models import Site
-from base.models import FooterText
+from base.models import FooterText, ThemeOption
 
 register = template.Library()
 
@@ -15,6 +15,13 @@ def get_footer_text(context):
 
     return {
         "footer_text": footer_text,
+    }
+
+@register.inclusion_tag("base/includes/theme_select.html", takes_context=True)
+def get_theme_select(context):
+    return {
+        "theme_options": ThemeOption.objects.all(),
+        "request": context["request"]
     }
 
 @register.simple_tag(takes_context=True)

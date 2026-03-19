@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+
+<div>
+    <form action="{% url 'toggle_theme' %}" method="post" class="text-foreground font-semibold mb-1">
+      {% csrf_token %}
+      <select name="theme" class="w-full p-2 border border-gray-300 rounded-md form-select">
+        {% for theme_option in theme_options %}
+            <option value="{{theme_option.value}}">{{theme_option.name}}</option>
+            {# {% if "{{theme}}" == "{{theme_option.value}}" %}selected{% endif %} #}
+        {% endfor %}
+      </select>
+      <button class="text-foreground" type="submit">Seleccionar tema</button>
+    </form>
+</div>

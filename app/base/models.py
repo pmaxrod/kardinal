@@ -63,3 +63,31 @@ class FooterText(
 
     class Meta(TranslatableMixin.Meta):
         verbose_name_plural = "Texto del pie"
+
+@register_snippet
+class ThemeOption(
+    DraftStateMixin,
+    RevisionMixin,
+    PreviewableMixin,
+    TranslatableMixin,
+    models.Model,
+):
+    name = models.CharField()
+    value = models.CharField(default="system")
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("value"),
+        PublishingPanel(),
+    ]
+
+    def __str__(self):
+        return f"Tema: {self.name}"
+
+    def get_preview_template(self, request, mode_name):
+        return "base.html"
+    
+    def get_preview_context(self, request, mode_name):
+        return {"theme_option": self.body}
+
+    class Meta(TranslatableMixin.Meta):
+        verbose_name_plural = "Temas"        
