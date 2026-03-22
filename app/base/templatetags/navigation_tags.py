@@ -17,13 +17,6 @@ def get_footer_text(context):
         "footer_text": footer_text,
     }
 
-@register.inclusion_tag("base/includes/theme_select.html", takes_context=True)
-def get_theme_select(context):
-    return {
-        "theme_options": ThemeOption.objects.all(),
-        "request": context["request"]
-    }
-
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
     return Site.find_for_request(context["request"]).root_page
