@@ -25,6 +25,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = urlpatterns + [
+    path("", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
     path("toggle-theme/", ToggleThemeView.as_view(), name="toggle_theme"),
     path("change-font/", ChangeFontView.as_view(), name="change_font"),
     path("accounts/", include('allauth.urls')),
