@@ -34,5 +34,7 @@ class HomePage(Page):
         FieldPanel('body'),
     ]
     
+    subpage_types = ["blog.BlogPage"]
+    
     class Meta:
         verbose_name = "Página de Inicio"

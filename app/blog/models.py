@@ -2,10 +2,13 @@ from django.db import models
 from django.conf import settings
 
 from wagtail.models import Page
-from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
-from wagtail.snippets.models import register_snippet
 from taggit.models import Tag as TaggitTag, TaggedItemBase
+from wagtail.snippets.models import register_snippet
+from wagtail.fields import StreamField
+from wagtail import blocks
+from wagtail.images.blocks import ImageBlock
+from wagtail.admin.panels import FieldPanel
+from wagtail.search import index
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 
@@ -14,10 +17,19 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("user"),
     ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("user")
+    ]
+
+    subpage_types = ["PostPage"]
+    slug = 'user__username'
+    
     class Meta:
         verbose_name = "Página de Blog"
  
 class PostPage(Page):
+    """
     header_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -25,21 +37,35 @@ class PostPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    content = RichTextField(blank=True)
+    """
+    #content = RichTextField(blank=True)
+    # Se migra a StreamField porque da más versatilidad
+    body = StreamField([
+        ('heading', blocks.CharBlock(form_classname="title", label="Encabezado", required=False)),
+        ('paragraph', blocks.RichTextBlock(label="Párrafo", required=False)),
+        ('image', ImageBlock(label="Imagen", required=False, search_index=False))
+    ], block_counts={
+        'image': {'max_num': 10}
+    }, default=None)
     tags = ClusterTaggableManager(through="blog.PostPageTag", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    search_fields = Page.search_fields + [
+        index.SearchField("tags")
+    ]
+
     content_panels = Page.content_panels + [
-        FieldPanel("header_image"),
-        # InlinePanel("categories", label="categoría"),
-        FieldPanel("content"),
+        FieldPanel("body"),
         FieldPanel("tags"),
     ]
+
+    parent_page_types = ["BlogPage"]
+    subpage_types = []
+
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"
         get_latest_by = "created_at"
-        #indexes = [models.Index(fields=["tags"], name="tags_index")]
 
 # Etiquetas
 @register_snippet
@@ -48,40 +74,7 @@ class Tag(TaggitTag):
         proxy = True
         verbose_name = "Etiqueta"
         verbose_name_plural = "Etiquetas"
-
-""" @register_snippet
-class BlogCategory(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, max_length=80)
- 
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("slug"),
-    ]
-    def __str__(self):
-        return self.name
- 
-    class Meta:
-        verbose_name = "Categoría"
-        verbose_name_plural = "Categorías"
- """ 
  
 # Modelo que conecta los posts con las etiquetas
 class PostPageTag(TaggedItemBase):
     content_object = ParentalKey("PostPage", related_name="post_tags")
-""" class PostPageBlogCategory(models.Model):
-    page = ParentalKey(
-        "blog.PostPage", on_delete=models.CASCADE, related_name="categories"
-    )
-    blog_category = models.ForeignKey(
-        "blog.BlogCategory", on_delete=models.CASCADE, related_name="post_pages"
-    )
- 
-    panels = [
-        FieldPanel("blog_category"),
-    ]
- 
-    class Meta:
-        unique_together = ("page", "blog_category")
- """ 
- 

@@ -6,8 +6,19 @@
 {% endblock %}
 
 {% block content %}
-  {% image page.header_image fill-200x200 %}
+  <h2>{{ page.title }}</h2>
+{#  {% image page.header_image fill-200x200 %} #}
 
+  {% comment %}
+  <div>
+    {{ page.content|richtext }}
+  </div> 
+  {% endcomment %}
+  <article>
+  {% for block in page.body %}
+    <section>{% include_block block %}</section>
+  {% endfor %}
+  </article>
   <div class="tags">
     {% for tag in page.tags.all %}
       <label>{{ tag }}</label>
