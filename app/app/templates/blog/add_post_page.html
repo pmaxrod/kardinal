@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-  <form action="{% url 'blog:add_post' %}" method="post" class="max-w-md mx-auto p-6 bg-background shadow-md rounded-lg">
+  <form action="{% url 'blog:add_post' %}" method="post" class="max-w-md mx-auto p-6 shadow-md rounded-lg">
     {% csrf_token %}
     {{ form.as_div}}
     <input type="submit" value="Añadir post" />
