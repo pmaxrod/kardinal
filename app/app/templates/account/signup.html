@@ -1,0 +1,33 @@
+{% extends "account/base_entrance.html" %}
+{% load allauth  %}
+{% block title %}
+	Registrarse
+{% endblock title %}
+{% block content %}
+	{% element h1 %}
+		Registrarse
+	{% endelement %}
+   {% setvar link %}
+        <a href="{{ login_url }}">
+        {% endsetvar %}
+        {% setvar end_link %}
+        </a>
+    {% endsetvar %}
+    {% element p %}
+        ¿Ya tiene una cuenta? Puede {{ link }}iniciar sesión{{ end_link }}.
+    {% endelement %}
+  {% url 'account_signup' as signup_url %}
+  {% element form form=form method="post" action=signup_url tags="entrance,signup" %}
+    {% slot body %}
+      {% csrf_token %}
+      {% element fields form=form unlabeled=True %}
+      {% endelement %}
+      {{ redirect_field }}
+    {% endslot %}
+    {% slot actions %}
+      {% element button type="submit" tags="prominent,login" %}
+        Registrarse
+      {% endelement %}
+    {% endslot %}
+  {% endelement %}
+{% endblock content %}

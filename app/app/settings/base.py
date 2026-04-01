@@ -123,20 +123,20 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Django All-Auth
-LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*']
+ACCOUNT_SIGNUP_FIELDS = ['username*', 'password1*', 'password2*']
+ACCOUNT_LOGIN_FIELDS = ['username*', 'password1*']
 #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*']
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 
@@ -191,7 +191,7 @@ WAGTAIL_APPEND_SLASH = True
 WAGTAIL_DATE_FORMAT = "%d/%m/%Y"
 WAGTAIL_DATETIME_FORMAT = "%d/%m/%Y %H:%M"
 WAGTAIL_TIME_FORMAT = "%H:%M"
-
+WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {

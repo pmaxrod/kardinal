@@ -1,0 +1,31 @@
+{% extends "account/base_entrance.html" %}
+{% load allauth %}
+{% block title %}
+  Iniciar Sesión
+{% endblock %}
+{% block content %}
+  <div class="">
+    <div class="">
+      {% element h1 %}Iniciar Sesión{% endelement %}
+      {% setvar link %}
+        <a href="{{ signup_url }}" class="link">
+          {% endsetvar %}
+          {% setvar end_link %}
+        </a>
+      {% endsetvar %}
+      {% element p %}{{ link }}Regístrese{{ end_link }} primero si no tiene una cuenta creada.{% endelement %}
+    </div>
+    {% url 'account_login' as login_url %}
+    {% element form form=form method='post' action=login_url tags='entrance,login' %}
+      {% slot body %}
+        {% csrf_token %}
+        {% element fields form=form unlabeled=True %}
+        {% endelement %}
+        {{ redirect_field }}     
+      {% endslot %}
+      {% slot actions %}
+        {% element button type='submit' tags='prominent,login' %}Iniciar Sesión{% endelement %}
+      {% endslot %}
+    {% endelement %}
+  </div>
+{% endblock %}

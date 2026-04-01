@@ -1,33 +1,39 @@
-{% load wagtailcore_tags navigation_tags setting_tags wagtailuserbar %}
-<header class="bg-background border-b-2 border-dotted">
-  <a href="#main" class="skip-link text-foreground">Saltar al contenido</a>
+{% load wagtailcore_tags navigation_tags setting_tags wagtailuserbar allauth %}
+<header class="border-b-2 border-dotted">
+  <a href="#main" class="skip-link">Saltar al contenido</a>
   {% get_site_root as site_root %}
-  <nav class="relative flex items-center justify-between sm:h-10 md:justify-center">
-    <div class="md:flex md:space-x-10 list-none">
-      <li>
-        <a class="text-base font-normal list-none hover:text-foreground/15 text-foreground" href="{% pageurl site_root %}">{{ site_root.title }}</a> |
-      </li>
-      {% if user.is_authenticated %}
-      <li>
-        <a class="text-base font-normal list-none hover:text-foreground/15 text-foreground" href="{% url 'blog:user_blog' user=user.username %}">Blog</a> |
-      </li>
-      {% endif %}
-      {% for menu_item in site_root.get_children.live.in_menu %}
-      <li>
-        <a class="text-base font-normal list-none hover:text-foreground/15 text-foreground" href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
-        {% if not forloop.last %} | {% endif %}
-      </li>
-      {% endfor %}
+  <nav class="px-4 py-2">
+    <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center gap-2">
+        <a class="page-link" href="{% pageurl site_root %}">{{ site_root.title }}</a>
+        {% for menu_item in site_root.get_children.live.in_menu %}
+          <a class="page-link" href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
+          {% if not forloop.last %} | {% endif %}
+        {% endfor %}
+        {% if user.is_authenticated %}
+          <a class="page-link" href="{% url 'blog:user_blog' user=user.username %}">Blog</a>
+        {% endif %}
+      </div>
+      <div class="flex justify-between items-center gap-x-4">
+        {% if user.is_authenticated %}
+          <a class="action-button" href="{% url 'account_logout' %}">Cerrar Sesión</a>
+        {% else %}
+          <a class="action-button" href="{% url 'account_login' %}">Iniciar Sesión</a>
+          <a class="action-button" href="{% url 'account_signup' %}">Registrarse</a>
+        {% endif %}
+      </div>
     </div>
+    {% comment %}
     {% get_theme_select %}
-          <form action="{% url 'change_font' %}" method="post" class="text-foreground font-semibold mb-1">
-            {% csrf_token %}
-            <select name="font" class="w-full p-2 border border-gray-300 rounded-md form-select">
-              <option value="font-sans" {% if font == "font-sans" %}selected{% endif %}>Fuente sans-serif</option>
-              <option value="font-serif" {% if font == "font-serif" %}selected{% endif %}>Fuente serif</option>            
-            </select>
-            <button class="text-foreground" type="submit">Seleccionar tipo de fuente</button>
-          </form>
+    <form action="{% url 'change_font' %}" method="post" class="text-foreground font-semibold mb-1">
+      {% csrf_token %}
+      <select name="font" class="w-full p-2 border border-gray-300 rounded-md form-select">
+        <option value="font-sans" {% if font == "font-sans" %}selected{% endif %}>Fuente sans-serif</option>
+        <option value="font-serif" {% if font == "font-serif" %}selected{% endif %}>Fuente serif</option>            
+      </select>
+      <button class="text-foreground" type="submit">Seleccionar tipo de fuente</button>
+    </form>
+    {% endcomment %}
   </nav>
   {% wagtailuserbar 'top-right' %}
 </header>
