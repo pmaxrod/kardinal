@@ -1,5 +1,4 @@
 {% load static wagtailcore_tags %}
-{% load tailwind_cli %}
 
 <!DOCTYPE html>
 <html lang="es" data-theme="{{ theme }}" class="{{ font }}">
@@ -40,7 +39,7 @@
 
     {# CSS Global #}
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
-    {% tailwind_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/output_themes.css' %}" />
     {% block extra_css %}
       {# Override this in templates to add extra stylesheets #}
     {% endblock %}

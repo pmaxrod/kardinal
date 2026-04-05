@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "django_tailwind_cli"
 ]
 
 MIDDLEWARE = [
@@ -140,10 +139,6 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 
-# Django Tailwind CLI
-TAILWIND_CLI_CSS_MAP = [
-    ("css/input_themes.css", "css/output_themes.css")
-]
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
