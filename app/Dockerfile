@@ -1,16 +1,11 @@
-# Imagen oficial de Python para la versión Trixie de Debian
-FROM python:trixie
+FROM python:trixie AS python-builder
 
-# Establecer directorio de trabajo
 WORKDIR /usr/src/app
 
-# Variabls de entorno
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Instalación de paquetes
-RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-  nano \
+RUN apt update --yes --quiet && apt install --yes --quiet --no-install-recommends \
   build-essential \
   gettext \
   libpq-dev \
@@ -22,13 +17,15 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
   gcc \
   musl-dev \
   postgresql \
-  postgresql-contrib
+  postgresql-contrib \
+  npm 
 
-# Instalación de librerías de Python
+COPY ./requirements.txt .
 RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install 'django-tailwind[cookiecutter,honcho,reload]'
 
 # Punto de entrada de PostgreSQL
 COPY entrypoint.sh /usr/src/app/entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+
+ENTRYPOINT ["sh", "./entrypoint.sh"]

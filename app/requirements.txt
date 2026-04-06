@@ -4,3 +4,4 @@ psycopg==3.3.0
 matplotlib==3.10.0
 numpy==2.4.2
 django-allauth==65.14.3
+django-tailwind[cookiecutter,honcho,reload]==4.4.2

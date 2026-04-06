@@ -8,8 +8,6 @@ db.sqlite3
 migrations/
 dumps/
 media/
-# No se puede almacenar en Github
-app/.django_tailwind_cli/*
 
 # Virtual Environment
 .env
