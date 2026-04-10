@@ -1,7 +1,7 @@
 from django import template
 from django.conf import settings
 from wagtail.models import Site
-from base.models import FooterText, ThemeOption
+from base.models import FooterText
 
 register = template.Library()
 
