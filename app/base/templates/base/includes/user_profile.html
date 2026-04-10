@@ -1,0 +1,8 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="card card-border">
+  {% image user.profile.profile_picture fill 128 x64 %}
+  <div class="card-body">
+    <p class="card-title">{{ user.username }}</p>
+    <p class="">{{ user.profile.bio }}</p>
+  </div>
+</div>

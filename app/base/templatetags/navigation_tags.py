@@ -1,5 +1,5 @@
 from django import template
-
+from django.conf import settings
 from wagtail.models import Site
 from base.models import FooterText, ThemeOption
 
@@ -16,6 +16,10 @@ def get_footer_text(context):
     return {
         "footer_text": footer_text,
     }
+
+@register.inclusion_tag("base/includes/user_profile.html")
+def get_user_profile(user):
+    return {'user': user}
 
 @register.simple_tag(takes_context=True)
 def get_site_root(context):

@@ -27,6 +27,7 @@ if settings.DEBUG:
 
 urlpatterns = urlpatterns + [
     path("", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
+    path("", include(("users.urls", "users"), namespace="users"), name="users"),
     path("toggle-theme/", ToggleThemeView.as_view(), name="toggle_theme"),
     path("change-font/", ChangeFontView.as_view(), name="change_font"),
     path("accounts/", include('allauth.urls')),

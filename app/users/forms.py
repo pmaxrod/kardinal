@@ -1,17 +1,31 @@
 from django import forms
+from allauth.account.forms import SignupForm
+from wagtail.models import Site
+from blog.models import BlogPage
+from users.models import UserProfile
 
-from wagtail.users.forms import UserEditForm, UserCreationForm
+class UserSignupForm(SignupForm):
+    # Se busca crear una página de blog asociada al usuario que se va a crear
+    def save(self, request):
+        user = super().save(request)
+        
+        # Crear perfil del usuario
+        profile = UserProfile(user=user)
+        profile.save()
+        # Crear configuración del usuario
+        #settings = UserSettings(user=user)
+        #settings.save()
+        # Crear blog del usuario
+        home_page = Site.find_for_request(request).get_root
+        blog_page = BlogPage(user=user, title=f"Blog de {user.username}", slug=user.username.lower())
+        blog_page.owner = user
+        home_page.add_child(instance=blog_page)
 
-class CustomUserEditForm(UserEditForm):
-    bio = forms.CharField(label="Biografía", widget=forms.Textarea)
-    profile_picture = forms.ImageField(label="Foto de perfil", widget=forms.ImageField)
+        home_page.save()
 
+        return user
+
+class UserProfileForm(forms.ModelForm):
     class Meta:
-        fields = UserEditForm.Meta.fields | {"bio", "profile_picture"}
-
-class CustomUserCreationForm(UserCreationForm):
-    bio = forms.CharField(label="Biografía", widget=forms.Textarea)
-    profile_picture = forms.ImageField(label="Foto de perfil", widget=forms.ImageField)
-
-    class Meta:
-        fields = UserEditForm.Meta.fields | {"bio", "profile_picture"}
+        model = UserProfile
+        exclude = ["user"]
