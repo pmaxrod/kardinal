@@ -13,17 +13,19 @@ from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 
 class BlogPage(Page):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1, related_name="user")
+    # El propietario de la página es el usuario asociado
     content_panels = Page.content_panels + [
-        FieldPanel("user"),
+        FieldPanel("owner"),
     ]
 
     search_fields = Page.search_fields + [
-        index.SearchField("user")
+        index.SearchField("owner")
     ]
 
     subpage_types = ["PostPage"]
-    slug = 'user__username'
+
+    title = f"Blog de {'owner__username'}"
+    slug = "owner__username.lower()"
     
     class Meta:
         verbose_name = "Página de Blog"
