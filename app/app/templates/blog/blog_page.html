@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags base_tags %}
+
+{% block body_class %}
+  template-blogpage
+{% endblock %}
+
+{% block content %}
+  <h2 class="text-2xl font-bold text-foreground mb-2 text-center">{{ page.title }}</h2>
+  {% get_user_profile user=page.owner %}
+  <div class="flex items-center fixed">
+    <a class="action-button" href="{% url 'blog:add_post' %}">Añadir post</a>
+  </div>
+  <div class="grid place-items-center">
+    {% for post in page.get_children.live %}
+      <div class="shadow-lg overflow-hidden max-w-lg w-full my-2">
+        <div class="p-6 border-2">
+          <a class="action-button" href="{% url 'users:get_user_profile' username=post.owner %}">
+            {{ post.owner }}
+          </a>
+          <a href="{% pageurl post %}" class="post-link">{{ post.title }}</a>
+          <p class="leading-tight mb-4">{{ post.content }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

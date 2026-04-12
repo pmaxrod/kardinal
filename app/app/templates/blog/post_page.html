@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}
+  template-postpage
+{% endblock %}
+
+{% block content %}
+  {# <h2>{{ page.title }}</h2> #}
+  {# {% image page.header_image fill-200x200 %} #}
+
+  {% comment %}
+  <div>{{ page.content|richtext }}</div>
+  {% endcomment %}
+  <article>
+    <div class="flex">
+      <p class="border-2 px-4 py-2">{{ page.created_at|date:'SHORT_DATE_FORMAT' }}</p>
+    </div>
+    {% for block in page.body %}
+      {% if block.block_type == 'heading' %}
+        <h1 class="block-{{ block.block_type }} text-2xl font-bold">{{ block.value }}</h1>
+      {% elif block.block_type == 'paragraph' %}
+        <p class="block-{{ block.block_type }}">
+          {% include_block block %}
+        </p>
+      {% elif block.block_type == 'image' %}
+        {% image block.value width-400 class='border-2 border-dotted' %}
+      {% endif %}
+    {% endfor %}
+  </article>
+  <div class="tags">
+    {% for tag in page.tags.all %}
+      <label class="bg-green-300 text-green-600/85 border-2 border-green-800/50 px-1 py-0.5">#{{ tag }}</label>
+    {% endfor %}
+  </div>
+{% endblock %}
