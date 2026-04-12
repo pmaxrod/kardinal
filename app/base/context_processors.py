@@ -1,7 +1,8 @@
-def theme(request):
-    current_theme = request.session.get("theme", "system")
-    return { "theme": current_theme }
+from users.models import UserSettings
 
-def font(request):
-    current_font = request.session.get("font", "sans")
-    return {"font": current_font}
+def app_settings(request):
+    if request.user.is_authenticated:
+        settings = UserSettings.objects.filter(user=request.user).first()
+    else:
+        settings = UserSettings()
+    return { "settings": settings }

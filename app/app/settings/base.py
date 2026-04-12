@@ -98,8 +98,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
 		        "wagtail.contrib.settings.context_processors.settings",
-                "base.context_processors.theme",
-                "base.context_processors.font"
+                "base.context_processors.app_settings",
             ],
         },
     },
