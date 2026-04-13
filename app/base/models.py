@@ -17,6 +17,7 @@ from wagtail.contrib.settings.models import (
 )
 from wagtail.snippets.models import register_snippet
 
+
 @register_setting
 class NavigationSettings(BaseGenericSetting):
     linkedin_url = models.URLField(verbose_name="URL de Linkedin", blank=True)
@@ -33,8 +34,10 @@ class NavigationSettings(BaseGenericSetting):
             "Configuración de redes sociales",
         )
     ]
+
     class Meta:
         verbose_name = "Configruación de Navegación"
+
 
 @register_snippet
 class FooterText(

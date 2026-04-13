@@ -18,7 +18,7 @@ from django.conf import settings
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
-SITE_ID = 1 
+SITE_ID = 1
 TAILWIND_APP_NAME = "theme"
 
 # Quick-start development settings - unsuitable for production
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "blog",
     "users",
     "theme",
+    "comments",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -61,7 +62,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "tailwind"
+    "tailwind",
 ]
 
 if settings.DEBUG:
@@ -97,7 +98,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-		        "wagtail.contrib.settings.context_processors.settings",
+                "wagtail.contrib.settings.context_processors.settings",
                 "base.context_processors.app_settings",
             ],
         },
@@ -126,31 +127,29 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Authentication Backends
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 # Django All-Auth
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*', 'password2*']
-ACCOUNT_LOGIN_FIELDS = ['username*', 'email*', 'password1*']
-#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
+ACCOUNT_LOGIN_FIELDS = ["username*", "email*", "password1*"]
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/accounts/login/"
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 
-ACCOUNT_FORMS = {
-    'signup': 'users.forms.UserSignupForm'
-}
+ACCOUNT_FORMS = {"signup": "users.forms.UserSignupForm"}
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
@@ -216,4 +215,15 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 # This can be omitted to allow all files, but note that this may present a security risk
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]

@@ -5,6 +5,7 @@ from base.models import FooterText
 
 register = template.Library()
 
+
 @register.inclusion_tag("base/includes/footer_text.html", takes_context=True)
 def get_footer_text(context):
     footer_text = context.get("footer_text", "")
@@ -17,9 +18,17 @@ def get_footer_text(context):
         "footer_text": footer_text,
     }
 
+
 @register.inclusion_tag("base/includes/user_profile.html")
 def get_user_profile(user):
-    return {'user': user}
+    return {"user": user}
+
+
+@register.inclusion_tag("base/includes/page_comments.html", takes_context=True)
+def get_page_comments(context):
+    page = context.get("page")
+    return {"page": page}
+
 
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
