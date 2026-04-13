@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Perfil de {{ user.username }}
+{% endblock %}
+{% block content %}
+  <form method="post" action="{% url 'users:update_user_profile' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="container">
+        <label class="label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+        {% if field.widget_type == 'select' %}
+          <div class="form-select border-2 rounded-md px-4 py-3">{{ field }}</div>
+        {% elif field.widget_type == 'input' %}
+          <div class="form-input border-2 rounded-md px-4 py-3">{{ field }}</div>
+        {% else %}
+          {{ field }}
+        {% endif %}
+        {% if field.errors %}
+          {{ field.errors }}
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-secondary" type="submit">Confirmar</button>
+  </form>
+{% endblock %}  

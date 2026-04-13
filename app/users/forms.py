@@ -28,6 +28,17 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ["user"]
+        widgets = {
+            'bio': forms.Textarea(attrs={
+                "cols":80,
+                "rows":10,
+                "class": "form-textarea border-2 rounded-md px-4 py-3"
+            }),
+            'profile_picture': forms.FileInput(attrs={
+                "class": "form-input border-2 rounded-md px-4 py-3"
+            })
+
+        }
 
 class UserSettingsForm(forms.ModelForm):
     class Meta:

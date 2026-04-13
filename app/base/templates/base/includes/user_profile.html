@@ -1,8 +1,17 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<div class="card card-border">
-  {% image user.profile.profile_picture fill 128 x64 %}
+<div class="card card-border bg-neutral-200">
   <div class="card-body">
-    <p class="card-title">{{ user.username }}</p>
-    <p class="">{{ user.profile.bio }}</p>
+    <div class="avatar {% if user.profile.profile_picture.url == '' %}avatar-placeholder{% endif %}">
+      <div class="w-24 rounded-full {% if user.profile.profile_picture.url == '' %}bg-neutral text-neutral-content{% endif %}">
+        {% if user.profile.profile_picture.url != '' %}
+          <img src="{{ user.profile.profile_picture.url }}" alt="Foto de perfil del usuario" />
+        {% else %}
+          <span class="text-3xl">{{ user.username }}</span>
+        {% endif %}
+      </div>
+      <a class="card-title mx-1.5 link link-neutral" href="{% slugurl user.username %}">{{ user.username }}</a>
+    </div>
+      <div class="divider"></div>
+      <div class="whitespace-pre-line">{{ user.profile.bio }}</div>
   </div>
 </div>
