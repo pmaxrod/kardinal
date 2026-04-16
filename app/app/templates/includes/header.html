@@ -1,4 +1,4 @@
-{% load wagtailcore_tags base_tags wagtailuserbar allauth %}
+{% load wagtailcore_tags wagtailroutablepage_tags base_tags wagtailuserbar allauth %}
 <header class="border-b-2 border-dotted">
   <a href="#main" class="skip-link">Saltar al contenido</a>
   {% get_site_root as site_root %}
@@ -11,7 +11,7 @@
           {% if not forloop.last %} | {% endif %}
         {% endfor %}
         {% if user.is_authenticated %}
-          <a class="btn btn-link" href="{% url 'blog:user_blog' user=user.username %}">Blog</a>
+          <a class="btn btn-link" href="{% slugurl user.username %}">Blog</a>
           <a class="btn btn-link" href="{% url 'users:update_user_profile'%}">Ajustes Perfil</a>
           <a class="btn btn-link" href="{% url 'users:update_user_settings'%}">Ajustes App</a>
         {% endif %}

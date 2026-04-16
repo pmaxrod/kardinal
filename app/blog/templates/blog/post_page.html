@@ -2,7 +2,7 @@
 {% load static wagtailcore_tags wagtailimages_tags base_tags %}
 
 {% block title %}
-{{ page.title }}
+  {{ page.title }}
 {% endblock %}
 {% block body_class %}
   template-postpage
@@ -11,25 +11,26 @@
 {% block content %}
   <article>
     <div class="card card-border">
-      <p class="card-body">{{page.owner}}</p>
+      <p class="card-body">{{ page.owner }}</p>
       <p class="card-body">{{ page.created_at|date:'SHORT_DATE_FORMAT' }}</p>
     </div>
     {% for block in page.body %}
       {% if block.block_type == 'heading' %}
         <h1 class="block-{{ block.block_type }}">{{ block.value }}</h1>
       {% elif block.block_type == 'paragraph' %}
-        <p class="block-{{ block.block_type }}">
-          {{ block.value }}
-        </p>
+        <p class="block-{{ block.block_type }}">{{ block.value }}</p>
       {% elif block.block_type == 'image' %}
-        {% image block.value width-400 class="block-{{ block.block_type }}" %}
+        {% image block.value width-400 class='block-{{ block.block_type }}' %}
       {% endif %}
     {% endfor %}
   </article>
   <div id="tags" class="container">
-    {% for tag in page.tags.all %}
+    {% for tag in tags %}
       <label class="tag">#{{ tag }}</label>
     {% endfor %}
   </div>
+  <div class="divider"></div>
+  <h2 class="text-2xl">Comentarios</h2>
+  {% include 'comments/comment_form.html' %}
   {% get_page_comments %}
 {% endblock %}

@@ -1,15 +1,9 @@
 from django.shortcuts import render
 
-from blog.models import PostPage, BlogPage
 from blog.forms import PostForm
 
 
 # Create your views here.
-def blog_page_view(request, user):
-    blog_page = BlogPage.objects.get(owner__username=user)
-    return render(request, "blog/blog_page.html", {"page": blog_page})
-
-
 def add_post_view(request):
     context = {}
     form = PostForm(request.POST or None)
