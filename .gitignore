@@ -24,3 +24,5 @@ Thumbs.db
 .tox/
 .eggs/
 .code-workspace
+dist/
+app/theme/static/css/dist/styles.css
