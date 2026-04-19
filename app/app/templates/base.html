@@ -1,5 +1,4 @@
-{% load static wagtailcore_tags %}
-{% load static tailwind_tags %}
+{% load static wagtailcore_tags tailwind_tags django_htmx %}
 
 <!DOCTYPE html>
 <html lang="es" data-theme="{{ settings.theme }}" class="{{ settings.font }}">
@@ -41,12 +40,14 @@
     {# CSS Global #}
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
     {% tailwind_css %}
+    {% htmx_script %}
     {% block extra_css %}
       {# Override this in templates to add extra stylesheets #}
     {% endblock %}
   </head>
 
-  <body class="bg-background text-foreground min-h-lvh max-w-4xl p-2.5 mt-0 mb-0 ml-auto mr-auto grid gap-12 grid-rows-1 {% block body_class %}{% endblock %}">
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+  class="bg-background text-foreground min-h-lvh max-w-4xl p-2.5 mt-0 mb-0 ml-auto mr-auto grid gap-12 grid-rows-1 {% block body_class %}{% endblock %}">
     {% include 'includes/header.html' %}
     <main id="main">
       {% block content %}
@@ -57,9 +58,9 @@
     {% include 'includes/footer.html' %}
     {# Global javascript #}
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
-
     {% block extra_js %}
       {# Override this in templates to add extra javascript #}
     {% endblock %}
+    {% include 'components/modal.html' %}
   </body>
 </html>

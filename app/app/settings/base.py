@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "tailwind",
+    "django_htmx"
 ]
 
 if settings.DEBUG:
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "django_htmx.middleware.HtmxMiddleware"
 ]
 
 if settings.DEBUG:

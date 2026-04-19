@@ -23,7 +23,7 @@ RUN apt update --yes --quiet && apt install --yes --quiet --no-install-recommend
 COPY ./requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install 'django-tailwind[cookiecutter,honcho,reload]'
+RUN pip install "django-tailwind[cookiecutter,honcho,reload]"
 
 # Punto de entrada de PostgreSQL
 COPY entrypoint.sh /usr/src/app/entrypoint.sh
