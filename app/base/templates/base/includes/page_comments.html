@@ -1,6 +1,0 @@
-{% load wagtailcore_tags wagtailimages_tags %}
-<div class="container">
-  {% for comment in comments %}
-    {% include 'comments/comment.html' with comment=comment %}
-  {% endfor %}
-</div>

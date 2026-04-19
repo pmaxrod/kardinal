@@ -18,6 +18,7 @@
       </div>
       <div class="flex justify-between items-center gap-x-4">
         {% if user.is_authenticated %}
+        <span>Hola, {{user.username}}</span>
           <a class="btn btn-primary" href="{% url 'account_logout' %}">Cerrar Sesión</a>
         {% else %}
           <a class="btn btn-primary" href="{% url 'account_login' %}">Iniciar Sesión</a>
@@ -37,5 +38,8 @@
     </form>
     {% endcomment %}
   </nav>
+  {% if messages %}
+    {% include "includes/messages.html" %}
+  {% endif %}
   {% wagtailuserbar 'top-right' %}
 </header>
