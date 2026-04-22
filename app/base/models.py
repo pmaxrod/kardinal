@@ -66,3 +66,25 @@ class FooterText(
 
     class Meta(TranslatableMixin.Meta):
         verbose_name_plural = "Texto del pie"
+
+
+class TimeStampedModel(models.Model):
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Fecha de creación"
+    )
+    edited_at = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    def edited(self):
+        """Comprueba si un objeto ha sido modficado tras su creación.
+
+            Compara sus propiedades created_at y edited_at
+
+        Returns:
+            True si created_at no vale lo mismo que edited_at
+
+            False en caso contrario
+        """
+        return self.edited_at.second != self.created_at.second
+
+    class Meta:
+        abstract = True
