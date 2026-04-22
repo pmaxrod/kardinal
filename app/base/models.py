@@ -17,6 +17,7 @@ from wagtail.contrib.settings.models import (
 )
 from wagtail.snippets.models import register_snippet
 
+
 @register_setting
 class NavigationSettings(BaseGenericSetting):
     linkedin_url = models.URLField(verbose_name="URL de Linkedin", blank=True)
@@ -33,8 +34,10 @@ class NavigationSettings(BaseGenericSetting):
             "Configuración de redes sociales",
         )
     ]
+
     class Meta:
         verbose_name = "Configruación de Navegación"
+
 
 @register_snippet
 class FooterText(
@@ -64,30 +67,24 @@ class FooterText(
     class Meta(TranslatableMixin.Meta):
         verbose_name_plural = "Texto del pie"
 
-@register_snippet
-class ThemeOption(
-    DraftStateMixin,
-    RevisionMixin,
-    PreviewableMixin,
-    TranslatableMixin,
-    models.Model,
-):
-    name = models.CharField()
-    value = models.CharField(default="system")
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("value"),
-        PublishingPanel(),
-    ]
 
-    def __str__(self):
-        return f"Tema: {self.name}"
+class TimeStampedModel(models.Model):
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Fecha de creación"
+    )
+    edited_at = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
-    def get_preview_template(self, request, mode_name):
-        return "base.html"
-    
-    def get_preview_context(self, request, mode_name):
-        return {"theme_option": self.body}
+    def edited(self):
+        """Comprueba si un objeto ha sido modficado tras su creación.
 
-    class Meta(TranslatableMixin.Meta):
-        verbose_name_plural = "Temas"        
+            Compara sus propiedades created_at y edited_at
+
+        Returns:
+            True si created_at no vale lo mismo que edited_at
+
+            False en caso contrario
+        """
+        return self.edited_at.second != self.created_at.second
+
+    class Meta:
+        abstract = True

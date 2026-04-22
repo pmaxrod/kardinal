@@ -1,25 +1,28 @@
-{% load wagtailcore_tags navigation_tags setting_tags wagtailuserbar allauth %}
+{% load wagtailcore_tags wagtailroutablepage_tags base_tags wagtailuserbar allauth %}
 <header class="border-b-2 border-dotted">
   <a href="#main" class="skip-link">Saltar al contenido</a>
   {% get_site_root as site_root %}
   <nav class="px-4 py-2">
     <div class="flex justify-between items-center">
       <div class="flex justify-between items-center gap-2">
-        <a class="page-link" href="{% pageurl site_root %}">{{ site_root.title }}</a>
+        <a class="btn btn-link" href="{% pageurl site_root %}">{{ site_root.title }}</a>
         {% for menu_item in site_root.get_children.live.in_menu %}
-          <a class="page-link" href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
+          <a class="btn btn-link" href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
           {% if not forloop.last %} | {% endif %}
         {% endfor %}
         {% if user.is_authenticated %}
-          <a class="page-link" href="{% url 'blog:user_blog' user=user.username %}">Blog</a>
+          <a class="btn btn-link" href="{% slugurl user.username %}">Blog</a>
+          <a class="btn btn-link" href="{% url 'users:update_user_profile'%}">Ajustes Perfil</a>
+          <a class="btn btn-link" href="{% url 'users:update_user_settings'%}">Ajustes App</a>
         {% endif %}
       </div>
       <div class="flex justify-between items-center gap-x-4">
         {% if user.is_authenticated %}
-          <a class="action-button" href="{% url 'account_logout' %}">Cerrar Sesión</a>
+        <span>Hola, {{user.username}}</span>
+          <a class="btn btn-primary" href="{% url 'account_logout' %}">Cerrar Sesión</a>
         {% else %}
-          <a class="action-button" href="{% url 'account_login' %}">Iniciar Sesión</a>
-          <a class="action-button" href="{% url 'account_signup' %}">Registrarse</a>
+          <a class="btn btn-primary" href="{% url 'account_login' %}">Iniciar Sesión</a>
+          <a class="btn btn-primary" href="{% url 'account_signup' %}">Registrarse</a>
         {% endif %}
       </div>
     </div>
@@ -35,5 +38,8 @@
     </form>
     {% endcomment %}
   </nav>
+  {% if messages %}
+    {% include "includes/messages.html" %}
+  {% endif %}
   {% wagtailuserbar 'top-right' %}
 </header>

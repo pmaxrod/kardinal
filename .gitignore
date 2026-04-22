@@ -23,6 +23,6 @@ Thumbs.db
 .coverage
 .tox/
 .eggs/
-*.code-workspace
-node_modules/
+.code-workspace
 dist/
+app/theme/static/css/dist/styles.css

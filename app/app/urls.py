@@ -7,7 +7,6 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
-from base.views import ToggleThemeView, ChangeFontView
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -26,10 +25,10 @@ if settings.DEBUG:
     urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
 
 urlpatterns = urlpatterns + [
-    path("", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
-    path("toggle-theme/", ToggleThemeView.as_view(), name="toggle_theme"),
-    path("change-font/", ChangeFontView.as_view(), name="change_font"),
-    path("accounts/", include('allauth.urls')),
+    path("blog/", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
+    path("user/", include(("users.urls", "users"), namespace="users"), name="users"),
+    path("comment/", include(("comments.urls", "comments"), namespace="page_comments"), name="comments"),
+    path("accounts/", include("allauth.urls")),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:

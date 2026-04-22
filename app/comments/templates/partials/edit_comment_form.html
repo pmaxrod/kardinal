@@ -1,0 +1,19 @@
+{% load widget_tweaks %}
+<h2 class="text-lg font-bold">
+  Editando comentario '{{comment.content|truncatechars:15}}'
+</h2>
+<form class="mb-4"
+hx-post="{% url 'page_comments:edit_comment' comment.pk %}" 
+hx-target="#comment-{{comment.pk}}" hx-swap="outerHTML" 
+hx-on::after-request="this.reset(); modal.close()">
+  {% csrf_token %}
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">{{ form.content.label_tag }}</legend>
+    {% render_field form.content class='form-textarea textarea textarea-ghost h-24 validator' placeholder='Escriba un comentario...' %}
+    <div class="label">{{ form.content.help_text }}</div>
+  </fieldset>
+  <div class="modal-action mt-2">
+    <button type="submit" class="btn btn-primary btn-square">Sí</button>
+    <button type="button" class="btn btn-neutral btn-square" onclick="modal.close()">No</button>
+  </div>
+</form>

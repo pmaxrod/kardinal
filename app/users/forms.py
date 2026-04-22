@@ -1,17 +1,52 @@
 from django import forms
+from allauth.account.forms import SignupForm
+from wagtail.models import Site
+from blog.models import BlogPage
+from users.models import UserProfile, UserSettings
 
-from wagtail.users.forms import UserEditForm, UserCreationForm
 
-class CustomUserEditForm(UserEditForm):
-    bio = forms.CharField(label="Biografía", widget=forms.Textarea)
-    profile_picture = forms.ImageField(label="Foto de perfil", widget=forms.ImageField)
+class UserSignupForm(SignupForm):
+    # Se busca crear una página de blog asociada al usuario que se va a crear
+    def save(self, request):
+        user = super().save(request)
 
+        # Crear perfil del usuario
+        profile = UserProfile(user=user)
+        profile.save()
+        # Crear configuración del usuario
+        settings = UserSettings(user=user)
+        settings.save()
+        # Crear blog del usuario
+        home_page = Site.find_for_request(request).get_root
+        blog_page = BlogPage(
+            user=user, title=f"Blog de {user.username}", slug=user.username.lower()
+        )
+        blog_page.owner = user
+        home_page.add_child(instance=blog_page)
+        home_page.save()
+
+        return user
+
+
+class UserProfileForm(forms.ModelForm):
     class Meta:
-        fields = UserEditForm.Meta.fields | {"bio", "profile_picture"}
+        model = UserProfile
+        exclude = ["user"]
+        widgets = {
+            "bio": forms.Textarea(
+                attrs={
+                    "cols": 80,
+                    "rows": 10,
+                    "class": "form-textarea border-2 rounded-md px-4 py-3",
+                }
+            ),
+            "profile_picture": forms.FileInput(
+                attrs={"class": "form-input border-2 rounded-md px-4 py-3"}
+            ),
+        }
 
-class CustomUserCreationForm(UserCreationForm):
-    bio = forms.CharField(label="Biografía", widget=forms.Textarea)
-    profile_picture = forms.ImageField(label="Foto de perfil", widget=forms.ImageField)
 
+class UserSettingsForm(forms.ModelForm):
     class Meta:
-        fields = UserEditForm.Meta.fields | {"bio", "profile_picture"}
+        model = UserSettings
+        exclude = ["user"]
