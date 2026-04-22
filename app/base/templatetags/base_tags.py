@@ -45,22 +45,6 @@ def get_user_profile(user: User):
     """
     return {"user": user}
 
-
-@register.inclusion_tag("base/includes/page_comments.html", takes_context=True)
-def get_page_comments(context):
-    """Renderiza los comentarios asociados a una página.
-
-    Arguments:
-        context -- Contexto de la página que llama la etiqueta
-
-    Returns:
-        Diccionario con la clave "comments" y de valor la página a 
-        referenciar en la plantilla page_comments.html
-    """
-    comments = context.get("comments")
-    return {"comments": comments}
-
-
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
     """Devuelve la página raíz del sitio a partir de la petición.

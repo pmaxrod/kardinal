@@ -1,6 +1,5 @@
 from comments.models import Comment
 from wagtail.admin.panels import FieldPanel
-from wagtail.admin.ui.tables import UpdatedAtColumn
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 
@@ -15,11 +14,11 @@ class CommentViewSet(SnippetViewSet):
     admin_url_namespace = "comments"
 
     icon = "comment"
-    list_display = ["page", "user", "content", "created_at", UpdatedAtColumn()]
+    list_display = ["page", "user", "content", "created_at", "edited_at"]
     list_per_page = 50
     copy_view_enabled = False
     inspect_view_enabled = True
-    list_filter = ["page", "user", "content", "created_at"]
+    list_filter = ["page", "user", "content", "created_at", "edited_at"]
     panels = [
         FieldPanel("page"),
         FieldPanel("user"),

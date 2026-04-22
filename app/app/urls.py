@@ -25,8 +25,9 @@ if settings.DEBUG:
     urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
 
 urlpatterns = urlpatterns + [
-    path("", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
-    path("", include(("users.urls", "users"), namespace="users"), name="users"),
+    path("blog/", include(("blog.urls", "blog"), namespace="blog"), name="blog"),
+    path("user/", include(("users.urls", "users"), namespace="users"), name="users"),
+    path("comment/", include(("comments.urls", "comments"), namespace="page_comments"), name="comments"),
     path("accounts/", include("allauth.urls")),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in

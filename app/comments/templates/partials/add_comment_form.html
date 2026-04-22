@@ -1,0 +1,13 @@
+{% load widget_tweaks %}
+<form class="mb-4"
+hx-post="{% url 'page_comments:add_comment' page.slug %}" 
+hx-target="#comments-list" hx-swap="afterbegin"
+hx-on::after-request="this.reset();">
+  {% csrf_token %}
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">{{ form.content.label_tag }}</legend>
+    {% render_field form.content class='form-textarea textarea textarea-ghost h-24 validator' placeholder='Escriba un comentario...' %}
+    <div class="label">{{ form.content.help_text }}</div>
+  </fieldset>
+  <button type="submit" class="btn btn-primary">Confirmar</button>
+</form>

@@ -1,0 +1,6 @@
+<h2 class="text-2xl">Comentarios</h2>
+{% if user.is_authenticated %}
+  {% include "partials/add_comment_form.html" %}
+{% endif %}
+
+{% include 'partials/comment_list.html' %}

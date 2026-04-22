@@ -1,10 +1,8 @@
 from django.db import models
-from django.conf import settings
 
-from comments.views import create_comment
 from base.blocks import CommonContentBlock
-from wagtail.models import Page
 from taggit.models import Tag as TaggitTag, TaggedItemBase
+from wagtail.models import Page
 from wagtail.snippets.models import register_snippet
 from wagtail.fields import StreamField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path, re_path
@@ -12,7 +10,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.search import index
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
-
+from comments.forms import CommentForm
 
 class BlogPage(RoutablePageMixin, Page):
     # El propietario de la página es el usuario asociado
@@ -34,7 +32,6 @@ class BlogPage(RoutablePageMixin, Page):
             Array con las entradas del blog
         """
         return PostPage.objects.child_of(self).live()
-        # return self.get_children().specific().live()
 
     @path("")
     def blog_page(self, request):
@@ -78,24 +75,12 @@ class PostPage(RoutablePageMixin, Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
+        
         context["tags"] = self.tags.all()
-        context["comments"] = self.comments.all()
-
+        context["comments"] = self.comments.all().order_by("-created_at")
+        context["form"] = CommentForm()
         return context
-
-    @path("")
-    def post_page(self, request):
-        """Vista de la entrada de un blog.
-        Se sobreescribe para poder mostrar el formulario de comentarios.
-
-        Arguments:
-            request -- Petición realizada a la aplicación web
-
-        """
-        form = create_comment(request, self)
-        return self.render(request, context_overrides={'form': form})
-
+        
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"

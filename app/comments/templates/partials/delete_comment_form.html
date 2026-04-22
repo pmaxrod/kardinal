@@ -1,0 +1,22 @@
+<h2 class="text-2xl font-bold">
+  ¿Quieres borrar el comentario '{{comment.content|truncatechars:15}}'?
+  <span class="text-error">Esta acción es irreversible.</span>
+</h2>
+<form class="mb-4" 
+hx-delete="{% url 'page_comments:delete_comment' comment.pk %}" 
+hx-target="#comment-{{comment.pk}}"
+hx-on:delete-comment="deleteCleanup({{comment.pk}})">
+  {% csrf_token %}
+  <div class="modal-action mt-2">
+    <button type="button" class="btn btn-neutral btn-square" onclick="modal.close()">No</button>
+    <button type="submit" class="btn btn-error btn-square">Sí</button>
+  </div>
+</form>
+<script>
+  function deleteCleanup(pk){
+    modal = document.getElementById('modal');
+    modal.close(); 
+    comment = document.getElementById('comment-'+pk);
+    comment.remove();
+  }
+</script>

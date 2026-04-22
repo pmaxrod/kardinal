@@ -1,0 +1,7 @@
+<div id="comments-list">
+  {% for comment in comments %}
+    {% include 'partials/comment.html' %}
+  {% empty %}
+    <p>No hay comentarios</p>
+  {% endfor %}
+</div>
