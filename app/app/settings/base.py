@@ -64,7 +64,8 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "tailwind",
-    "django_htmx"
+    "django_htmx",
+    "widget_tweaks"
 ]
 
 if settings.DEBUG:
