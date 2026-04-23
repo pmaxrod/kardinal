@@ -8,6 +8,7 @@ db.sqlite3
 migrations/
 dumps/
 media/
+fixtures/
 
 # Virtual Environment
 .env
