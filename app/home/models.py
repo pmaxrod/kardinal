@@ -2,13 +2,12 @@ from django.db import models
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField
-
-# import MultiFieldPanel:
+from wagtail.images import get_image_model
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
 class HomePage(Page):
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

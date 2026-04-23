@@ -1,14 +1,11 @@
-from django.db import models
 from django.conf import settings
-
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class UserProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
-    )
+class User(AbstractUser):
     bio = models.TextField(
-        max_length=200, help_text="Escribe sobre tí o tu blog", verbose_name="Biografía"
+        max_length=200, help_text="Escribe sobre tí", verbose_name="Biografía"
     )
     profile_picture = models.ImageField(
         upload_to="avatars/",
@@ -18,18 +15,21 @@ class UserProfile(models.Model):
         verbose_name="Foto de perfil",
     )
 
-    def __iter__(self):
-        fields = self._meta.get_fields()
-        for field in fields:
-            yield (field.name)
+    @property
+    def has_pfp(self):
+        """Comprueba si el usuario tiene una foto de perfil
 
+        Returns:
+            True si la tiene; False en caso contrario
+        """
+        return self.profile_picture.url != None
+    
     class Meta:
-        verbose_name = "profile"
         get_latest_by = "date_joined"
-        ordering = ["user__username"]
+        ordering = ["username"]
 
 
-class UserSettings(models.Model):
+class AppSettings(models.Model):
     # Se crean tipos enumerados para la configuración de usuario
     class AppTheme(models.TextChoices):
         SYSTEM = "system", "Tema predeterminado del sistema"

@@ -21,6 +21,10 @@ BASE_DIR = PROJECT_DIR.parent
 SITE_ID = 1
 TAILWIND_APP_NAME = "theme"
 
+# Custom models
+WAGTAILIMAGES_IMAGE_MODEL = "base.CustomImage"
+AUTH_USER_MODEL = "users.User"
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -48,8 +52,6 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
-    "modelcluster",
-    "taggit",
     # Django
     "django_filters",
     "django.contrib.admin",
@@ -60,6 +62,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # De terceros
+    "modelcluster",
+    "taggit",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -203,6 +207,7 @@ WAGTAIL_DATE_FORMAT = "%d/%m/%Y"
 WAGTAIL_DATETIME_FORMAT = "%d/%m/%Y %H:%M"
 WAGTAIL_TIME_FORMAT = "%H:%M"
 WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
+
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {

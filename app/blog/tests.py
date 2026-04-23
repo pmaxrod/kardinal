@@ -1,8 +1,7 @@
 from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailPageTestCase
-from blog.models import BlogPage, PostPage, PostPageTag
+from blog.models import BlogPage
 from home.models import HomePage
-from users.models import UserProfile
 
 # Create your tests here.
 class BlogPageTest(WagtailPageTestCase):

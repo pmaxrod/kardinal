@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from wagtail.admin.panels import (
     FieldPanel,
@@ -5,6 +6,7 @@ from wagtail.admin.panels import (
     PublishingPanel,
 )
 from wagtail.fields import RichTextField
+from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.models import (
     DraftStateMixin,
     PreviewableMixin,
@@ -88,3 +90,22 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+class CustomImage(AbstractImage):
+    caption = models.CharField(max_length=255, blank=True)
+    admin_form_fields = Image.admin_form_fields + ('caption',)
+    @property
+    def default_alt_text(self):
+        return getattr(self, "description", None)
+    
+class CustomRendition(AbstractRendition):
+    image = models.ForeignKey(settings.WAGTAILIMAGES_IMAGE_MODEL, on_delete=models.CASCADE, related_name="renditions")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("image", "filter_spec", "focal_point_key"),
+                name="unique_rendition"
+            )
+        ]
+    
