@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "search",
     "blog",
     "users",
+    "users.apps.CustomUsersAppConfig",
     "theme",
     "comments",
     # Wagtail
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
-    "wagtail.users",
+    #"wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",

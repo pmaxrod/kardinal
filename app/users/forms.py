@@ -1,18 +1,31 @@
 from django import forms
-from django.conf import settings
-from allauth.account.forms import SignupForm, get_user_model
+from django.contrib.auth import get_user_model
+from allauth.account.forms import SignupForm
 from wagtail.models import Site
+from wagtail.users.forms import UserCreationForm, UserEditForm
 from blog.models import BlogPage
-from users.models import AppSettings
+from users.models import UserAppSettings
 
+# Formularios públicos
+class UserProfileForm(forms.ModelForm):
+    """Formulario para el perfil del usuario"""
+    class Meta:
+        model = get_user_model()
+        fields = ["bio"]
+
+class UserAppSettingsForm(forms.ModelForm):
+    """Formulario para la configuración del usuario"""
+    class Meta:
+        model = UserAppSettings
+        exclude = ["user"]
 
 class UserSignupForm(SignupForm):
-    # Se busca crear una página de blog asociada al usuario que se va a crear
+    """Formulario de creación de cuenta"""
     def save(self, request):
         user = super().save(request)
 
         # Crear configuración del usuario
-        settings = AppSettings(user=user)
+        settings = UserAppSettings(user=user)
         settings.save()
         # Crear blog del usuario
         home_page = Site.find_for_request(request).get_root
@@ -25,27 +38,15 @@ class UserSignupForm(SignupForm):
 
         return user
 
-
-class UserProfileForm(forms.ModelForm):
-    pass
-    # class Meta:
-    #     model = get_user_model()
-    #     exclude = ["user"]
-    #     widgets = {
-    #         "bio": forms.Textarea(
-    #             attrs={
-    #                 "cols": 80,
-    #                 "rows": 10,
-    #                 "class": "form-textarea border-2 rounded-md px-4 py-3",
-    #             }
-    #         ),
-    #         "profile_picture": forms.FileInput(
-    #             attrs={"class": "form-input border-2 rounded-md px-4 py-3"}
-    #         ),
-    #     }
-
-
-class UserSettingsForm(forms.ModelForm):
+# Formularios de la página de administración
+class CustomUserEditForm(UserEditForm):
+    """Formulario de edición de usuarios en la página de administración."""
     class Meta:
-        model = AppSettings
-        exclude = ["user"]
+        model = get_user_model()
+        fields = UserEditForm.Meta.fields | {"bio", "profile_picture"}
+
+class CustomUserCreationForm(UserCreationForm):    
+    """Formulario de creación de usuarios en la página de administración."""
+    class Meta:
+        model = get_user_model()
+        fields = UserCreationForm.Meta.fields | {"bio", "profile_picture"}
