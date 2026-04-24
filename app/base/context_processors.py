@@ -1,9 +1,9 @@
-from users.models import AppSettings
+from users.models import UserAppSettings
 
 
 def app_settings(request):
     if request.user.is_authenticated:
-        settings = AppSettings.objects.filter(user=request.user).first()
+        settings = UserAppSettings.objects.filter(user=request.user).first()
     else:
-        settings = AppSettings()
+        settings = UserAppSettings()
     return {"settings": settings}

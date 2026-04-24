@@ -27,9 +27,10 @@ class User(AbstractUser):
     class Meta:
         get_latest_by = "date_joined"
         ordering = ["username"]
+        
 
 
-class AppSettings(models.Model):
+class UserAppSettings(models.Model):
     # Se crean tipos enumerados para la configuración de usuario
     class AppTheme(models.TextChoices):
         SYSTEM = "system", "Tema predeterminado del sistema"
