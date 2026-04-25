@@ -1,21 +1,17 @@
 {% load base_tags %}
 
 <footer class="border-t-2 border-dotted text-center">
-  {% with linkedin_url=settings.base.NavigationSettings.linkedin_url github_url=settings.base.NavigationSettings.github_url mastodon_url=settings.base.NavigationSettings.mastodon_url %}
-    {% if linkedin_url or github_url or mastodon_url %}
+  {% comment %} {% with nav_settings=settings.base.NavigationSettings %}
+    {% if nav_settings %}
       <p>
-        Follow me on:{% if github_url %}
-          <a href="{{ github_url }}">GitHub</a>
-        {% endif %}
-        {% if linkedin_url %}
-          <a href="{{ linkedin_url }}">LinkedIn</a>
-        {% endif %}
-        {% if mastodon_url %}
-          <a href="{{ mastodon_url }}">Mastodon</a>
-        {% endif %}
+        {% with github_url=nav_settings.github_url %}
+          Enlace al repositorio:{% if github_url %}
+            <a href="{{ github_url }}">GitHub</a>
+          {% endif %}
+        {% endwith %}
       </p>
     {% endif %}
-  {% endwith %}
+  {% endwith %} {% endcomment %}
 
   {% get_footer_text %}
 </footer>
