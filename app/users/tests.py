@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from blog.models import BlogIndexPage
+from blog.models import BlogPage
 
 User = get_user_model()
 
@@ -29,5 +29,11 @@ class UserSignupTestCase(TestCase):
         blog_page = BlogIndexPage.objects.get(owner=user)
 
         self.assertEqual(response.status_code, 302)
+<<<<<<< HEAD
         self.assertTrue(blog_page.slug, user.username)
         self.assertTrue(user.groups.first(), "Bloggers")
+=======
+        blog_page = BlogPage.objects.get(owner__username=self.username.lower())
+        self.assertTrue(blog_page.slug, 'pepito')
+        self.assertTrue(blog_page.title, 'Blog de Pepito')
+>>>>>>> a17ff57 (Revert "Formateo de ficheros de users/")
