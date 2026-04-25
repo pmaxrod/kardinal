@@ -9,3 +9,4 @@ honcho==2.0.0
 django-browser-reload==1.21.0
 django-htmx==1.27.0
 django-widget-tweaks==1.5.1
+wagtailmenus==4.0.7
