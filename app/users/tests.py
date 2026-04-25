@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from blog.models import BlogIndexPage
+from blog.models import BlogPage
 
 # Create your tests here.
 class UserSignupTestCase(TestCase):
@@ -18,6 +18,6 @@ class UserSignupTestCase(TestCase):
         })
 
         self.assertEqual(response.status_code, 302)
-        blog_page = BlogIndexPage.objects.get(owner__username=self.username.lower())
+        blog_page = BlogPage.objects.get(owner__username=self.username.lower())
         self.assertTrue(blog_page.slug, 'pepito')
         self.assertTrue(blog_page.title, 'Blog de Pepito')
