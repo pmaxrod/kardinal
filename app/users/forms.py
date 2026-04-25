@@ -13,6 +13,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ["bio"]
 
 
+
 class UserSignupForm(SignupForm):
     """Formulario de creación de cuenta"""
 
