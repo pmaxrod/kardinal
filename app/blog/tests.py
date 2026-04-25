@@ -1,10 +1,10 @@
 from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailPageTestCase
-from blog.models import BlogPage
+from blog.models import BlogIndexPage
 from home.models import HomePage
 
 # Create your tests here.
-class BlogPageTest(WagtailPageTestCase):
+class BlogIndexPageTest(WagtailPageTestCase):
     def setUpTestData(self):
         root = Page.get_first_root_node()
         Site.objects.create(
@@ -15,5 +15,5 @@ class BlogPageTest(WagtailPageTestCase):
         )
         home = HomePage(hero_test="Test", body="Contenido de prueba")
         root.add_child(instance=home)
-        self.page = BlogPage()
+        self.page = BlogIndexPage()
         home.add_child(instance=self.page)
