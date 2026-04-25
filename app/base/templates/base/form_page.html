@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags widget_tweaks %}
+{% block body_class %}
+  template-formpage
+{% endblock %}
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  <div>{{ page.intro|richtext }}</div>
+  <form action="{% pageurl page %}" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">Enviar</button>
+  </form>
+{% endblock %}
