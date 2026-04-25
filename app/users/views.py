@@ -11,9 +11,7 @@ def update_user_profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=instance)
 
         if form.is_valid():
-            user_settings = form.save()
-            user_settings.user = request.user
-            user_settings.save()
+            form.save()
             return redirect("/profile")
     else:
         form = UserProfileForm(instance=instance)

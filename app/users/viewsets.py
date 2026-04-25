@@ -1,6 +1,7 @@
 from wagtail.users.views.users import UserViewSet as WagtailUserViewSet
 from users.forms import CustomUserCreationForm, CustomUserEditForm
 
+
 class UserViewSet(WagtailUserViewSet):
     template_prefix = "users/"
 

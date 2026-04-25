@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 class User(AbstractUser):
     bio = models.TextField(
@@ -23,11 +24,10 @@ class User(AbstractUser):
             True si la tiene; False en caso contrario
         """
         return self.profile_picture.url != None
-    
+
     class Meta:
         get_latest_by = "date_joined"
         ordering = ["username"]
-        
 
 
 class UserAppSettings(models.Model):
