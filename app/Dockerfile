@@ -6,7 +6,14 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN apt update --yes --quiet && apt install --yes --quiet --no-install-recommends \
-  build-essential npm && rm -rf /var/lib/apt/lists/*
+  build-essential \
+  libpq-dev \
+  libjpeg62-turbo-dev \
+  zlib1g-dev \
+  libwebp-dev \
+  postgresql-client \
+  npm \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY ./requirements.txt .
 RUN pip install --upgrade pip
