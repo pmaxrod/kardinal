@@ -10,7 +10,7 @@ class Comment(RevisionMixin, PreviewableMixin, TranslatableMixin, TimeStampedMod
     """Comentario en una entrada de un blog."""
 
     page = models.ForeignKey(
-        "blog.PostPage",
+        "blog.BlogPost",
         related_name="comments",
         on_delete=models.CASCADE,
         verbose_name="Página",

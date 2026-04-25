@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
 from wagtail.models import Site
 from wagtail.users.forms import UserCreationForm, UserEditForm
-from blog.models import BlogPage
+from blog.models import BlogIndexPage
 from users.models import UserAppSettings
 
 # Formularios públicos
@@ -29,7 +29,7 @@ class UserSignupForm(SignupForm):
         settings.save()
         # Crear blog del usuario
         home_page = Site.find_for_request(request).get_root
-        blog_page = BlogPage(
+        blog_page = BlogIndexPage(
             user=user, title=f"Blog de {user.username}", slug=user.username.lower()
         )
         blog_page.owner = user

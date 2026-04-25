@@ -33,7 +33,7 @@ class HomePage(Page):
         FieldPanel('body'),
     ]
     
-    subpage_types = ["blog.BlogPage"]
+    subpage_types = ["blog.BlogIndexPage"]
     
     class Meta:
         verbose_name = "Página de Inicio"
