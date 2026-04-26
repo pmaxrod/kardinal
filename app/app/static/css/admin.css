@@ -1,0 +1,13 @@
+:root {
+    /* Tipos de fuentes */
+    --w-font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --w-font-serif: Georgia, 'Times New Roman', Times, serif;
+
+    /* Colores */
+    --w-color-primary-hue: 10;
+    --w-color-primary-saturation: 100%;
+    --w-color-primary-lightness: 35%;
+    --w-color-secondary-hue: 200;
+    --w--color-secondary-saturation: 60%;
+    --w-color-secondary-lightness: 75%;
+}
