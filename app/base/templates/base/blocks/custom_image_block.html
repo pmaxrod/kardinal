@@ -1,0 +1,6 @@
+{% load wagtailimages_tags %}
+
+<figure>
+  {% image self.image original loading='lazy' %}
+  <figcaption>{{ self.image.caption }}</figcaption>
+</figure>
