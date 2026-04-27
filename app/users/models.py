@@ -1,18 +1,24 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from wagtail.users.models import upload_avatar_to
+
 
 # Create your models here.
 class User(AbstractUser):
     bio = models.TextField(
-        max_length=200, help_text="Escribe sobre tí", verbose_name="Biografía"
+        max_length=200,
+        blank=True,
+        default='',
+        verbose_name="Biografía",
+        help_text="Escribe sobre tí",
     )
     profile_picture = models.ImageField(
-        upload_to="avatars/",
+        upload_to=upload_avatar_to,
         null=True,
         blank=True,
-        help_text="Foto de perfil de la cuenta",
         verbose_name="Foto de perfil",
+        help_text="Foto de perfil de la cuenta",
     )
 
     @property
@@ -23,17 +29,22 @@ class User(AbstractUser):
             True si la tiene; False en caso contrario
         """
         return self.profile_picture.url != None
-    
+
     class Meta:
         get_latest_by = "date_joined"
         ordering = ["username"]
-        
 
 
-class UserAppSettings(models.Model):
+class Author(models.Model):
+    """Representa el autor de entradas de blog"""
+
+    pass
+
+
+class AppSettings(models.Model):
     # Se crean tipos enumerados para la configuración de usuario
     class AppTheme(models.TextChoices):
-        SYSTEM = "system", "Tema predeterminado del sistema"
+        DEFAULT = "default", "Tema predeterminado del sistema"
         LIGHT = "light", "Tema claro"
         DARK = "dark", "Tema oscuro"
 
@@ -46,14 +57,14 @@ class UserAppSettings(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="settings",
+        related_name="profile",
         blank=True,
         null=True,
         default=None,
     )
     theme = models.CharField(
         choices=AppTheme,
-        default=AppTheme.SYSTEM,
+        default=AppTheme.DEFAULT,
         verbose_name="Tema",
         help_text="Tema de la aplicación",
     )
