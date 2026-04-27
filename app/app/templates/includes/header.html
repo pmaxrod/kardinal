@@ -11,9 +11,6 @@
           {% if not forloop.last %} | {% endif %}
         {% endfor %}
         {% if user.is_authenticated %}
-          <a class="btn btn-link" href="{% slugurl user.username %}">Blog</a>
-          <a class="btn btn-link" href="{% url 'users:update_user_profile'%}">Ajustes Perfil</a>
-          <a class="btn btn-link" href="{% url 'users:update_user_settings'%}">Ajustes App</a>
         {% endif %}
       </div>
       <div class="flex justify-between items-center gap-x-4">
@@ -26,17 +23,6 @@
         {% endif %}
       </div>
     </div>
-    {% comment %}
-    {% get_theme_select %}
-    <form action="{% url 'change_font' %}" method="post" class="text-foreground font-semibold mb-1">
-      {% csrf_token %}
-      <select name="font" class="w-full p-2 border border-gray-300 rounded-md form-select">
-        <option value="font-sans" {% if font == "font-sans" %}selected{% endif %}>Fuente sans-serif</option>
-        <option value="font-serif" {% if font == "font-serif" %}selected{% endif %}>Fuente serif</option>            
-      </select>
-      <button class="text-foreground" type="submit">Seleccionar tipo de fuente</button>
-    </form>
-    {% endcomment %}
   </nav>
   {% if messages %}
     {% include "includes/messages.html" %}

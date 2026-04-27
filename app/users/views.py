@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from users.forms import UserAppSettingsForm, UserProfileForm
-from users.models import UserAppSettings
+from users.forms import AppSettingsForm, UserProfileSettingsForm
+from users.models import AppSettings
 
 
 # Create your views here.
@@ -8,23 +8,23 @@ def update_user_profile(request):
     instance = request.user
 
     if request.method == "POST":
-        form = UserProfileForm(request.POST, request.FILES, instance=instance)
+        form = UserProfileSettingsForm(request.POST, request.FILES, instance=instance)
 
         if form.is_valid():
             form.save()
             return redirect("/profile")
     else:
-        form = UserProfileForm(instance=instance)
+        form = UserProfileSettingsForm(instance=instance)
 
     context = {"form": form}
     return render(request, "update_user_profile.html", context)
 
 
 def update_user_settings(request):
-    instance = UserAppSettings.objects.get(user=request.user)
+    instance = AppSettings.objects.get(user=request.user)
 
     if request.method == "POST":
-        form = UserAppSettingsForm(request.POST, instance=instance)
+        form = AppSettingsForm(request.POST, instance=instance)
 
         if form.is_valid():
             user_settings = form.save()
@@ -32,7 +32,7 @@ def update_user_settings(request):
             user_settings.save()
             return redirect("/settings")
     else:
-        form = UserAppSettingsForm(instance=instance)
+        form = AppSettingsForm(instance=instance)
 
     context = {"form": form}
     return render(request, "update_user_settings.html", context)

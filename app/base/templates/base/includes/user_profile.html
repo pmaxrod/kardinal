@@ -1,10 +1,10 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 <div class="card card-border bg-neutral-200">
   <div class="card-body">
-    <div class="avatar {% if user.profile.profile_picture.url == '' %}avatar-placeholder{% endif %}">
-      <div class="w-24 rounded-full {% if user.profile.profile_picture.url == '' %}bg-neutral text-neutral-content{% endif %}">
-        {% if user.profile.profile_picture.url != '' %}
-          <img src="{{ user.profile.profile_picture.url }}" alt="Foto de perfil del usuario" />
+    <div class="avatar {% if user.profile_picture.url == '' %}avatar-placeholder{% endif %}">
+      <div class="w-24 rounded-full {% if user.profile_picture.url == '' %}bg-neutral text-neutral-content{% endif %}">
+        {% if user.profile_picture.url != '' %}
+          <img src="{{ user.profile_picture.url }}" alt="Foto de perfil del usuario" />
         {% else %}
           <span class="text-3xl">{{ user.username }}</span>
         {% endif %}
@@ -13,6 +13,6 @@
     </div>
     <p class="font-bold">Se unió el {{ user.date_joined|date:'SHORT_DATE_FORMAT' }}</p>
     <div class="divider"></div>
-    <p class="whitespace-pre-line">{{ user.profile.bio }}</p>
+    <p class="whitespace-pre-line">{{ user.bio }}</p>
   </div>
 </div>

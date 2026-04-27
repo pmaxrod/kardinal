@@ -18,13 +18,6 @@ from django.conf import settings
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
-SITE_ID = 1
-TAILWIND_APP_NAME = "theme"
-
-# Custom models
-WAGTAILIMAGES_IMAGE_MODEL = "base.CustomImage"
-AUTH_USER_MODEL = "users.User"
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -39,6 +32,7 @@ INSTALLED_APPS = [
     "users.apps.CustomUsersAppConfig",
     "theme",
     "comments",
+    "dashboard",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -46,13 +40,14 @@ INSTALLED_APPS = [
     "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
-    #"wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
+    "taggit",
+    "modelcluster",
     # Django
     "django_filters",
     "django.contrib.admin",
@@ -63,14 +58,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # De terceros
-    "modelcluster",
-    "taggit",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "tailwind",
     "django_htmx",
-    "widget_tweaks"
+    "widget_tweaks",
 ]
 
 if settings.DEBUG:
@@ -86,7 +79,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    "django_htmx.middleware.HtmxMiddleware"
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 if settings.DEBUG:
@@ -141,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Django All-Auth
-LOGIN_URL = "/accounts/login/"
+LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
@@ -152,7 +145,7 @@ ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = "/accounts/login/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/login/"
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
@@ -201,13 +194,34 @@ STORAGES = {
 # can exceed this limit within Wagtail's page editor.
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
-# Wagtail settings
+### Wagtail
+# Genéricos
 WAGTAIL_SITE_NAME = "Kardinal"
 WAGTAIL_APPEND_SLASH = True
+WAGTAIL_I18N_ENABLED = True
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
+WAGTAILADMIN_RECENT_EDITS_LIMIT = 5
+WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
+# Fechas
 WAGTAIL_DATE_FORMAT = "%d/%m/%Y"
 WAGTAIL_DATETIME_FORMAT = "%d/%m/%Y %H:%M"
 WAGTAIL_TIME_FORMAT = "%H:%M"
-WAGTAIL_FRONTEND_LOGIN_URL = LOGIN_URL
+WAGTAIL_ALLOW_UNICODE_SLUGS = True
+TAGGIT_CASE_INSENSITIVE = True
+# Funciones desactivadas
+WAGTAILADMIN_COMMENTS_ENABLED = False
+WAGTAIL_PASSWORD_MANAGEMENT_ENABLED = False
+WAGTAIL_ENABLE_WHATS_NEW_BANNER = False
+WAGTAIL_WORKFLOW_ENABLED = False
+
+# Configuración adicional de Wagtail
+SITE_ID = 1
+TAILWIND_APP_NAME = "theme"
+WAGTAILIMAGES_IMAGE_MODEL = "base.CustomImage"
+AUTH_USER_MODEL = "users.User"
+WAGTAILDOCS_DOCUMENT_MODEL = "base.CustomDocument"
+WAGTAIL_USER_EDIT_FORM = "users.CustomUserEditForm"
+WAGTAIL_USER_CUSTOM_FIELDS = ["bio", "profile_picture"]
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -219,7 +233,7 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = "http://example.com"
+WAGTAILADMIN_BASE_URL = "http://kardinal.com"
 
 # Allowed file extensions for documents in the document library.
 # This can be omitted to allow all files, but note that this may present a security risk

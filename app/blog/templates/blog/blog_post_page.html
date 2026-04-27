@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags base_tags %}
+
+{% block title %}
+  {{ page.title }}
+{% endblock %}
+{% block body_class %}
+  template-postpage
+{% endblock %}
+
+{% block content %}
+  <article>
+    <div class="card card-border">
+      <p class="card-body">
+        <span>{{ page.date|date:'SHORT_DATE_FORMAT' }}</span>
+        {{ page.body }}
+      </p>
+    </div>
+  </article>
+  <div id="tags" class="container">
+    {% for tag in tags %}
+      <label class="tag">#{{ tag }}</label>
+    {% endfor %}
+  </div>
+  <div class="divider"></div>
+  {% include 'comments/comments.html' %}
+{% endblock %}
