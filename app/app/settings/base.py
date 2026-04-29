@@ -17,7 +17,7 @@ from django.conf import settings
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
-
+INTERNAL_IPS = ("127.0.0.1", "192.168.20.131")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "search",
     "blog",
     "users",
-    "users.apps.CustomUsersAppConfig",
+    "app.apps.CustomUsersAppConfig",
     "theme",
     "comments",
     "dashboard",
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.settings",
+    "wagtail.contrib.styleguide",
     "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
@@ -133,7 +134,10 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# Django All-Auth
+# Emails
+EMAIL_SUBJECT_PREFIX = "[Kardinal] "
+
+# django-all-auth
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
@@ -158,7 +162,6 @@ ACCOUNT_FORMS = {"signup": "users.forms.UserSignupForm"}
 
 LANGUAGE_CODE = "es-spa"
 TIME_ZONE = "UTC"
-
 USE_I18N = True
 USE_TZ = True
 
@@ -220,8 +223,6 @@ TAILWIND_APP_NAME = "theme"
 WAGTAILIMAGES_IMAGE_MODEL = "base.CustomImage"
 AUTH_USER_MODEL = "users.User"
 WAGTAILDOCS_DOCUMENT_MODEL = "base.CustomDocument"
-WAGTAIL_USER_EDIT_FORM = "users.CustomUserEditForm"
-WAGTAIL_USER_CUSTOM_FIELDS = ["bio", "profile_picture"]
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -251,3 +252,24 @@ WAGTAILDOCS_EXTENSIONS = [
     "xlsx",
     "zip",
 ]
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        }
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
