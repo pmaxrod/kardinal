@@ -1,9 +1,12 @@
+from django import forms
 from django.conf import settings
 from django.db import models
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
+    ObjectList,
     PublishingPanel,
+    TabbedInterface,
 )
 from wagtail.fields import RichTextField
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
@@ -12,19 +15,25 @@ from wagtail.models import (
     PreviewableMixin,
     RevisionMixin,
     TranslatableMixin,
+    Page,
 )
 from wagtail.contrib.settings.models import (
     BaseGenericSetting,
     register_setting,
 )
+from wagtail.documents.models import AbstractDocument, Document
 from wagtail.snippets.models import register_snippet
+from wagtail.search import index
 
 
+# Páginas de configuración
 @register_setting
 class NavigationSettings(BaseGenericSetting):
-    linkedin_url = models.URLField(verbose_name="URL de Linkedin", blank=True)
-    github_url = models.URLField(verbose_name="URL de Github", blank=True)
-    mastodon_url = models.URLField(verbose_name="URL de Mastodon", blank=True)
+    """Configuración global de enlaces relacionados con el sitio web.
+
+    Attributes:
+
+    """
 
     panels = [
         MultiFieldPanel(
@@ -41,6 +50,7 @@ class NavigationSettings(BaseGenericSetting):
         verbose_name = "Configruación de Navegación"
 
 
+# Snippets
 @register_snippet
 class FooterText(
     DraftStateMixin,
@@ -49,6 +59,11 @@ class FooterText(
     TranslatableMixin,
     models.Model,
 ):
+    """Snippet para el texto del pie del sitio web.
+
+    Arguments:
+        body -- Contenido del texto del pie
+    """
 
     body = RichTextField()
 
@@ -70,7 +85,18 @@ class FooterText(
         verbose_name_plural = "Texto del pie"
 
 
-class TimeStampedModel(models.Model):
+# Mixins
+class TimeStampedMixin(models.Model):
+    """Mixin para modelos de los que se quiere registrar su fecha de creación y modificación.
+
+    Attributes:
+        created_at -- Fecha de creación del registro
+        updated_at -- Fecha de modificación del registro
+
+    Methods:
+        edited(self) -- Comprueba si el registro ha sido editado o no
+    """
+
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Fecha de creación"
     )
@@ -78,8 +104,6 @@ class TimeStampedModel(models.Model):
 
     def edited(self):
         """Comprueba si un objeto ha sido modficado tras su creación.
-
-            Compara sus propiedades created_at y edited_at
 
         Returns:
             True si created_at no vale lo mismo que edited_at
@@ -91,21 +115,101 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
+
+# Modelos personalizados
+class BasePage(Page):
+    """Modelo abstracto base para las páginas.
+
+    Se le añade un campo de descripción a la página y un array
+    de paneles laterales en caso de ser necesarios.
+    """
+
+    description = models.CharField(
+        blank=True, verbose_name="Descripción", help_text="Descripción de la página"
+    )
+
+    # Definición para las páginas que lo necesiten
+    sidebar_panels = []
+    content_panels = Page.content_panels + [FieldPanel("description")]
+    promote_panels = Page.promote_panels
+    settings_panels = Page.settings_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("first_published_at", read_only=True),
+                FieldPanel("last_published_at", read_only=True),
+            ],
+            heading="Fechas de publicación",
+            icon="date",
+            classname="collapsed",
+        ),
+        FieldPanel("owner", read_only=True, icon="user", permission="superuser"),
+        FieldPanel("live", read_only=True, icon="view", permission="superuser"),
+    ]
+
+    search_fields = Page.search_fields + [index.FilterField("description")]
+    edit_handlers = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Contenido"),
+            ObjectList(sidebar_panels, heading="Barra lateral"),
+            ObjectList(settings_panels, heading="Configuración"),
+            ObjectList(promote_panels, heading="Promocionar", permission="superuser"),
+        ]
+    )
+
+    def get_by_pk(self):
+        return BasePage.objects.filter(pk=self.pk).first()
+
+    class Meta:
+        abstract = True
+
+
 class CustomImage(AbstractImage):
-    caption = models.CharField(max_length=255, blank=True)
-    admin_form_fields = Image.admin_form_fields + ('caption',)
+    """Modelo de imagen de Wagtail personalizado.
+
+    Attributes:
+        caption -- Leyenda de la imagen
+    """
+
+    caption = models.CharField(max_length=255, blank=True, verbose_name="Leyenda")
+
+    admin_form_fields = Image.admin_form_fields + ("caption",)
+
     @property
     def default_alt_text(self):
         return getattr(self, "description", None)
-    
+
+
 class CustomRendition(AbstractRendition):
-    image = models.ForeignKey(settings.WAGTAILIMAGES_IMAGE_MODEL, on_delete=models.CASCADE, related_name="renditions")
+    """Modelo de rendición de imagen de Wagtail personalizado.
+
+    Attributes:
+        image -- Referencia a la imagen renderizada.
+    """
+
+    image = models.ForeignKey(
+        settings.WAGTAILIMAGES_IMAGE_MODEL,
+        on_delete=models.CASCADE,
+        related_name="renditions",
+    )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=("image", "filter_spec", "focal_point_key"),
-                name="unique_rendition"
+                name="unique_rendition",
             )
         ]
-    
+
+
+class CustomDocument(AbstractDocument):
+    """Modelo de documento personalizado de Wagtail.
+
+    Attributes:
+        source -- Fuente del documento
+    """
+
+    source = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name="Fuente"
+    )
+
+    admin_form_fields = Document.admin_form_fields + ("source",)
