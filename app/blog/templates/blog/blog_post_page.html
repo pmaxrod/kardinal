@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags base_tags %}
 
-{% block title %}
-  {{ page.title }}
-{% endblock %}
 {% block body_class %}
-  template-postpage
+  template-blogpost
 {% endblock %}
 
 {% block content %}
-  <article>
-    <div class="card card-border">
-      <p class="card-body">
-        <span>{{ page.date|date:'SHORT_DATE_FORMAT' }}</span>
-        {{ page.body }}
-      </p>
+  <div data-theme="{{ parent.theme }}">
+    <article>
+      <div class="card card-border">
+        <div class="card-body">
+          <span>{{ page.date|date:'SHORT_DATE_FORMAT' }}</span>
+          <div class="prose">
+            {{page.body}}
+          </div>
+        </div>
+      </div>
+    </article>
+    <div id="categories">
+      <span>Categorías:</span>
+      {% for category in categories %}
+        <label class="category">{{ category.blog_category.name }}</label>
+      {% endfor %}
     </div>
-  </article>
-  <div id="tags" class="container">
-    {% for tag in tags %}
-      <label class="tag">#{{ tag }}</label>
-    {% endfor %}
+    <div id="tags">
+      <span>Etiquetas:</span>
+      {% for tag in tags %}
+        <label class="tag">#{{ tag }}</label>
+      {% endfor %}
+    </div>
+    <div class="divider"></div>
+    {% include 'comments/comments.html' %}
   </div>
-  <div class="divider"></div>
-  {% include 'comments/comments.html' %}
 {% endblock %}

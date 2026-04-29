@@ -1,39 +1,20 @@
-from django.db import models
-
-from wagtail.models import Page
-from wagtail.fields import RichTextField
-from wagtail.images import get_image_model
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import StreamField
+from base.models import BasePage
+from home.blocks import HomeContentBlock
 
-class HomePage(Page):
-    image = models.ForeignKey(
-        get_image_model(),
-        null=True,
+
+class HomePage(BasePage):
+    body = StreamField(
+        HomeContentBlock(),
         blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Imagen de inicio",
+        use_json_field=True,
+        help_text="Cuerpo de la página de inicio",
     )
 
-    hero_text = models.CharField(
-        blank=True,
-        max_length=255, help_text="Introducción del sitio"
-    )
-
-    body = RichTextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel("image"),
-                FieldPanel("hero_text")
-            ],
-            heading="Sección",
-        ),
-        FieldPanel('body'),
+    content_panels = BasePage.content_panels + [
+        FieldPanel("body"),
     ]
-    
-    subpage_types = ["blog.BlogIndexPage"]
-    
+
     class Meta:
         verbose_name = "Página de Inicio"
