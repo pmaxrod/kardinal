@@ -1,5 +1,5 @@
 {% load wagtailcore_tags base_tags %}
-<div id="comment-{{comment.pk}}" class="chat chat-start">
+<div id="comment-{{ comment.pk }}" class="chat chat-start">
   <div class="chat-image avatar {{ comment.user.profile_picture|yesno:',avatar-placeholder' }}">
     <div class="w-10 rounded-full {{ comment.user.profile_picture|yesno:',bg-neutral-300' }}">
       {% if comment.user.profile_picture.url != null %}
@@ -12,40 +12,17 @@
   <div class="chat-header">
     <a class="text-sm mx-1.5 link link-neutral" href="{% slugurl comment.user.username %}">{{ comment.user.username }}</a>
     <span>{{ comment.created_at|date:'SHORT_DATE_FORMAT' }}</span>
-    <div class="dropdown dropdown-right">
-      <div tabindex="0" role="button" class="btn btn-square btn-ghost mb-1">
-        {% include 'base/icons/dots.html' %}
-      </div>
-      <ul tabindex="-1" class="menu dropdown-content">
-        {% if comment.user == user %}
-          <li>
-            <button class="btn btn-xs btn-ghost" 
-             hx-get="{% url 'page_comments:edit_comment' comment.pk %}"
-             onclick="modal.showModal()" hx-target="#modal-box">
-              {% include 'base/icons/edit.html' %}
-              Editar
-            </button>
-          </li>
-        {% endif %}
-        {% if comment.user == user or comment.page.owner == user %}
-          <li>
-            <button class="btn btn-xs btn-ghost btn-error"
-             hx-get="{% url 'page_comments:delete_comment' comment.pk %}"
-             onclick="modal.showModal()" hx-target="#modal-box">
-             {% include 'base/icons/delete.html' %}
-             Borrar
-            </button>
-          </li>
-        {% endif %}
-      </ul>
-    </div>
+    {% include "partials/comment_actions.html" %}
   </div>
   <div class="chat-bubble">
     <p class="break-normal md:wrap-break-word lg:break-all">{{ comment.content }}</p>
   </div>
-  <div class="chat-footer">
-    {% if comment.edited %}
-      <span class="opacity-50">Editado el {{ comment.edited_at|date:"SHORT_DATE_FORMAT" }}</span>
-    {% endif %}
+  <div class="chat-footer grid grid-rows-2">
+      {% include "partials/comment_likes.html" %}
+    <div>
+      {% if comment.edited %}
+        <span class="opacity-50">Editado el {{ comment.edited_at|date:'SHORT_DATE_FORMAT' }}</span>
+      {% endif %}
+    </div>
   </div>
 </div>

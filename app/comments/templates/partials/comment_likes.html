@@ -1,0 +1,15 @@
+{% load base_tags %}
+<div class="comment-likes grid-cols-1">
+  {% comment_liked_by_user as liked %}
+  {% with liked_by_user_class=liked|yesno:'liked,not-liked' %}
+    {% if user.is_authenticated %}
+      <button class="like-button {{ liked_by_user_class }}" 
+      hx-post="{% url 'page_comments:like_comment' comment.pk %}" hx-target="closest .comment-likes" 
+      hx-swap="outerHTML"
+      aria-label="Botón de me gusta">
+      {% include 'base/icons/heart.svg' %}
+      </button>
+    {% endif %}
+  {% endwith %}
+  <span>{{ comment.like_count }} Me gusta</span>
+</div>

@@ -1,6 +1,7 @@
 from django import template
 from django.contrib.auth.models import User
 from wagtail.models import Site
+from comments.models import Comment
 from base.models import FooterText
 from django.template.defaultfilters import stringfilter
 
@@ -57,6 +58,20 @@ def get_site_root(context):
     """
     return Site.find_for_request(context["request"]).root_page
 
+@register.simple_tag(takes_context=True)
+def comment_liked_by_user(context):
+    """Comprueba si un comentario ha recibido un 'Me gusta' por parte del usuario actual
+    
+    Arguments:
+        context -- Contexto de la página que llama la etiqueta
+
+    Returns:
+        True si el usuario actual ha dado 'Me gusta' al comentario.
+        False en caso contrario.
+    """
+    comment = context.get("comment")
+    user = context.get("request").user
+    return Comment.liked_by_user(comment, user)
 
 # Filtros de plantillas
 @register.filter

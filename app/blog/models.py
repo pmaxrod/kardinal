@@ -12,6 +12,7 @@ from modelcluster.tags import ClusterTaggableManager
 from base.models import BasePage
 from blog.blocks import BlogPostBlock
 from comments.forms import CommentForm
+from comments.models import Comment
 
 
 class BlogDashboardPage(BasePage):
@@ -144,8 +145,10 @@ class BlogPostPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["blog"] = self.get_parent()
+        context["comments"] = self.comments.all().order_by("-created_at")
         context["tags"] = self.tags.all()
         context["categories"] = self.categories.all()
+        context["form"] = CommentForm()
         return context
 
     class Meta:

@@ -116,6 +116,17 @@ class TimeStampedMixin(models.Model):
         abstract = True
 
 
+class Like(models.Model):
+    """Modelo base para los 'Me gusta' de la aplicación."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes"
+    )
+    liked_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Me Gusta")
+
+    class Meta:
+        abstract = True
+
+
 # Modelos personalizados
 class BasePage(Page):
     """Modelo abstracto base para las páginas.
@@ -155,9 +166,6 @@ class BasePage(Page):
             ObjectList(promote_panels, heading="Promocionar", permission="superuser"),
         ]
     )
-
-    def get_by_pk(self):
-        return BasePage.objects.filter(pk=self.pk).first()
 
     class Meta:
         abstract = True
