@@ -19,6 +19,26 @@
         @apply badge badge-secondary text-secondary-content border-2 border-secondary px-1 py-0.5
     }
 
+    .icon-button {
+        @apply btn btn-square btn-ghost
+    }
+
+    .modal-button {
+        @apply btn btn-square
+    }
+
+    .like-button {
+        @apply btn btn-sm btn-square btn-link
+    }
+
+    .liked {
+        @apply text-red-400 hover:text-red-500
+    }
+
+    .not-liked {
+        @apply text-base-300 hover:text-red-200
+    }
+
     .block-heading {
         @apply text-2xl font-bold
     }

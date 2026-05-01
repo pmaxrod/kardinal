@@ -4,19 +4,19 @@
 </h2>
 <form class="mb-4" 
 hx-delete="{% url 'page_comments:delete_comment' comment.pk %}" 
-hx-target="#comment-{{comment.pk}}"
-hx-on:delete-comment="deleteCleanup({{comment.pk}})">
+hx-target="#comment-{{ comment.pk }}"
+hx-on:delete-comment="deleteCleanup({{ comment.pk }})">
   {% csrf_token %}
   <div class="modal-action mt-2">
-    <button type="button" class="btn btn-neutral btn-square" onclick="modal.close()">No</button>
-    <button type="submit" class="btn btn-error btn-square">Sí</button>
+    <button type="button" class="modal-button btn-neutral" onclick="modal.close()">No</button>
+    <button type="submit" class="modal-button btn-error">Sí</button>
   </div>
 </form>
 <script>
   function deleteCleanup(pk){
     modal = document.getElementById('modal');
     modal.close(); 
-    comment = document.getElementById('comment-'+pk);
+    comment = document.getElementById('comment-' + pk);
     comment.remove();
   }
 </script>

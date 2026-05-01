@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 <form class="mb-4"
-hx-post="{% url 'page_comments:add_comment' page.slug %}" 
+hx-post="{% url 'page_comments:add_comment' page.pk %}" 
 hx-target="#comments-list" hx-swap="afterbegin"
 hx-on::after-request="this.reset();">
   {% csrf_token %}
