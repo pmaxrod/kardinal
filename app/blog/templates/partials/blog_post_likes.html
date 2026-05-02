@@ -1,0 +1,15 @@
+{% load base_tags wagtailroutablepage_tags %}
+<div class="post-likes">
+  {% if user.is_authenticated %}
+      {% post_liked_by_user as liked %}
+      {% with liked_by_user_class=liked|yesno:'liked,not-liked' %}
+        <button class="like-button {{ liked_by_user_class }}" 
+        hx-post="{% routablepageurl page 'like_post' %}" hx-target="closest .post-likes" 
+        hx-swap="outerHTML"
+        aria-label="Botón de me gusta">
+        {% include 'base/icons/heart.svg' %}
+        </button>
+      {% endwith %}
+  {% endif %}
+  <span>{{ page.like_count }} Me gusta</span>
+</div>

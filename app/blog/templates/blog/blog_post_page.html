@@ -8,27 +8,23 @@
 {% block content %}
   <div data-theme="{{ parent.theme }}">
     <article>
-      <div class="card card-border">
-        <div class="card-body">
-          <span>{{ page.date|date:'SHORT_DATE_FORMAT' }}</span>
-          <div class="prose">
-            {{page.body}}
-          </div>
-        </div>
+      <h1 class="text-3xl">{{ page.title }}</h1>
+      <span class>Publicado el {{ page.date|date:'SHORT_DATE_FORMAT' }}</span>
+      <div class="prose">{{ page.body }}</div>
+      <div id="categories">
+        <span>Categorías:</span>
+        {% for category in categories %}
+          <label class="category">{{ category.blog_category.name }}</label>
+        {% endfor %}
       </div>
+      <div id="tags">
+        <span>Etiquetas:</span>
+        {% for tag in tags %}
+          <label class="tag">#{{ tag }}</label>
+        {% endfor %}
+      </div>
+      {% include 'partials/blog_post_likes.html' %}
     </article>
-    <div id="categories">
-      <span>Categorías:</span>
-      {% for category in categories %}
-        <label class="category">{{ category.blog_category.name }}</label>
-      {% endfor %}
-    </div>
-    <div id="tags">
-      <span>Etiquetas:</span>
-      {% for tag in tags %}
-        <label class="tag">#{{ tag }}</label>
-      {% endfor %}
-    </div>
     <div class="divider"></div>
     {% include 'comments/comments.html' %}
   </div>
