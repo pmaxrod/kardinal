@@ -1,0 +1,17 @@
+{% extends 'base/partials/dropdown_menu.html' %}
+{% block menu_content %}
+  {% if user == page.owner or user.is_superuser %}
+    <li class="join-item">
+      <a class="" href="{% url 'wagtailadmin_pages:edit' post.pk %}">
+        Editar
+        {% include 'base/icons/edit.svg' %}
+      </a>
+    </li>
+    <li class="join-item">
+      <a class="text-error" href="{% url 'wagtailadmin_pages:delete' post.pk %}">
+        Borrar
+        {% include 'base/icons/delete.svg' %}
+      </a>
+    </li>
+  {% endif %}
+{% endblock %}

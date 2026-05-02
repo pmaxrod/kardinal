@@ -6,28 +6,23 @@
 {% endblock %}
 
 {% block content %}
-  <div class="bg-primary text-primary-content" data-theme="{{ page.theme }}">
+  <div class="bg-base text-base-content" data-theme="{{ page.theme }}">
     <h2 class="text-2xl font-bold mb-2 text-center">{{ page.title }}</h2>
-    {% comment %}
-    {% get_user_profile user=page.owner %}
-    {% endcomment %}
     <a class="btn btn-primary" href="{% url 'wagtailadmin_pages:add' 'blog' 'blogpostpage' page.pk %}">Añadir entrada</a>
 
-    <div class="card card-border bg-base-100 w-96">
-      <div class="card-body prose">
-        {% for post in posts %}
+    {% for post in posts %}
+      <div class="card card-border bg-base-100 w-96">
+        <div class="card-body prose">
+          <div class="card-actions">
+            {% include 'partials/blog_post_actions.html' %}
+          </div>
           <div class="card-title">
             <a href="{% pageurl post %}" class="link-neutral">{{ post.title }}</a>
           </div>
           <div>{{ post.body|truncatewords_html:15 }}</div>
-          {% if user == page.owner or user.is_superuser %}
-            <div class="card-actions">
-              <a class="btn btn-secondary" href="{% url 'wagtailadmin_pages:edit' post.pk %}">{% include 'base/icons/edit.html' %}Editar</a>
-              <a class="btn btn-error" href="{% url 'wagtailadmin_pages:delete' post.pk %}">{% include 'base/icons/delete.html' %}Editar</a>
-            </div>
-          {% endif %}
-        {% endfor %}
+        </div>
+        {% include "partials/blog_post_likes.html" with page=post %}
       </div>
-    </div>
+    {% endfor %}
   </div>
 {% endblock %}

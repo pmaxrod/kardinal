@@ -1,7 +1,7 @@
 import datetime
 from django.utils.translation import gettext as _
 from django.db import models
-from django.conf import settings
+from django.shortcuts import render
 from taggit.models import Tag as TaggitTag, TaggedItemBase
 from wagtail.fields import StreamField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path, re_path
@@ -9,10 +9,9 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.search import index
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
-from base.models import BasePage
+from base.models import BasePage, Like
 from blog.blocks import BlogPostBlock
 from comments.forms import CommentForm
-from comments.models import Comment
 
 
 class BlogDashboardPage(BasePage):
@@ -62,10 +61,6 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         context["posts"] = self.get_posts()
         return context
 
-    def get_by_owner(owner):
-        """Obtiene la página a partir de su propietario"""
-        return BlogIndexPage.objects.filter(owner=owner)
-
     def get_posts(self):
         """Devuelve las entradas del blog
 
@@ -107,7 +102,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         get_latest_by = "first_published_at"
 
 
-class BlogPostPage(BasePage):
+class BlogPostPage(RoutablePageMixin, BasePage):
     """Página para las entradas de un blog de usuario."""
 
     page_description = _("Entrada de un blog")
@@ -142,6 +137,16 @@ class BlogPostPage(BasePage):
     parent_page_types = ["BlogIndexPage"]
     subpage_types = []
 
+    @path("like/")
+    def like_post(self, request, *args, **kwargs):
+        post_like = BlogPostLike.objects.filter(post=self, user=request.user)
+        if post_like.exists():
+            post_like.delete()
+        else:
+            post_like.create(post=self, user=request.user)
+
+        return render(request, "partials/blog_post_likes.html", context={"page": self})
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["blog"] = self.get_parent()
@@ -150,6 +155,15 @@ class BlogPostPage(BasePage):
         context["categories"] = self.categories.all()
         context["form"] = CommentForm()
         return context
+    
+    def liked_by_user(self, user):
+        """Devuelve True si el usuario dio 'Me gusta' a la entrada."""
+        return self.likes.filter(post=self, user=user).first()
+
+    @property
+    def like_count(self):
+        """Devuelve el total de 'Me gusta' de una entrada."""
+        return self.likes.count()
 
     class Meta:
         verbose_name = _("Entrada de blog")
@@ -157,6 +171,20 @@ class BlogPostPage(BasePage):
         get_latest_by = "first_published_at"
 
 
+class BlogPostLike(Like):
+    """Modelo para los 'Me gusta' de entradas de blog."""
+
+    post = models.ForeignKey(
+        "blog.BlogPostPage", on_delete=models.CASCADE, related_name="likes"
+    )
+
+    def __str__(self):
+        return f"Me gusta de {self.user} a {self.post} en {self.liked_at}"
+    
+    class Meta:
+        verbose_name = "Me Gusta (Entradas)"
+        verbose_name_plural = "Me Gustas (Entradas)"
+        
 # Snippets para blogs
 class Tag(TaggitTag):
     """Snippet de etiquetas."""

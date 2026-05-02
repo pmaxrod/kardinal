@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from wagtail.models import Site
 from base.models import FooterText
-from blog.models import BlogIndexPage
+from blog.models import BlogIndexPage, BlogPostPage
 from comments.models import Comment
 
 register = template.Library()
@@ -72,6 +72,21 @@ def comment_liked_by_user(context):
     comment = context.get("comment")
     user = context.get("request").user
     return Comment.liked_by_user(comment, user)
+
+@register.simple_tag(takes_context=True)
+def post_liked_by_user(context):
+    """Comprueba si una entrada ha recibido un 'Me gusta' por parte del usuario actual
+    
+    Arguments:
+        context -- Contexto de la página que llama la etiqueta
+
+    Returns:
+        True si el usuario actual ha dado 'Me gusta' a la entrada.
+        False en caso contrario.
+    """
+    page = context.get("page")
+    user = context.get("request").user
+    return BlogPostPage.liked_by_user(page, user)
 
 @register.simple_tag()
 def get_user_blog_index_url(user):
