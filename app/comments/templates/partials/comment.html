@@ -1,28 +1,19 @@
 {% load wagtailcore_tags base_tags %}
-<div id="comment-{{ comment.pk }}" class="chat chat-start">
-  <div class="chat-image avatar {{ comment.user.profile_picture|yesno:',avatar-placeholder' }}">
-    <div class="w-10 rounded-full {{ comment.user.profile_picture|yesno:',bg-neutral-300' }}">
-      {% if comment.user.profile_picture.url != null %}
-        <img src="{{ comment.user.profile_picture.url }}" alt="Foto de perfil del usuario" />
-      {% else %}
-        <span class="text-2xl">{{ comment.user.username|initials }}</span>
-      {% endif %}
-    </div>
-  </div>
-  <div class="chat-header">
-    <a class="text-sm mx-1.5 link link-neutral" href="{% slugurl comment.user.username %}">{{ comment.user.username }}</a>
-    <span>{{ comment.created_at|date:'SHORT_DATE_FORMAT' }}</span>
-    {% include "partials/comment_actions.html" %}
-  </div>
-  <div class="chat-bubble">
-    <p class="break-normal md:wrap-break-word lg:break-all">{{ comment.content }}</p>
-  </div>
-  <div class="chat-footer grid grid-rows-2">
-      {% include "partials/comment_likes.html" %}
-    <div>
+<ul id="comment-{{ comment.pk }}" class="list">
+  <li class="list-row">
+    <div class="list-col-grow">
+      {% get_user_with_pfp comment.user %}
+      <span class="text-sm font-semibold">{{ comment.created_at|date:'SHORT_DATE_FORMAT' }}</span>
+      <p class="border-2 rounded-box p-2 list-col-wrap break-normal md:wrap-break-word lg:break-all">{{ comment.content }}</p>
       {% if comment.edited %}
-        <span class="opacity-50">Editado el {{ comment.edited_at|date:'SHORT_DATE_FORMAT' }}</span>
+        <span class="opacity-50 text-xs font-semibold">Editado el {{ comment.edited_at|date:'SHORT_DATE_FORMAT' }}</span>
       {% endif %}
     </div>
-  </div>
-</div>
+    <div class="list-col-wrap">
+      {% include "partials/comment_likes.html" %}
+    </div>
+    <div>
+      {% include "partials/comment_actions.html" %}
+    </div>
+  </li>
+</ul>

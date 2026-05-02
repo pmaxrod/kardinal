@@ -1,25 +1,22 @@
-<div class="dropdown dropdown-right">
-  <div tabindex="0" role="button" class="icon-button mb-1">
-    {% include 'base/icons/dots.svg' %}
-  </div>
-  <ul tabindex="-1" class="menu dropdown-content">
+{% extends "base/partials/dropdown_menu.html" %}
+{% block menu_content %}
     {% if comment.user == user %}
-      <li>
-        <button class="btn btn-ghost" hx-get="{% url 'page_comments:edit_comment' comment.pk %}"
-         onclick="modal.showModal()" hx-target="#modal-box">
-         Editar
-         {% include 'base/icons/edit.svg' %}
+      <li class="w-26">
+        <button hx-get="{% url 'page_comments:edit_comment' comment.pk %}"
+        onclick="modal.showModal()" hx-target="#modal-box">
+          Editar
+          {% include 'base/icons/edit.svg' %}
         </button>
       </li>
     {% endif %}
     {% if comment.user == user or comment.page.owner == user %}
-      <li>
-        <button class="btn btn-ghost text-error" hx-get="{% url 'page_comments:delete_comment' comment.pk %}" 
+      <li class="w-26">
+        <button class="text-error" hx-get="{% url 'page_comments:delete_comment' comment.pk %}" 
         onclick="modal.showModal()" hx-target="#modal-box">
-        Borrar
-        {% include 'base/icons/delete.svg' %}
+          Borrar
+          {% include 'base/icons/delete.svg' %}
         </button>
       </li>
     {% endif %}
-  </ul>
-</div>
+{% endblock %}
+

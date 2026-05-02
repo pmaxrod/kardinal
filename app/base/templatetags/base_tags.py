@@ -1,9 +1,9 @@
 from django import template
-from django.contrib.auth.models import User
-from wagtail.models import Site
-from comments.models import Comment
-from base.models import FooterText
 from django.template.defaultfilters import stringfilter
+from wagtail.models import Site
+from base.models import FooterText
+from blog.models import BlogIndexPage
+from comments.models import Comment
 
 register = template.Library()
 
@@ -32,8 +32,8 @@ def get_footer_text(context):
     }
 
 
-@register.inclusion_tag("base/includes/user_profile.html")
-def get_user_profile(user: User):
+@register.inclusion_tag("base/includes/user_with_pfp.html")
+def get_user_with_pfp(user):
     """Renderiza la plantilla user_profile.html a 
     partir del usuario que recibe como parámetro.
     
@@ -72,6 +72,16 @@ def comment_liked_by_user(context):
     comment = context.get("comment")
     user = context.get("request").user
     return Comment.liked_by_user(comment, user)
+
+@register.simple_tag()
+def get_user_blog_index_url(user):
+    """Devuelve la URL del blog del usuario pasado por parámetro.
+    Arguments:
+        user -- Usuario cuyo perfil se quiere renderizar
+    Returns:
+        Devuelve el enlace al blog del usuario actual
+    """
+    return BlogIndexPage.objects.get(owner=user).url
 
 # Filtros de plantillas
 @register.filter
