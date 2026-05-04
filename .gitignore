@@ -6,9 +6,9 @@ __pycache__/
 local_settings.py
 db.sqlite3
 migrations/
-dumps/
-media/
-fixtures/
+*/media/images/
+*/fixtures/sample*.json
+*/fixtures/test*.json
 
 # Virtual Environment
 .env
