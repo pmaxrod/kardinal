@@ -1,0 +1,334 @@
+[
+    {
+        "model": "sites.site",
+        "fields": {
+            "domain": "example.com",
+            "name": "example.com"
+        }
+    },
+    {
+        "model": "auth.group",
+        "fields": {
+            "name": "Bloggers",
+            "permissions": [
+                [
+                    "access_admin",
+                    "wagtailadmin",
+                    "admin"
+                ]
+            ]
+        }
+    },
+    {
+        "model": "wagtailcore.grouppagepermission",
+        "pk": 8,
+        "fields": {
+            "group": [
+                "Bloggers"
+            ],
+            "page": 3,
+            "permission": [
+                "add_page",
+                "wagtailcore",
+                "page"
+            ]
+        }
+    },
+    {
+        "model": "wagtailcore.grouppagepermission",
+        "pk": 9,
+        "fields": {
+            "group": [
+                "Bloggers"
+            ],
+            "page": 3,
+            "permission": [
+                "publish_page",
+                "wagtailcore",
+                "page"
+            ]
+        }
+    },
+    {
+        "model": "wagtailcore.collection",
+        "pk": 1,
+        "fields": {
+            "path": "0001",
+            "depth": 1,
+            "numchild": 2,
+            "name": "Root"
+        }
+    },
+    {
+        "model": "wagtailcore.collection",
+        "pk": 2,
+        "fields": {
+            "path": "00010001",
+            "depth": 2,
+            "numchild": 0,
+            "name": "Imágenes de entradas"
+        }
+    },
+    {
+        "model": "wagtailcore.collection",
+        "pk": 3,
+        "fields": {
+            "path": "00010002",
+            "depth": 2,
+            "numchild": 0,
+            "name": "Imágenes para las páginas públicas"
+        }
+    },
+    {
+        "model": "wagtailcore.groupcollectionpermission",
+        "fields": {
+            "group": [
+                "Bloggers"
+            ],
+            "collection": 2,
+            "permission": [
+                "add_image",
+                "wagtailimages",
+                "image"
+            ]
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$1000000$dQHD84UYwVdMfSAJdquh6S$44b8zykvrH+SArnCAktCI1S4iYLTCcZz5ZEX9R3kMIQ=",
+            "last_login": "2026-04-22T15:27:41.927Z",
+            "is_superuser": true,
+            "username": "kardinal-admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "kardinal-admin@gmail.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2026-03-12T19:12:09.558Z",
+            "groups": [],
+            "user_permissions": [],
+            "bio": "Soy el administrador de la app",
+            "profile_picture": ""
+        }
+    },
+    {
+        "model": "users.appsettings",
+        "pk": 1,
+        "fields": {
+            "user_id": 1,
+            "theme": "system",
+            "font": "font-sans-serif"
+        }
+    },
+    {
+        "model": "wagtailusers.userprofile",
+        "pk": 1,
+        "fields": {
+            "user": [
+                "kardinal-admin"
+            ],
+            "submitted_notifications": true,
+            "approved_notifications": true,
+            "rejected_notifications": true,
+            "updated_comments_notifications": true,
+            "preferred_language": "",
+            "current_time_zone": "",
+            "avatar": "",
+            "dismissibles": {
+                "help": true,
+                "editor-guide": true,
+                "last_upgrade_check": "7.3.1",
+                "whats-new-in-wagtail-7.0": true
+            },
+            "theme": "dark",
+            "contrast": "system",
+            "density": "default"
+        }
+    },
+    {
+        "model": "home.homepage",
+        "pk": 2,
+        "fields": {
+            "page_ptr": 2,
+            "subtitle": "",
+            "body": "[{\"id\": \"2111a8f3-5a38-4d13-a1a3-95c79f0296c6\", \"type\": \"heading\", \"value\": {\"size\": \"h2\", \"heading_text\": \"Introducci\\u00f3n\"}}, {\"id\": \"abe5fd07-e603-48f0-b455-c3587d36da8a\", \"type\": \"paragraph\", \"value\": \"<p data-block-key=\\\"3xn6f\\\"><i>Kardinal</i> es una red social de <i>blogging</i> para aquellas personas que buscan tener un blog personalizable.</p>\"}, {\"id\": \"1f923eef-cc11-4dd9-ad6b-2e26d684608c\", \"type\": \"image\", \"value\": {\"image\": {\"image\": 1, \"alt_text\": \"Cardenal rojo\", \"decorative\": false}}}]"
+        }
+    },
+    {
+        "model": "blog.blogdashboardpage",
+        "pk": 3,
+        "fields": {
+            "page_ptr": 3,
+            "subtitle": ""
+        }
+    },
+    {
+        "model": "blog.blogindexpage",
+        "pk": 4,
+        "fields": {
+            "subtitle": "Blog del administrador de Kardinal",
+            "theme": "default"
+        }
+    },
+    {
+        "model": "base.customimage",
+        "pk": 1,
+        "fields": {
+            "collection": 3,
+            "title": "Paroaria_coronata_-Koke'e_State_Park,_Hawaii,_USA-8",
+            "file": "original_images/Paroaria_coronata_-Kokee_State_Park_Hawaii_USA-8.jpg",
+            "description": "Cardenal rojo",
+            "width": 2996,
+            "height": 2619,
+            "created_at": "2026-04-25T17:37:13.218Z",
+            "uploaded_by_user": [
+                "kardinal-admin"
+            ],
+            "focal_point_x": 1384,
+            "focal_point_y": 840,
+            "focal_point_width": 1066,
+            "focal_point_height": 1134,
+            "file_size": 3356109,
+            "file_hash": "2764ad7301a8ae57788ef9a3c9b0f1f1fea35939",
+            "caption": "El cardenal rojo es el ave que inspiró el logo de la aplicación."
+        }
+    },
+    {
+        "model": "wagtailcore.page",
+        "pk": 1,
+        "fields": {
+            "path": "0001",
+            "depth": 1,
+            "numchild": 1,
+            "translation_key": "88a46fb6-a55b-4eab-8219-2f5aac73f823",
+            "locale": 1,
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": null,
+            "last_published_at": null,
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "locked": false,
+            "locked_at": null,
+            "locked_by": null,
+            "title": "Root",
+            "draft_title": "Root",
+            "slug": "root",
+            "content_type": 1,
+            "url_path": "/",
+            "owner": null,
+            "seo_title": "",
+            "show_in_menus": false,
+            "search_description": "",
+            "latest_revision_created_at": null,
+            "alias_of": null
+        }
+    },
+    {
+        "model": "wagtailcore.page",
+        "pk": 2,
+        "fields": {
+            "path": "00010001",
+            "depth": 2,
+            "numchild": 1,
+            "translation_key": "9dfc9cc9-7d88-46e8-85fb-d6855bacc1f0",
+            "locale": 1,
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-04-25T19:03:26.972Z",
+            "last_published_at": "2026-05-02T16:59:02.744Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "locked": false,
+            "locked_at": null,
+            "locked_by": null,
+            "title": "Página de inicio",
+            "draft_title": "Página de inicio",
+            "slug": "inicio",
+            "content_type": 33,
+            "url_path": "/inicio/",
+            "owner": 1,
+            "seo_title": "",
+            "show_in_menus": true,
+            "search_description": "",
+            "latest_revision_created_at": null,
+            "alias_of": null
+        }
+    },
+    {
+        "model": "wagtailcore.page",
+        "pk": 3,
+        "fields": {
+            "path": "000100010001",
+            "depth": 3,
+            "numchild": 1,
+            "translation_key": "2657aa35-015f-46bc-8214-a52a29aedd5f",
+            "locale": 1,
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-04-28T19:16:19.457Z",
+            "last_published_at": "2026-04-29T16:19:38.856Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "locked": false,
+            "locked_at": null,
+            "locked_by": null,
+            "title": "Pantalla principal",
+            "draft_title": "Pantalla principal",
+            "slug": "blogs",
+            "content_type": 40,
+            "url_path": "/inicio/blogs/",
+            "owner": 1,
+            "seo_title": "",
+            "show_in_menus": true,
+            "search_description": "",
+            "latest_revision_created_at": null,
+            "alias_of": null
+        }
+    },
+    {
+        "model": "wagtailcore.page",
+        "pk": 4,
+        "fields": {
+            "path": "0001000100010001",
+            "depth": 4,
+            "numchild": 0,
+            "translation_key": "01c49473-1cbb-4925-b130-2328f74f2b83",
+            "locale": 1,
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-05-03T11:27:50.994Z",
+            "last_published_at": "2026-05-03T11:27:50.994Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "locked": false,
+            "locked_at": null,
+            "locked_by": null,
+            "title": "Blog de kardinal-admin",
+            "draft_title": "Blog de kardinal-admin",
+            "slug": "kardinal-admin",
+            "content_type": 35,
+            "url_path": "/inicio/blogs/kardinal-admin/",
+            "owner": 1,
+            "seo_title": "",
+            "show_in_menus": false,
+            "search_description": "",
+            "latest_revision_created_at": null,
+            "alias_of": null
+        }
+    }
+]
