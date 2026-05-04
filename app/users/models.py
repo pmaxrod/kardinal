@@ -10,7 +10,7 @@ class User(AbstractUser):
     bio = models.TextField(
         max_length=200,
         blank=True,
-        default='',
+        default="",
         verbose_name="Biografía",
         help_text="Escribe sobre tí",
     )
@@ -34,12 +34,6 @@ class User(AbstractUser):
     class Meta:
         get_latest_by = "date_joined"
         ordering = ["username"]
-
-
-class Author(models.Model):
-    """Representa el autor de entradas de blog"""
-
-    pass
 
 
 class AppSettings(models.Model):
