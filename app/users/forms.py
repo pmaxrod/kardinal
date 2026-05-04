@@ -1,9 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
-from wagtail.models import Site
 from wagtail.users.forms import UserCreationForm, UserEditForm, _
-from blog.models import BlogIndexPage
 from users.models import AppSettings
 
 User = get_user_model()
@@ -31,27 +29,20 @@ class UserSignupForm(SignupForm):
 
     def save(self, request):
         user = super().save(request)
-
-        # Crear configuración del usuario
-        settings = AppSettings(user=user)
-        settings.save()
-        # Crear blog del usuario
-        root = Site.find_for_request(request).root_page
-        blog = BlogIndexPage(owner=user)
-        root.add_child(instance=blog)
-        root.save()
         return user
 
 
 # Formularios de la página de administración
 user_fields = {"username", "email", "is_superuser", "groups"}
+
+
 class CustomUserEditForm(UserEditForm):
     """Formulario de edición de usuarios en la página de administración."""
+
     # Por algún motivo no se elminan del formulario los campos de nombre y apellidos
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        del self.fields["first_name"]
-        del self.fields["last_name"]
+        delete_fields(self.fields)
 
     class Meta:
         model = User
@@ -60,12 +51,19 @@ class CustomUserEditForm(UserEditForm):
 
 class CustomUserCreationForm(UserCreationForm):
     """Formulario de creación de usuarios en la página de administración."""
+
     # Por algún motivo no se elminan del formulario los campos de nombre y apellidos
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        del self.fields["first_name"]
-        del self.fields["last_name"]
+        delete_fields(self.fields)
 
     class Meta:
         model = User
         fields = user_fields
+
+
+def delete_fields(fields):
+    """Para borrar campos en formularios que no se usan."""
+    fields_to_delete = ["first_name", "last_name"]
+    for field in fields_to_delete:
+        del fields[field]
