@@ -1,6 +1,6 @@
-from django import forms
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
@@ -42,13 +42,14 @@ class NavigationSettings(BaseGenericSetting):
                 FieldPanel("github_url"),
                 FieldPanel("mastodon_url"),
             ],
-            "Configuración de redes sociales",
+            _("Configuración de redes sociales"),
         )
     ]
 
     class Meta:
-        verbose_name = "Configruación de Navegación"
+        verbose_name = _("Configruación de Navegación")
 
+# TODO: Página de contacto
 
 # Snippets
 @register_snippet
@@ -73,7 +74,7 @@ class FooterText(
     ]
 
     def __str__(self):
-        return "Texto del pie"
+        return _("Texto del pie")
 
     def get_preview_template(self, request, mode_name):
         return "base.html"
@@ -82,7 +83,7 @@ class FooterText(
         return {"footer_text": self.body}
 
     class Meta(TranslatableMixin.Meta):
-        verbose_name_plural = "Texto del pie"
+        verbose_name_plural = _("Texto del pie")
 
 
 # Mixins
@@ -98,9 +99,9 @@ class TimeStampedMixin(models.Model):
     """
 
     created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Fecha de creación"
+        auto_now_add=True, verbose_name=_("Fecha de creación")
     )
-    edited_at = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    edited_at = models.DateTimeField(auto_now=True, verbose_name=_("Fecha de edición"))
 
     def edited(self):
         """Comprueba si un objeto ha sido modficado tras su creación.
@@ -110,7 +111,7 @@ class TimeStampedMixin(models.Model):
 
             False en caso contrario
         """
-        return self.edited_at.second != self.created_at.second
+        return not self.edited_at == self.created_at
 
     class Meta:
         abstract = True
@@ -118,10 +119,11 @@ class TimeStampedMixin(models.Model):
 
 class Like(models.Model):
     """Modelo base para los 'Me gusta' de la aplicación."""
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="likes"
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    liked_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Fecha de Me Gusta")
     )
-    liked_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Me Gusta")
 
     class Meta:
         abstract = True
@@ -135,13 +137,13 @@ class BasePage(Page):
     de paneles laterales en caso de ser necesarios.
     """
 
-    description = models.CharField(
-        blank=True, verbose_name="Descripción", help_text="Descripción de la página"
+    subtitle = models.CharField(
+        blank=True, verbose_name=_("Subtítulo"), help_text=_("Subtítulo de la página")
     )
 
     # Definición para las páginas que lo necesiten
     sidebar_panels = []
-    content_panels = Page.content_panels + [FieldPanel("description")]
+    content_panels = Page.content_panels + [FieldPanel("subtitle")]
     promote_panels = Page.promote_panels
     settings_panels = Page.settings_panels + [
         MultiFieldPanel(
@@ -149,7 +151,7 @@ class BasePage(Page):
                 FieldPanel("first_published_at", read_only=True),
                 FieldPanel("last_published_at", read_only=True),
             ],
-            heading="Fechas de publicación",
+            heading=_("Fechas de publicación"),
             icon="date",
             classname="collapsed",
         ),
@@ -157,15 +159,21 @@ class BasePage(Page):
         FieldPanel("live", read_only=True, icon="view", permission="superuser"),
     ]
 
-    search_fields = Page.search_fields + [index.FilterField("description")]
+    search_fields = Page.search_fields + [index.FilterField("subtitle")]
     edit_handlers = TabbedInterface(
         [
-            ObjectList(content_panels, heading="Contenido"),
-            ObjectList(sidebar_panels, heading="Barra lateral"),
-            ObjectList(settings_panels, heading="Configuración"),
-            ObjectList(promote_panels, heading="Promocionar", permission="superuser"),
+            ObjectList(content_panels, heading=_("Contenido")),
+            ObjectList(sidebar_panels, heading=_("Barra lateral")),
+            ObjectList(
+                promote_panels, heading=_("Promocionar"), permission="superuser"
+            ),
+            ObjectList(settings_panels, heading=_("Configuración")),
         ]
     )
+
+    @property
+    def edited(self):
+        return not self.first_published_at == self.last_published_at
 
     class Meta:
         abstract = True
@@ -178,7 +186,7 @@ class CustomImage(AbstractImage):
         caption -- Leyenda de la imagen
     """
 
-    caption = models.CharField(max_length=255, blank=True, verbose_name="Leyenda")
+    caption = models.CharField(max_length=255, blank=True, verbose_name=_("Leyenda"))
 
     admin_form_fields = Image.admin_form_fields + ("caption",)
 
@@ -217,7 +225,7 @@ class CustomDocument(AbstractDocument):
     """
 
     source = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name="Fuente"
+        max_length=255, blank=True, null=True, verbose_name=_("Fuente")
     )
 
     admin_form_fields = Document.admin_form_fields + ("source",)

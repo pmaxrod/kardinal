@@ -1,5 +1,4 @@
-import datetime
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.shortcuts import render
 from taggit.models import Tag as TaggitTag, TaggedItemBase
@@ -19,7 +18,6 @@ class BlogDashboardPage(BasePage):
 
     page_description = _("Página padre de todos los blogs")
 
-    parent_page_types = ["home.HomePage"]
     subpage_types = ["BlogIndexPage"]
     max_count_per_parent = 1
 
@@ -107,11 +105,6 @@ class BlogPostPage(RoutablePageMixin, BasePage):
 
     page_description = _("Entrada de un blog")
     body = StreamField(BlogPostBlock())
-    date = models.DateField(
-        default=datetime.date.today,
-        verbose_name=_("Fecha"),
-        help_text=_("Fecha de la entrada"),
-    )
     tags = ClusterTaggableManager(
         through="blog.BlogPostPageTag",
         blank=True,
@@ -121,7 +114,6 @@ class BlogPostPage(RoutablePageMixin, BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("body"),
-        FieldPanel("date"),
         MultiFieldPanel(
             [FieldPanel("tags"), InlinePanel("categories", label=_("Categorías"))],
             heading=_("Etiquetas y categorías"),
@@ -129,12 +121,11 @@ class BlogPostPage(RoutablePageMixin, BasePage):
         ),
     ]
     search_fields = BasePage.search_fields + [
-        index.SearchField("date"),
         index.SearchField("tags"),
         index.AutocompleteField("tags"),
         index.AutocompleteField("categories"),
     ]
-    parent_page_types = ["BlogIndexPage"]
+    
     subpage_types = []
 
     @path("like/")
@@ -237,6 +228,9 @@ class BlogPostPageBlogCategory(models.Model):
     panels = [
         FieldPanel("blog_category"),
     ]
+
+    def __str__(self):
+        return self.blog_category.name
 
     class Meta:
         unique_together = ("page", "blog_category")

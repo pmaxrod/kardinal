@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -11,15 +12,15 @@ class User(AbstractUser):
         max_length=200,
         blank=True,
         default="",
-        verbose_name="Biografía",
-        help_text="Escribe sobre tí",
+        verbose_name=_("Biografía"),
+        help_text=_("Escribe sobre tí"),
     )
     profile_picture = models.ImageField(
         upload_to=upload_avatar_to,
         null=True,
         blank=True,
-        verbose_name="Foto de perfil",
-        help_text="Foto de perfil de la cuenta",
+        verbose_name=_("Foto de perfil"),
+        help_text=_("Foto de perfil de la cuenta"),
     )
 
     @property
@@ -39,13 +40,13 @@ class User(AbstractUser):
 class AppSettings(models.Model):
     # Se crean tipos enumerados para la configuración de usuario
     class AppTheme(models.TextChoices):
-        DEFAULT = "default", "Tema predeterminado del sistema"
-        LIGHT = "light", "Tema claro"
-        DARK = "dark", "Tema oscuro"
+        DEFAULT = "default", _("Tema del navegador")
+        LIGHT = "light", _("Tema claro")
+        DARK = "dark", _("Tema oscuro")
 
     class AppFontFamily(models.TextChoices):
-        SANS_SERIF = "font-sans-serif", "Fuente sans-serif"
-        SERIF = "font-serif", "Fuente serif"
+        SANS_SERIF = "font-sans-serif", _("Fuente sans-serif")
+        SERIF = "font-serif", _("Fuente serif")
 
     # El usuario puede ser nulo porque los usuarios sin sesión
     # pueden cambiar preferencias aun si no se guardan
@@ -60,15 +61,16 @@ class AppSettings(models.Model):
     theme = models.CharField(
         choices=AppTheme,
         default=AppTheme.DEFAULT,
-        verbose_name="Tema",
-        help_text="Tema de la aplicación",
+        verbose_name=_("Tema"),
+        help_text=_("Tema de la aplicación"),
     )
     font = models.CharField(
         choices=AppFontFamily,
         default=AppFontFamily.SANS_SERIF,
-        verbose_name="Fuente",
-        help_text="Tipo de fuente para la aplicación",
+        verbose_name=_("Fuente"),
+        help_text=_("Tipo de fuente para la aplicación"),
     )
 
     class Meta:
-        verbose_name = "settings"
+        verbose_name = _("Configuración de usuario")
+        verbose_name_plural = _("Configuraciones de usuario")

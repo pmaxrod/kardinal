@@ -1,4 +1,4 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.viewsets.model import ModelViewSet
 from comments.models import Comment

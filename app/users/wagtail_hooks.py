@@ -1,4 +1,4 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.views.account import BaseSettingsPanel, SettingsTab
 from users.forms import UserProfileSettingsForm
