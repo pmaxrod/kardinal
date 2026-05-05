@@ -8,19 +8,10 @@ from comments.models import Comment
 register = template.Library()
 
 
-# Etiquetas de plantillas
+# Etiquetas con plantillas asociadas
 @register.inclusion_tag("base/includes/footer_text.html", takes_context=True)
 def get_footer_text(context):
-    """Devuelve el texto que aparece en el pie de la aplicación.
-
-    Arguments:
-        context -- Contexto de la página que llama la etiqueta
-
-    Returns:
-        Diccionario con la clave "footer_text" y de valor
-        el cuerpo del snippet FooterText a referenciar en
-        la plantilla footer_text.html
-    """
+    """Devuelve el valor del primer registro del snippet FooterText."""
     footer_text = context.get("footer_text", "")
 
     if not footer_text:
@@ -31,85 +22,55 @@ def get_footer_text(context):
         "footer_text": footer_text,
     }
 
-
 @register.inclusion_tag("base/includes/user_with_pfp.html")
 def get_user_with_pfp(user):
-    """Renderiza la plantilla user_profile.html a 
-    partir del usuario que recibe como parámetro.
-    
-    Arguments:
-        user -- Usuario cuyo perfil se quiere renderizar
-
-    Returns:
-        Diccionario con la clave "user" y de valor el usuario a 
-        referenciar en la plantilla user_profile.html
-    """
+    """Devuelve el nombre del usuario junto con su foto de perfil
+    a partir del usuario que recibe como parámetro."""
     return {"user": user}
 
+@register.inclusion_tag("base/includes/breadcrumbs.html", takes_context=True)
+def get_breadcrumbs(context):
+    """Devuelve un componente breadcrumb para navegar a través de una jerarquía de páginas."""
+    page = context.get("page")
+    ancestors = page.get_ancestors()
+
+    return {"page": page, "ancestors": ancestors}
+
+
+# Etiquetas de plantillas sin plantilla asociadas
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
-    """Devuelve la página raíz del sitio a partir de la petición.
-
-    Arguments:
-        context -- Contexto de la página que llama la etiqueta
-
-    Returns:
-        Página web raíz del sitio
-    """
+    """Devuelve la página raíz del sitio a partir de la petición al sitio web."""
     return Site.find_for_request(context["request"]).root_page
+
 
 @register.simple_tag(takes_context=True)
 def comment_liked_by_user(context):
-    """Comprueba si un comentario ha recibido un 'Me gusta' por parte del usuario actual
-    
-    Arguments:
-        context -- Contexto de la página que llama la etiqueta
-
-    Returns:
-        True si el usuario actual ha dado 'Me gusta' al comentario.
-        False en caso contrario.
-    """
+    """Comprueba si un comentario ha recibido un 'Me gusta' por parte del usuario actual."""
     comment = context.get("comment")
     user = context.get("request").user
     return Comment.liked_by_user(comment, user)
 
+
 @register.simple_tag(takes_context=True)
 def post_liked_by_user(context):
-    """Comprueba si una entrada ha recibido un 'Me gusta' por parte del usuario actual
-    
-    Arguments:
-        context -- Contexto de la página que llama la etiqueta
-
-    Returns:
-        True si el usuario actual ha dado 'Me gusta' a la entrada.
-        False en caso contrario.
-    """
+    """Comprueba si una entrada ha recibido un 'Me gusta' por parte del usuario actual."""
     page = context.get("page")
     user = context.get("request").user
     return BlogPostPage.liked_by_user(page, user)
 
+
 @register.simple_tag()
 def get_user_blog_index_url(user):
-    """Devuelve la URL del blog del usuario pasado por parámetro.
-    Arguments:
-        user -- Usuario cuyo perfil se quiere renderizar
-    Returns:
-        Devuelve el enlace al blog del usuario actual
-    """
+    """Devuelve la URL del blog del usuario pasado por parámetro."""
     return BlogIndexPage.objects.get(owner=user).url
+
 
 # Filtros de plantillas
 @register.filter
 @stringfilter
-def initials(value:str):
-    """Devuelve las iniciales en mayúscula de una cadena.
-
-    Arguments:
-        value -- Cadena que es filtrada
-
-    Returns:
-        Cadena con solo las iniciales de value
-    """
+def initials(value: str):
+    """Devuelve las iniciales en mayúscula de una cadena."""
     text = ""
     for part in value.split():
         text += f"{part[0].upper()}"

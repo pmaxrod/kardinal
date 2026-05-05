@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags base_tags %}
 
+{% block title %}
+  {{ page.title }}
+{% endblock %}
 {% block body_class %}
   template-blogindex
 {% endblock %}
 
 {% block content %}
+  {% get_breadcrumbs %}
+
   <div class="bg-base text-base-content" data-theme="{{ page.theme }}">
-    <h2 class="text-2xl font-bold mb-2 text-center">{{ page.title }}</h2>
+    <h2 class="text-2xl font-bold mb-2 text-center">{{ page.subtitle }}</h2>
     <a class="btn btn-primary" href="{% url 'wagtailadmin_pages:add' 'blog' 'blogpostpage' page.pk %}">Añadir entrada</a>
 
     {% for post in posts %}
@@ -19,9 +24,10 @@
           <div class="card-title">
             <a href="{% pageurl post %}" class="link-neutral">{{ post.title }}</a>
           </div>
-          <div>{{ post.body|truncatewords_html:15 }}</div>
+          <div>{{ post.title|truncatewords:15 }}</div>
+          <div>{{ post.subtitle|truncatewords:15 }}</div>
         </div>
-        {% include "partials/blog_post_likes.html" with page=post %}
+        {% include 'partials/blog_post_likes.html' with page=post %}
       </div>
     {% endfor %}
   </div>
