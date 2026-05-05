@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.ui.tables import Column, UserColumn, RelatedObjectsColumn
 from wagtail.admin.views.pages.listing import IndexView
@@ -13,6 +13,7 @@ from blog.models import BlogCategory, BlogIndexPage, BlogPostPage, Tag
 # Viewsets de páginas
 class BlogIndexView(IndexView):
     """Vista para los índices de blogs."""
+
     model = BlogIndexPage
 
     def get_base_queryset(self):
@@ -28,8 +29,10 @@ class BlogIndexView(IndexView):
             pages = self.annotate_queryset(pages)
             return pages
 
+
 class BlogPostView(IndexView):
     """Vista para las entradas de blog."""
+
     model = BlogPostPage
 
     def get_base_queryset(self):
@@ -44,14 +47,15 @@ class BlogPostView(IndexView):
             )
             pages = self.annotate_queryset(pages)
             return pages
-        
+
+
 class BlogIndexListingViewSet(PageListingViewSet):
     """Listado de blogs de usuario."""
 
     model = BlogIndexPage
     menu_label = _("Índice del blog")
     icon = "thumbtack"
-    index_view_class = BlogPostView
+    index_view_class = BlogIndexView
 
     columns = PageListingViewSet.columns + [
         UserColumn("owner", label=_("Propietario"), sort_key="owner"),
@@ -65,6 +69,7 @@ class BlogPostListingViewSet(PageListingViewSet):
     model = BlogPostPage
     menu_label = _("Entradas del blog")
     icon = "blogpost"
+    index_view_class = BlogPostView
 
     columns = PageListingViewSet.columns + [
         UserColumn("owner", label=_("Propietario"), sort_key="owner"),
@@ -151,7 +156,7 @@ def disable_copy_page(request, page):
 @hooks.register("before_unpublish_page")
 def disable_unpublish_pages(request, page):
     """Impide que se puedan despublicar páginas importantes de la aplicación."""
-    if page.content_type.model in protected_pages:
+    if page.content_type.model in protected_pages and not request.user.is_superuser:
         messages.error(request, f"No se puede despublicar: '{page}'.")
         return HttpResponseRedirect(request.headers["referer"])
 
@@ -159,6 +164,6 @@ def disable_unpublish_pages(request, page):
 @hooks.register("before_delete_page")
 def disable_delete_pages(request, page):
     """Impide que se puedan borrar páginas importantes de la aplicación."""
-    if page.content_type.model in protected_pages:
+    if page.content_type.model in protected_pages and not request.user.is_superuser:
         messages.error(request, f"No se puede borrar '{page}'.")
         return HttpResponseRedirect(request.headers["referer"])

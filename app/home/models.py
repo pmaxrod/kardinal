@@ -1,4 +1,5 @@
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from django.utils.translation import gettext_lazy as _
+from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from base.models import BasePage
 from home.blocks import HomeContentBlock
@@ -9,12 +10,17 @@ class HomePage(BasePage):
         HomeContentBlock(),
         blank=True,
         use_json_field=True,
-        help_text="Cuerpo de la página de inicio",
+        verbose_name=_("Contenido"),
+        help_text=_("Contenido de la página de inicio",)
     )
 
     content_panels = BasePage.content_panels + [
         FieldPanel("body"),
     ]
 
+    parent_page_types = ["wagtailcore.Page"]
+    subpage_types = ["blog.BlogDashboardPage"]
+
     class Meta:
-        verbose_name = "Página de Inicio"
+        verbose_name = _("Página de Inicio")
+        verbose_name_plural = _("Páginas de Inicio")

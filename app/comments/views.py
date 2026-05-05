@@ -53,10 +53,10 @@ def edit_comment(request, pk):
         if form.is_valid():
             form.save()
             context = {"comment": comment, "form": form}
-            messages.success(request, "El comentario se ha podido editar con éxito.")
+            messages.success(request, _("El comentario se ha podido editar con éxito."))
             return render(request, "partials/comment.html", context)
         else:
-            messages.error(request, "El comentario no se ha podido editar.")
+            messages.error(request, _("El comentario no se ha podido editar."))
     elif request.method == "GET":
         return render(request, "partials/edit_comment_form.html", context)
 
@@ -78,7 +78,7 @@ def delete_comment(request, pk):
         comment.delete()
         response = HttpResponse(status=204)
         response["HX-Trigger"] = "delete-comment"
-        messages.success(request, "El comentario se ha borrado con éxito.")
+        messages.success(request, _("El comentario se ha borrado con éxito."))
         return response
     elif request.method == "GET":
         return render(
