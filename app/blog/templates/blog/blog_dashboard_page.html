@@ -1,14 +1,17 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static wagtailcore_tags base_tags %}
 
 {% block body_class %}
   template-bloglisting
 {% endblock %}
 
-{% block title %}Pantalla principal{% endblock title %}
+{% block title %}
+  Pantalla principal
+{% endblock %}
 {% block content %}
-{% comment %}
-    TODO Hacer el dash de posts de seguidores y de etiquetas seguidas
-{% endcomment %}
-{% endblock content %}
-
+  <h1>{{ page.subtitle }}</h1>
+  {% comment %}TODO Hacer el dash de posts de seguidores y de etiquetas seguidas{% endcomment %}
+  {% for blog in page.get_children.all %}
+    <a href="{% pageurl blog %}">{{ blog.owner }}</a>
+  {% endfor %}
+{% endblock %}
