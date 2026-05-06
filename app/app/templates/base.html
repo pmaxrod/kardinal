@@ -32,7 +32,7 @@
     {% endif %}
 
     {# Temas soportados #}
-    {# <meta name="color-scheme" content="light dark" /> #}
+    <meta name="color-scheme" content="light dark" />
 
     {# Icono de las pestañas #}
     <link rel="icon" type="image/x-icon" href="{% static 'img/kardinal-logo.svg' %}" alt="Icono del sitio" />
@@ -47,7 +47,7 @@
   </head>
 
   <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'
-  class="bg-background text-foreground min-h-lvh max-w-4xl p-2.5 mt-0 mb-0 ml-auto mr-auto grid gap-12 grid-rows-1 {% block body_class %}{% endblock %}">
+  class="max-w-4xl mx-auto px-4{% block body_class %}{% endblock %}">
     {% include 'includes/header.html' %}
     <main id="main">
       {% block content %}

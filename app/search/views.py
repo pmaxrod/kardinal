@@ -42,5 +42,8 @@ def search(request):
         {
             "search_query": search_query,
             "search_results": search_results,
+            "total_results": search_results.paginator.count,
+            "total_pages": search_results.paginator.num_pages,
+            "page_range": search_results.paginator.page_range
         },
     )

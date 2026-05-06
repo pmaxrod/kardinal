@@ -1,38 +1,76 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static wagtailcore_tags %}
 
-{% block body_class %}template-searchresults{% endblock %}
+{% block title %}
+  Búsqueda
+{% endblock %}
 
-{% block title %}Search{% endblock %}
+{% block body_class %}
+  template-searchresults
+{% endblock %}
 
 {% block content %}
-<h1>Search</h1>
+  <h1 class="text-2xl">Búsqueda de páginas</h1>
 
-<form action="{% url 'search' %}" method="get">
-    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-    <input type="submit" value="Search" class="button">
-</form>
+  <form action="{% url 'search' %}" method="get">
+    <input class="" placeholder="Búsqueda" type="search" 
+    name="query"{% if search_query %} value="{{ search_query }}"{% endif %} />
+    <input type="submit" value="Buscar" class="btn btn-primary" />
+  </form>
 
-{% if search_results %}
-<ul>
-    {% for result in search_results %}
-    <li>
-        <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-        {% if result.search_description %}
-        {{ result.search_description }}
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
+  {% if search_results %}
+    <p>
+      Buscaste
+      {% if search_query %}
+        "{{ search_query }}"
+      {% endif %}, {{ total_results }}
+      resultado{{ total_results|pluralize }}
+      encontrado{{ total_results|pluralize }}.
+    </p>
+    <ol>
+      {% for result in search_results %}
+        <li>
+          <span>
+            <a class="link link-secondary link-hover" href="{% pageurl result %}">{{ result }}</a>
+          </span>
+          {% if result.search_description %}
+            {{ result.search_description }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
 
-{% if search_results.has_previous %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-{% endif %}
+    {% if total_pages > 1 %}
+      <p>Página {{ search_results.number }} de {{ total_pages }}, mostrando {{ search_results|length }} resultado{{ search_results|pluralize }} de {{ total_results }}</p>
+    {% endif %}
 
-{% if search_results.has_next %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-{% endif %}
-{% elif search_query %}
-No results found
-{% endif %}
+    <ul class="join">
+      {% if search_results.has_previous %}
+        <li>
+          <a class="join-item btn btn-link link-hover" 
+            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">
+            Anterior
+          </a>
+        </li>
+      {% endif %}
+      {% for page_num in page_range %}
+        <li>
+          <a class="join-item btn{% if page_num == search_results.number %}btn-active{% endif %}" 
+            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ page_num }}">
+            {{ page_num }}
+          </a>
+        </li>
+      {% endfor %}
+      {% if search_results.has_next %}
+        <li>
+          <a class="join-item btn" 
+            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">
+            Siguiente
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  {% elif search_query %}
+    <p class="text-lg font-semibold">No se han encontrado resultados.</p>
+  {% endif %}
 {% endblock %}

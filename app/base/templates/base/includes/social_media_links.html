@@ -1,0 +1,10 @@
+{% load static %}
+<div>
+  <span class="underline text-md">Redes sociales</span>
+  <ul>
+    {% for link in links %}
+      <img src="{% static 'img/'|add:link.name.lower|add:'.svg' %}" alt="Icono de {{ link.name }}" />
+      <a class="link link-hover" href="{{ link.url }}">{{ link.name }}</a>
+    {% endfor %}
+  </ul>
+</div>
