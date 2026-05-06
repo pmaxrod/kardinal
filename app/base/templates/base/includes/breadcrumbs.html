@@ -1,0 +1,18 @@
+{% load wagtailcore_tags %}
+
+{% if ancestors|length > 1 %}
+  <div class="breadcrumbs text-sm">
+    <ul>
+      {% for ancestor in ancestors %}
+        {% if not ancestor.is_root %}
+          {% if ancestor.depth > 2 %}
+            <li class="breadcrumb-item">
+              <a href="{% pageurl ancestor %}" title="{{ ancestor.title }}" class="link link-primary link-hover">{{ ancestor.title|truncatewords:4 }}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      <li>{{ page.title|truncatewords:4 }}</li>
+    </ul>
+  </div>
+{% endif %}

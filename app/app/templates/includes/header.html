@@ -1,31 +1,10 @@
-{% load wagtailcore_tags wagtailroutablepage_tags base_tags wagtailuserbar allauth %}
-<header class="border-b-2 border-dotted">
+{% load base_tags wagtailuserbar %}
+{% get_site_root as site_root %}
+<header class="sticky top-0">
   <a href="#main" class="skip-link">Saltar al contenido</a>
-  {% get_site_root as site_root %}
-  <nav class="px-4 py-2">
-    <div class="flex justify-between items-center">
-      <div class="flex justify-between items-center gap-2">
-        <a class="btn btn-link" href="{% pageurl site_root %}">{{ site_root.title }}</a>
-        {% for menu_item in site_root.get_children.live.in_menu %}
-          <a class="btn btn-link" href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
-          {% if not forloop.last %} | {% endif %}
-        {% endfor %}
-        {% if user.is_authenticated %}
-        {% endif %}
-      </div>
-      <div class="flex justify-between items-center gap-x-4">
-        {% if user.is_authenticated %}
-        <span>Hola, {{user.username}}</span>
-          <a class="btn btn-primary" href="{% url 'account_logout' %}">Cerrar Sesión</a>
-        {% else %}
-          <a class="btn btn-primary" href="{% url 'account_login' %}">Iniciar Sesión</a>
-          <a class="btn btn-primary" href="{% url 'account_signup' %}">Registrarse</a>
-        {% endif %}
-      </div>
-    </div>
-  </nav>
+  {% wagtailuserbar 'top-right' %}
+  {% include "includes/menu.html" %}
   {% if messages %}
     {% include "includes/messages.html" %}
   {% endif %}
-  {% wagtailuserbar 'top-right' %}
 </header>

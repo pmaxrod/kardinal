@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from wagtail.models import Site
-from base.models import FooterText
+from base.models import FooterText, SocialMediaLink
 from blog.models import BlogIndexPage, BlogPostPage
 from comments.models import Comment
 
@@ -36,6 +36,12 @@ def get_breadcrumbs(context):
 
     return {"page": page, "ancestors": ancestors}
 
+@register.inclusion_tag("base/includes/social_media_links.html", takes_context=True)
+def get_social_media_links(context):
+    """Devuelve los enlaces de redes sociales."""
+    links = SocialMediaLink.objects.all()
+
+    return {"links": links}
 
 # Etiquetas de plantillas sin plantilla asociadas
 @register.simple_tag(takes_context=True)

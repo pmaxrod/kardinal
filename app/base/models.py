@@ -17,42 +17,12 @@ from wagtail.models import (
     TranslatableMixin,
     Page,
 )
-from wagtail.contrib.settings.models import (
-    BaseGenericSetting,
-    register_setting,
-)
 from wagtail.documents.models import AbstractDocument, Document
 from wagtail.snippets.models import register_snippet
 from wagtail.search import index
 
 
-# Páginas de configuración
-@register_setting
-class NavigationSettings(BaseGenericSetting):
-    """Configuración global de enlaces relacionados con el sitio web.
-
-    Attributes:
-
-    """
-
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel("linkedin_url"),
-                FieldPanel("github_url"),
-                FieldPanel("mastodon_url"),
-            ],
-            _("Configuración de redes sociales"),
-        )
-    ]
-
-    class Meta:
-        verbose_name = _("Configruación de Navegación")
-
-# TODO: Página de contacto
-
 # Snippets
-@register_snippet
 class FooterText(
     DraftStateMixin,
     RevisionMixin,
@@ -66,7 +36,9 @@ class FooterText(
         body -- Contenido del texto del pie
     """
 
-    body = RichTextField()
+    body = RichTextField(
+        verbose_name=_("Contenido"), help_text=_("Contenido del texto del pie")
+    )
 
     panels = [
         FieldPanel("body"),
@@ -74,7 +46,7 @@ class FooterText(
     ]
 
     def __str__(self):
-        return _("Texto del pie")
+        return "Texto del pie"
 
     def get_preview_template(self, request, mode_name):
         return "base.html"
@@ -83,7 +55,44 @@ class FooterText(
         return {"footer_text": self.body}
 
     class Meta(TranslatableMixin.Meta):
-        verbose_name_plural = _("Texto del pie")
+        verbose_name = _("Texto del pie")
+        verbose_name_plural = _("Textos del pie")
+
+
+class SocialMediaLink(DraftStateMixin, RevisionMixin, models.Model):
+    """Snippet para enlaces de redes sociales.
+
+    Arguments:
+        url -- URL de la cuenta
+        name -- Nombre de la red social
+    """
+
+    url = models.URLField(
+        blank=False,
+        null=False,
+        verbose_name=_("URL"),
+        help_text=_("URL de la cuenta de la red social"),
+        max_length=200,
+    )
+    name = models.CharField(
+        blank=False,
+        null=False,
+        verbose_name=_("Nombre"),
+        help_text=_("Nombre de la red social"),
+    )
+
+    panels = [
+        FieldPanel("url"),
+        FieldPanel("name"),
+        PublishingPanel(),
+    ]
+
+    def __str__(self):
+        return f"Enlace a {self.name}"
+
+    class Meta:
+        verbose_name = _("Enlace de redes sociales")
+        verbose_name_plural = _("Enlaces de redes sociales")
 
 
 # Mixins

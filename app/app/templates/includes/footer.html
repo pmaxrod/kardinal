@@ -1,17 +1,6 @@
 {% load base_tags %}
 
-<footer class="border-t-2 border-dotted text-center">
-  {% comment %} {% with nav_settings=settings.base.NavigationSettings %}
-    {% if nav_settings %}
-      <p>
-        {% with github_url=nav_settings.github_url %}
-          Enlace al repositorio:{% if github_url %}
-            <a href="{{ github_url }}">GitHub</a>
-          {% endif %}
-        {% endwith %}
-      </p>
-    {% endif %}
-  {% endwith %} {% endcomment %}
-
+<footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+  {% get_social_media_links %}
   {% get_footer_text %}
 </footer>
