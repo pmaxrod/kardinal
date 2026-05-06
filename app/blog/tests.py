@@ -1,19 +1,43 @@
+from wagtail import hooks
 from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailPageTestCase
-from blog.models import BlogIndexPage
+from blog.models import BlogDashboardPage, BlogIndexPage, BlogPostPage
 from home.models import HomePage
 
+
 # Create your tests here.
+class BlogPagesTest(WagtailPageTestCase):
+    fixtures = ["fixtures/initial_data.json"]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.dashboard = BlogDashboardPage.objects.first()
+        cls.blog_index = BlogIndexPage.objects.first()
+
+    def test_subpage_types(self):
+        self.assertAllowedSubpageTypes(BlogDashboardPage, {BlogIndexPage})
+        self.assertAllowedSubpageTypes(BlogIndexPage, {BlogPostPage})
+
+    def test_blogindexpage_routing(self):
+        self.assertPageIsRoutable(self.blog_index, "/category/programacion/")
+        self.assertPageIsRoutable(self.blog_index, "/tag/miprimerpost/")
+
+
 class BlogIndexPageTest(WagtailPageTestCase):
+    @classmethod
     def setUpTestData(self):
         root = Page.get_first_root_node()
         Site.objects.create(
             hostname="testserver",
             root_page=root,
             is_default_site=True,
-            site_name="testserver"
+            site_name="testserver",
         )
-        home = HomePage(hero_test="Test", body="Contenido de prueba")
+        home = HomePage(body="Contenido de prueba")
         root.add_child(instance=home)
         self.page = BlogIndexPage()
         home.add_child(instance=self.page)
+
+    def test_get(self):
+        response = self.client.get(self.page.url)
+        self.assertEqual(response.status_code, 200)
