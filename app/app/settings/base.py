@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     "app.apps.CustomUsersAppConfig",
     "theme",
     "comments",
-    "dashboard",
+    "kardinal_ui",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -65,10 +65,8 @@ INSTALLED_APPS = [
     "tailwind",
     "django_htmx",
     "widget_tweaks",
+    "wagtailmenus"
 ]
-
-if settings.DEBUG:
-    INSTALLED_APPS += ["django_browser_reload"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -82,9 +80,6 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
 ]
-
-if settings.DEBUG:
-    MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
 
 ROOT_URLCONF = "app.urls"
 
@@ -103,6 +98,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "base.context_processors.app_settings",
+                "wagtailmenus.context_processors.wagtailmenus"
             ],
         },
     },
@@ -223,7 +219,9 @@ TAILWIND_APP_NAME = "theme"
 WAGTAILIMAGES_IMAGE_MODEL = "base.CustomImage"
 AUTH_USER_MODEL = "users.User"
 WAGTAILDOCS_DOCUMENT_MODEL = "base.CustomDocument"
-
+WAGTAILADMIN_PAGE_SEARCH_FILTER_BY_PERMISSIONS = True
+# WagtailMenus
+WAGTAILMENUS_ACTIVE_CLASS = "menu-active"
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {
