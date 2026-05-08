@@ -1,0 +1,17 @@
+{% load base_tags wagtailuserbar allauth menu_tags %}
+<nav class="navbar bg-base-100 shadow-sm">
+  <div class="flex-1">
+    {% main_menu max_levels=3 template='menus/main_menu.html' apply_active_classes=True %}
+  </div>
+  <div class="flex-none">
+    {% if user.is_authenticated %}
+      {% get_user_with_pfp user %}
+      <a class="btn btn-primary" href="{% url 'account_logout' %}">Cerrar Sesión</a>
+    {% else %}
+      <div class="join join-vertical lg:join-horizontal gap-2">
+        <a class="btn btn-primary join-item" href="{% url 'account_login' %}">Iniciar Sesión</a>
+        <a class="btn btn-primary join-item" href="{% url 'account_signup' %}">Registrarse</a>
+      </div>
+    {% endif %}
+  </div>
+</nav>
