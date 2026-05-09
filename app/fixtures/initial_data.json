@@ -114,15 +114,6 @@
         }
     },
     {
-        "model": "users.appsettings",
-        "pk": 1,
-        "fields": {
-            "user_id": 1,
-            "theme": "system",
-            "font": "font-sans-serif"
-        }
-    },
-    {
         "model": "wagtailusers.userprofile",
         "pk": 1,
         "fields": {
@@ -329,6 +320,56 @@
             "search_description": "",
             "latest_revision_created_at": null,
             "alias_of": null
+        }
+    },
+    {
+        "model": "wagtailmenus.mainmenuitem",
+        "pk": 1,
+        "fields": {
+            "sort_order": 0,
+            "link_page": 2,
+            "link_url": null,
+            "url_append": "",
+            "handle": "",
+            "link_text": "",
+            "allow_subnav": true,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.mainmenuitem",
+        "pk": 2,
+        "fields": {
+            "sort_order": 1,
+            "link_page": 3,
+            "link_url": null,
+            "url_append": "",
+            "handle": "",
+            "link_text": "",
+            "allow_subnav": true,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.mainmenuitem",
+        "pk": 3,
+        "fields": {
+            "sort_order": 2,
+            "link_page": null,
+            "link_url": "/search/",
+            "url_append": "",
+            "handle": "",
+            "link_text": "Búsqueda",
+            "allow_subnav": false,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.mainmenu",
+        "pk": 1,
+        "fields": {
+            "site": 1,
+            "max_levels": 2
         }
     }
 ]

@@ -18,7 +18,6 @@ DATABASES = {
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-ALLOWED_HOSTS = []
 
 if DEBUG:
     INSTALLED_APPS += ["django_browser_reload"]

@@ -1,0 +1,15 @@
+{% extends 'base/partials/dropdown_select.html' %}
+{% block select_name %}
+  Tema
+{% endblock %}
+{% block select_content %}
+  {% for theme in themes %}
+    <li>
+      <input hx-post="{% url 'users:update_user_theme' %}"
+       hx-target="html" hx-swap="none"
+       type="radio" name="theme" 
+       aria-label="{{ theme.1 }}" value="{{ theme.0 }}" 
+       class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start" />
+    </li>
+  {% endfor %}
+{% endblock %}
