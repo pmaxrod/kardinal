@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
 from wagtail.users.forms import UserCreationForm, UserEditForm, _
-from users.models import AppSettings
 
 User = get_user_model()
 
@@ -14,14 +13,6 @@ class UserProfileSettingsForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["bio", "profile_picture"]
-
-
-class AppSettingsForm(forms.ModelForm):
-    """Formulario para la configuración del usuario"""
-
-    class Meta:
-        model = AppSettings
-        exclude = ["user"]
 
 
 class UserSignupForm(SignupForm):

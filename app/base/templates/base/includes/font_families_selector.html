@@ -1,0 +1,15 @@
+{% extends 'base/partials/dropdown_select.html' %}
+{% block select_name %}
+  Tipo de fuente
+{% endblock %}
+{% block select_content %}
+  {% for family in families %}
+    <li>
+      <input hx-post="{% url 'users:update_user_font_family' %}"
+       hx-target="html" hx-swap="none"
+       type="radio" name="font_family" 
+       aria-label="{{ family.1 }}" value="{{ family.0 }}" 
+       class="w-full btn btn-sm btn-block btn-ghost justify-start" />
+    </li>
+  {% endfor %}
+{% endblock %}

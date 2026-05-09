@@ -4,6 +4,7 @@ from wagtail.models import Site
 from base.models import FooterText, SocialMediaLink
 from blog.models import BlogIndexPage, BlogPostPage
 from comments.models import Comment
+from base.models import AppFontFamilies, AppThemes
 
 register = template.Library()
 
@@ -22,11 +23,13 @@ def get_footer_text(context):
         "footer_text": footer_text,
     }
 
+
 @register.inclusion_tag("base/includes/user_with_pfp.html")
 def get_user_with_pfp(user):
     """Devuelve el nombre del usuario junto con su foto de perfil
     a partir del usuario que recibe como parámetro."""
     return {"user": user}
+
 
 @register.inclusion_tag("base/includes/breadcrumbs.html", takes_context=True)
 def get_breadcrumbs(context):
@@ -36,12 +39,30 @@ def get_breadcrumbs(context):
 
     return {"page": page, "ancestors": ancestors}
 
+
 @register.inclusion_tag("base/includes/social_media_links.html", takes_context=True)
 def get_social_media_links(context):
     """Devuelve los enlaces de redes sociales."""
-    links = SocialMediaLink.objects.all()
+    links = context.get("links")
+    if not links:
+        links = SocialMediaLink.objects.filter(live=True)
 
     return {"links": links}
+
+
+@register.inclusion_tag("base/includes/theme_selector.html", takes_context=True)
+def app_theme_selector(context):
+    """Devuelve el selector de temas de la aplicación."""
+    themes = AppThemes.choices
+    return {"themes": themes}
+
+
+@register.inclusion_tag("base/includes/font_families_selector.html", takes_context=True)
+def app_font_families_selector(context):
+    """Devuelve el selector de tipos de fuente de la aplicación."""
+    families = AppFontFamilies.choices
+    return {"families": families}
+
 
 # Etiquetas de plantillas sin plantilla asociadas
 @register.simple_tag(takes_context=True)

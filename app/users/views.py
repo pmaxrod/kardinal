@@ -1,6 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from users.forms import AppSettingsForm, UserProfileSettingsForm
-from users.models import AppSettings
+from base.utils import set_cookie
+from users.forms import UserProfileSettingsForm
 
 
 # Create your views here.
@@ -22,19 +23,17 @@ def update_user_profile(request):
     return render(request, "update_user_profile.html", context)
 
 
-def update_user_settings(request):
-    instance = AppSettings.objects.get(user=request.user)
+def update_app_theme(request):
+    """Guarda las preferencias del tema del usuario."""
+    response = HttpResponse()
+    set_cookie(response, "theme", request.POST.get('theme'))
+    response.headers["HX-Redirect"] = request.headers["referer"]
+    return response
 
-    if request.method == "POST":
-        form = AppSettingsForm(request.POST, instance=instance)
 
-        if form.is_valid():
-            user_settings = form.save()
-            user_settings.user = request.user
-            user_settings.save()
-            return redirect("/settings")
-    else:
-        form = AppSettingsForm(instance=instance)
-
-    context = {"form": form}
-    return render(request, "update_user_settings.html", context)
+def update_app_font_family(request):
+    """Guarda las preferencias del tipo de fuente del usuario."""
+    response = HttpResponse()
+    set_cookie(response, "font_family", request.POST.get('font_family'))
+    response.headers["HX-Redirect"] = request.headers["referer"]
+    return response

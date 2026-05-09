@@ -1,9 +1,9 @@
-from users.models import AppSettings
+from base.models import AppFontFamilies, AppThemes
 
 
 def app_settings(request):
-    if request.user.is_authenticated:
-        settings = AppSettings.objects.filter(user=request.user).first()
-    else:
-        settings = AppSettings()
-    return {"settings": settings}
+    theme = request.COOKIES.get("theme", AppThemes.DEFAULT)
+    font_family = request.COOKIES.get(
+        "font_family", AppFontFamilies.SANS_SERIF
+    )
+    return {"theme": theme, "font_family": font_family}

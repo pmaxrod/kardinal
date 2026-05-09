@@ -22,7 +22,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.search import index
 
 
-# Snippets
+# Modelos
 class FooterText(
     DraftStateMixin,
     RevisionMixin,
@@ -95,7 +95,19 @@ class SocialMediaLink(DraftStateMixin, RevisionMixin, models.Model):
         verbose_name_plural = _("Enlaces de redes sociales")
 
 
-# Mixins
+class AppThemes(models.TextChoices):
+    """Temas de la aplicación."""
+    DEFAULT = "default", _("Tema del navegador")
+    LIGHT = "light", _("Tema claro")
+    DARK = "dark", _("Tema oscuro")
+
+
+class AppFontFamilies(models.TextChoices):
+    """Tipos de fuente de la aplicación."""
+    SANS_SERIF = "font-sans-serif", _("Fuente sans-serif")
+    SERIF = "font-serif", _("Fuente serif")
+
+
 class TimeStampedMixin(models.Model):
     """Mixin para modelos de los que se quiere registrar su fecha de creación y modificación.
 
