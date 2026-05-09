@@ -10,7 +10,6 @@ class FooterTextViewSet(SnippetViewSet):
     model = FooterText
     menu_label = _("Texto del pie")
     menu_icon = "arrow-down"
-    list_display = ["body"]
     list_per_page = 1
     copy_view_enabled = False
     inspect_view_enabled = False
@@ -22,7 +21,6 @@ class SocialMediaLinkViewSet(SnippetViewSet):
     model = SocialMediaLink
     menu_label = _("Enlaces de redes sociales")
     menu_icon = "link"
-    list_display = ["url", "name"]
     list_per_page = 5
     copy_view_enabled = False
     inspect_view_enabled = False
@@ -39,3 +37,9 @@ class BaseSnippetViewSetGroup(SnippetViewSetGroup):
 @hooks.register("register_admin_viewset")
 def register_base_snippets_viewset():
     return BaseSnippetViewSetGroup()
+
+@hooks.register("construct_page_chooser_queryset")
+def only_choose_owned_images(images, request):
+    """Limitar las imágenes a escoger a las de los propios usuarios."""
+    images = images.filter(uploaded_by_user=request.user)
+    return images

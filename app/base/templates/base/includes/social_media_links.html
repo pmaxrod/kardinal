@@ -1,10 +1,11 @@
 {% load static %}
-<div>
-  <span class="underline text-md">Redes sociales</span>
-  <ul>
+<nav>
+  <h2 class="footer-title">Redes sociales</h2>
+  <div class="grid grid-flow-col gap-4">
     {% for link in links %}
-      <img src="{% static 'img/'|add:link.name.lower|add:'.svg' %}" alt="Icono de {{ link.name }}" />
-      <a class="link link-hover" href="{{ link.url }}">{{ link.name }}</a>
+      <a href="{{ link.url }}">
+        <img width="64" height="64" src="{% static 'img/'|add:link.name.lower|add:'.svg' %}" alt="Icono de {{ link.name }}" />
+      </a>
     {% endfor %}
-  </ul>
-</div>
+  </div>
+</nav>
