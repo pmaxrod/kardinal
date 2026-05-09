@@ -1,19 +1,16 @@
-{% load base_tags wagtailuserbar allauth menu_tags %}
-<nav class="navbar bg-base-100 shadow-sm">
+{% load static allauth base_tags menu_tags %}
+<nav class="navbar bg-base-100 shadow-md h-36">
   <div class="flex-1">
-    {% main_menu max_levels=3 template='menus/main_menu.html' apply_active_classes=True %}
+    <img src="{% static 'img/kardinal-logo.svg' %}" alt="Logo de Kardinal" />
+    <span>Kardinal</span>
   </div>
   <div class="flex-none">
+    {% main_menu max_levels=1 template='menus/main_menu.html' apply_active_classes=True %}
+  </div>
+  <div class="navbar-end gap-4">
     {% if user.is_authenticated %}
       {% get_user_with_pfp user %}
-      <a class="btn btn-primary" href="{% url 'account_logout' %}">Cerrar Sesión</a>
-    {% else %}
-      <div class="join join-vertical lg:join-horizontal gap-2">
-        <a class="btn btn-primary join-item" href="{% url 'account_login' %}">Iniciar Sesión</a>
-        <a class="btn btn-primary join-item" href="{% url 'account_signup' %}">Registrarse</a>
-      </div>
     {% endif %}
-    {% app_theme_selector %}
-    {% app_font_families_selector %}
+    {% include 'base/includes/header_actions.html' %}
   </div>
 </nav>

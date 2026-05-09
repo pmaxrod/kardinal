@@ -2,9 +2,9 @@
 {% get_site_root as site_root %}
 <header class="sticky top-0">
   <a href="#main" class="skip-link">Saltar al contenido</a>
-  {% wagtailuserbar 'top-right' %}
-  {% include "base/includes/menu.html" %}
+  {% include 'base/includes/menu.html' %}
   {% if messages %}
-    {% include "base/includes/messages.html" %}
+    {% include 'base/includes/messages.html' %}
   {% endif %}
+  {% wagtailuserbar 'top-right' %}
 </header>
