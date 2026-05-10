@@ -18,7 +18,6 @@ from wagtail.models import (
     Page,
 )
 from wagtail.documents.models import AbstractDocument, Document
-from wagtail.snippets.models import register_snippet
 from wagtail.search import index
 
 
@@ -97,13 +96,14 @@ class SocialMediaLink(DraftStateMixin, RevisionMixin, models.Model):
 
 class AppThemes(models.TextChoices):
     """Temas de la aplicación."""
-    DEFAULT = "default", _("Tema del navegador")
-    LIGHT = "light", _("Tema claro")
-    DARK = "dark", _("Tema oscuro")
+    DEFAULT = "", _("Navegador")
+    LIGHT = "light", _("Claro")
+    DARK = "dark", _("Oscuro")
 
 
 class AppFontFamilies(models.TextChoices):
     """Tipos de fuente de la aplicación."""
+
     SANS_SERIF = "font-sans-serif", _("Fuente sans-serif")
     SERIF = "font-serif", _("Fuente serif")
 
@@ -150,7 +150,7 @@ class Like(models.Model):
         abstract = True
 
 
-# Modelos personalizados
+# Modelos personalizados de Wagtail
 class BasePage(Page):
     """Modelo abstracto base para las páginas.
 

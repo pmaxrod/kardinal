@@ -58,7 +58,7 @@ def app_theme_selector(context):
 
 
 @register.inclusion_tag("base/includes/font_families_selector.html", takes_context=True)
-def app_font_families_selector(context):
+def app_font_family_selector(context):
     """Devuelve el selector de tipos de fuente de la aplicación."""
     families = AppFontFamilies.choices
     return {"families": families}

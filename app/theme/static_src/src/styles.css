@@ -10,7 +10,21 @@
     --themes: light --default, dark --prefers-dark;
 }
 
+[data-theme="dark"] {
+    .icon {
+        @apply invert
+    }
+}
+
 @layer components {
+    .icon {
+        @apply w-16 h-16 mask-contain mask-no-repeat hover:bg-base-content/20
+    }
+    
+    .logo {
+      @apply mask-contain mask-no-repeat hover:brightness-110  
+    }
+
     .category {
         @apply badge badge-primary text-primary-content border-2 border-primary px-1 py-0.5
     }

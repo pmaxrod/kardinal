@@ -1,9 +1,6 @@
 {% load base_tags wagtailuserbar %}
-<header class="sticky top-0">
+<header class="text-center">
   {% include 'base/includes/menu.html' %}
-  <div class="">
-    {% app_theme_selector %}
-  </div>
   {% if messages %}
     {% include 'base/includes/messages.html' %}
   {% endif %}
