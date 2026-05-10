@@ -16,9 +16,10 @@ def register_icons(icons):
     icons.append("wagtailadmin/icons/blogpost.svg")
     return icons
 
+
 @hooks.register("construct_main_menu")
 def hide_menu_options(request, menu_items):
     """Oculta opciones solo para el administrador a los bloggers."""
-    admin_items = ["explorer", "reports", "settings"]
+    admin_items = ["reports", "settings", "search"]
     if request.user.groups.filter(name__in=["Bloggers"]):
         menu_items[:] = [item for item in menu_items if item.name not in admin_items]

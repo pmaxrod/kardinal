@@ -327,7 +327,7 @@
         "pk": 1,
         "fields": {
             "sort_order": 0,
-            "link_page": 2,
+            "link_page": 3,
             "link_url": null,
             "url_append": "",
             "handle": "",
@@ -341,20 +341,6 @@
         "pk": 2,
         "fields": {
             "sort_order": 1,
-            "link_page": 3,
-            "link_url": null,
-            "url_append": "",
-            "handle": "",
-            "link_text": "",
-            "allow_subnav": true,
-            "menu": 1
-        }
-    },
-    {
-        "model": "wagtailmenus.mainmenuitem",
-        "pk": 3,
-        "fields": {
-            "sort_order": 2,
             "link_page": null,
             "link_url": "/search/",
             "url_append": "",
@@ -370,6 +356,111 @@
         "fields": {
             "site": 1,
             "max_levels": 2
+        }
+    },
+    {
+        "model": "wagtailmenus.flatmenuitem",
+        "pk": 1,
+        "fields": {
+            "sort_order": 0,
+            "link_page": 2,
+            "link_url": null,
+            "url_append": "",
+            "handle": "",
+            "link_text": "",
+            "allow_subnav": true,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.flatmenuitem",
+        "pk": 2,
+        "fields": {
+            "sort_order": 1,
+            "link_page": 3,
+            "link_url": null,
+            "url_append": "",
+            "handle": "",
+            "link_text": "",
+            "allow_subnav": true,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.flatmenuitem",
+        "pk": 3,
+        "fields": {
+            "sort_order": 2,
+            "link_page": null,
+            "link_url": "/search/",
+            "url_append": "",
+            "handle": "",
+            "link_text": "Búsqueda",
+            "allow_subnav": false,
+            "menu": 1
+        }
+    },
+    {
+        "model": "wagtailmenus.flatmenu",
+        "pk": 1,
+        "fields": {
+            "title": "Menú del pie",
+            "handle": "footer_menu",
+            "heading": "Páginas del sitio",
+            "site": 1,
+            "max_levels": 0
+        }
+    },
+    {
+        "model": "base.footertext",
+        "pk": 1,
+        "fields": {
+            "translation_key": "1ccd94ab-fb5b-4d6a-8d6e-4f7e0f918836",
+            "locale": 1,
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-05-06T17:27:40.009Z",
+            "last_published_at": "2026-05-06T17:27:40.009Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "body": "<p data-block-key=\"2stuu\">Kardinal - 2026</p>"
+        }
+    },
+    {
+        "model": "base.socialmedialink",
+        "pk": 1,
+        "fields": {
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-05-05T19:31:16.173Z",
+            "last_published_at": "2026-05-05T19:31:16.173Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "url": "https://github.com/pmaxrod",
+            "name": "Github"
+        }
+    },
+    {
+        "model": "base.socialmedialink",
+        "pk": 2,
+        "fields": {
+            "latest_revision": null,
+            "live": true,
+            "has_unpublished_changes": false,
+            "first_published_at": "2026-05-08T18:30:36.999Z",
+            "last_published_at": "2026-05-08T18:30:36.999Z",
+            "live_revision": null,
+            "go_live_at": null,
+            "expire_at": null,
+            "expired": false,
+            "url": "https://www.linkedin.com/in/pablo-m-694200283/",
+            "name": "LinkedIn"
         }
     }
 ]

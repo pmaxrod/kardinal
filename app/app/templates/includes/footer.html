@@ -1,6 +1,9 @@
-{% load base_tags %}
+{% load base_tags menu_tags %}
 
 <footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-5">
   {% get_footer_text %}
   {% get_social_media_links %}
+  <nav class="navbar">
+    {% flat_menu 'footer_menu' max_levels=1 templates='menus/flat_menu.html' %}
+  </nav>
 </footer>
