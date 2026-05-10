@@ -1,10 +1,12 @@
 {% load static %}
-<nav>
+<nav class="navbar">
   <h2 class="footer-title">Redes sociales</h2>
   <div class="grid grid-flow-col gap-4">
     {% for link in links %}
       <a href="{{ link.url }}">
-        <img width="64" height="64" src="{% static 'img/'|add:link.name.lower|add:'.svg' %}" alt="Icono de {{ link.name }}" />
+        <img class="icon mask-[url({% static 'img/'|add:link.name.lower|add:'.svg' %})]" 
+        src="{% static 'img/'|add:link.name.lower|add:'.svg' %}" 
+        alt="Icono de {{ link.name }}" />
       </a>
     {% endfor %}
   </div>

@@ -1,8 +1,14 @@
-{% load static allauth base_tags menu_tags %}
-<nav class="navbar bg-base-100 shadow-md h-36">
+{% load static allauth base_tags menu_tags wagtailcore_tags %}
+<nav class="navbar bg-base-100 h-36">
+  {% get_site_root as site_root %}
   <div class="flex-1">
-    <img src="{% static 'img/kardinal-logo.svg' %}" alt="Logo de Kardinal" />
-    <span>Kardinal</span>
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+  </div>
+  <div class="flex-none">
+    <a href="{% pageurl site_root %}">
+      <img class="logo w-16 h-16"
+      src="{% static 'img/kardinal-logo.svg' %}" alt="Logo de Kardinal" />
+    </a>
   </div>
   <div class="flex-none">
     {% main_menu max_levels=1 template='menus/main_menu.html' apply_active_classes=True %}
@@ -11,6 +17,6 @@
     {% if user.is_authenticated %}
       {% get_user_with_pfp user %}
     {% endif %}
-    {% include 'base/includes/header_actions.html' %}
+    {% include 'base/includes/account_actions.html' %}
   </div>
 </nav>

@@ -1,13 +1,163 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created using Krita: https://krita.org -->
-<svg xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:krita="http://krita.org/namespaces/svg/krita"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    width="23.04pt"
-    height="23.04pt"
-    viewBox="0 0 23.04 23.04">
-<defs/>
-<path id="shape0" transform="translate(2.88, 0)" fill="#c93636" fill-rule="evenodd" stroke="#c93636" stroke-width="0.72" stroke-linecap="square" stroke-linejoin="bevel" d="M2.88 23.04L2.88 23.04C0.96 23.04 0.96 23.04 2.88 23.04C4.8 23.04 5.76 21.12 5.76 17.28C5.76 17.28 4.8 17.28 2.88 17.28C-8.88178e-16 17.28 0 14.4 0 14.4C0 14.4 0 12.48 0 8.64C0 6.72 0.96 3.84 2.88 0C4.8 3.84 5.76 6.72 5.76 8.64C9.6 8.64 11.52 9.6 11.52 11.52C11.52 13.44 11.52 13.44 11.52 11.52L17.28 17.28L11.52 14.4C9.6 14.4 8.64 14.4 8.64 14.4C8.64 14.4 8.64 17.28 5.76 17.28C3.84 17.28 2.88 17.28 2.88 17.28" sodipodi:nodetypes="cczczzccczccczzc"/><path id="shape1" transform="translate(0, 5.76)" fill="#c93636" fill-rule="evenodd" stroke="#c93636" stroke-width="0.72" stroke-linecap="square" stroke-linejoin="bevel" d="M2.88 0C0.96 1.92 0 2.88 0 2.88L2.88 2.88L2.88 2.88" sodipodi:nodetypes="cccc"/><path id="shape2" transform="translate(8.60624983655046, 17.28)" fill="#c93636" fill-rule="evenodd" stroke="#c93636" stroke-width="0.72" stroke-linecap="square" stroke-linejoin="bevel" d="M0.0337502 0C0.0337502 4.095 0.0337502 6.015 0.0337502 5.76C-0.0112501 5.61 -0.0112501 3.69 0.0337502 0Z" sodipodi:nodetypes="ccc"/>
+
+<svg
+   width="23.04pt"
+   height="23.04pt"
+   viewBox="0 0 23.04 23.04"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="kardinal-logo.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     showgrid="true"
+     inkscape:zoom="22.627417"
+     inkscape:cx="14.274718"
+     inkscape:cy="11.821941"
+     inkscape:window-width="1360"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid6"
+       units="pt"
+       originx="0"
+       originy="0"
+       spacingx="0.99999996"
+       spacingy="0.99999996"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <linearGradient
+       id="swatch14"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop14" />
+    </linearGradient>
+    <linearGradient
+       id="swatch13"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#421212;stop-opacity:1;"
+         offset="0"
+         id="stop13" />
+    </linearGradient>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath36">
+      <g
+         inkscape:label="Clip"
+         id="use36" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath38">
+      <g
+         inkscape:label="Clip"
+         id="use38">
+        <path
+           style="fill:#b50000;fill-opacity:1;fill-rule:nonzero;stroke-width:0.684653;paint-order:normal"
+           d="M 6.9999999,8.9999997 V 11.5 c 0,0 0,2.5 2.9999999,2.5 C 13,14 13,11.5 13,11.5 L 9.9999998,8.9999997 Z"
+           id="path39"
+           inkscape:label="cuerpo" />
+        <path
+           style="opacity:1;fill:#f3f3f1;fill-opacity:1;fill-rule:nonzero;stroke-width:0.5;stroke-dasharray:none;paint-order:normal"
+           d="m 9.9999998,14 c 0,0 -0.9999998,-5 -3,-5 C 4.9999999,9 4.9999999,9 4.9999999,9"
+           id="path40" />
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath49">
+      <g
+         inkscape:label="Clip"
+         id="use49" />
+    </clipPath>
+  </defs>
+  <g
+     id="g50"
+     inkscape:label="icono"
+     transform="matrix(2,0,0,2,-9.4944043,-10)">
+    <g
+       inkscape:groupmode="layer"
+       id="layer4"
+       inkscape:label="Layer 2">
+      <circle
+         style="display:inline;opacity:1;fill:#c7c8d1;fill-opacity:1;fill-rule:nonzero;stroke:#737b8c;stroke-width:0.547621;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         id="path43"
+         cx="10.497202"
+         cy="10.75"
+         r="5.4761896" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer1"
+       inkscape:label="Layer 1"
+       transform="translate(1.2472021,-0.24999992)">
+      <path
+         style="opacity:1;fill:#b50000;fill-opacity:1;fill-rule:nonzero;stroke-width:0.684656;paint-order:normal"
+         d="M 6.9999996,9.9999996 V 12.5 c 0,0 0,2.5 2.9999992,2.5 3.0000022,0 3.0000022,-2.5 3.0000022,-2.5 L 9.9999988,9.9999996 Z"
+         id="path31"
+         inkscape:label="cuerpo" />
+      <path
+         style="opacity:1;fill:#421212;fill-opacity:1;fill-rule:nonzero;stroke-width:0.64952;paint-order:normal"
+         d="M 8.9999996,10.75 9.9999988,9.9999996 13.5,12.75 l -1,0.5 c 0,0 -3.5000004,2 -3.5000004,-2.5 z"
+         id="path32"
+         inkscape:label="ala"
+         sodipodi:nodetypes="ccccc" />
+      <g
+         id="g42"
+         inkscape:label="cabeza"
+         transform="translate(1.2118605e-7,0.9999998)">
+        <path
+           style="opacity:1;fill:#b50000;fill-opacity:1;fill-rule:nonzero;stroke-width:0.75;paint-order:normal"
+           d="M 9,4.9999999 C 5.9999998,7.9999995 5.9999998,7.9999995 5.9999998,7.9999995 l 1,1.0000005 h 3 z"
+           id="path33"
+           inkscape:label="cabeza" />
+        <path
+           style="opacity:1;fill:#421212;fill-opacity:1;fill-rule:nonzero;stroke-width:0.5;stroke-dasharray:none;paint-order:normal"
+           d="M 6.9999998,6.9999998 C 9,6.9999998 9,6.9999998 9,6.9999998 L 6.9999998,7.9999995"
+           id="path42"
+           inkscape:label="ojos" />
+        <path
+           style="display:inline;opacity:1;fill:#f3f3f1;fill-opacity:1;fill-rule:nonzero;stroke-width:0.5;stroke-dasharray:none;paint-order:normal"
+           d="M 5.821842,7.9999998 6.9999998,6.9999995 v 2.0000002 z"
+           id="path34"
+           inkscape:label="pico"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="display:inline;opacity:1;fill:#c7c8d1;fill-opacity:1;fill-rule:nonzero;stroke:#c7c8d1;stroke-width:0.05;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal;stroke-linecap:butt;stroke-miterlimit:4;stroke-dashoffset:0"
+           id="rect45"
+           width="1.1781576"
+           height="7.6837161e-08"
+           x="5.8218422"
+           y="7.9999995"
+           inkscape:label="raya" />
+      </g>
+    </g>
+  </g>
 </svg>

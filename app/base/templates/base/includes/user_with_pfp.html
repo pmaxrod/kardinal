@@ -1,9 +1,7 @@
 {% load wagtailadmin_tags wagtailcore_tags base_tags %}
-<div class="grid">
-  <div class="avatar">
-    <div class="w-12 rounded-xl">
-      <img src="{% avatar_url user %}" alt="{{ user.username }}" decoding="async" loading="lazy" />
-    </div>
+<div class="avatar">
+  <div class="w-12 rounded-xl">
+    <img src="{% avatar_url user %}" alt="{{ user.username }}" decoding="async" loading="lazy" />
   </div>
-  <a href="{% get_user_blog_index_url user %}" class="link link-hover">{{ user.username }}</a>
 </div>
+<a href="{% get_user_blog_index_url user %}" class="link link-hover">{{ user.username }}</a>

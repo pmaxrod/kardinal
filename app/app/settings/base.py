@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "tailwind",
     "django_htmx",
     "widget_tweaks",
-    "wagtailmenus"
+    "wagtailmenus",
 ]
 
 MIDDLEWARE = [
@@ -98,7 +98,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "base.context_processors.app_settings",
-                "wagtailmenus.context_processors.wagtailmenus"
+                "wagtailmenus.context_processors.wagtailmenus",
             ],
         },
     },
