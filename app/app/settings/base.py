@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "theme",
     "comments",
     "kardinal_ui",
+    "dashboard",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

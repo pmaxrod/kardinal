@@ -4,7 +4,8 @@ from django.contrib.auth.models import Group
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from wagtail.models import Site
-from blog.models import BlogDashboardPage, BlogIndexPage
+from blog.models import BlogIndexPage
+from dashboard.models import DashboardPage
 
 User = get_user_model()
 
@@ -16,7 +17,7 @@ def create_blog_index(request, user, **kwargs):
         owner=user, title=f"Blog de {user.username}", slug=slugify(user.username)
     )
     root = Site.find_for_request(request).root_page
-    dashboard = root.get_children().type(BlogDashboardPage).first()
+    dashboard = root.get_children().type(DashboardPage).first()
     dashboard.add_child(instance=blog)
     dashboard.save()
 

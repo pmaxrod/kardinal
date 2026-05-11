@@ -148,7 +148,7 @@
         }
     },
     {
-        "model": "blog.blogdashboardpage",
+        "model": "dashboard.dashboardpage",
         "pk": 3,
         "fields": {
             "page_ptr": 3,
@@ -244,7 +244,7 @@
             "title": "Página de inicio",
             "draft_title": "Página de inicio",
             "slug": "inicio",
-            "content_type": 33,
+            "content_type": 34,
             "url_path": "/inicio/",
             "owner": 1,
             "seo_title": "",
@@ -278,7 +278,7 @@
             "title": "Pantalla principal",
             "draft_title": "Pantalla principal",
             "slug": "blogs",
-            "content_type": 40,
+            "content_type": 46,
             "url_path": "/inicio/blogs/",
             "owner": 1,
             "seo_title": "",
@@ -312,7 +312,7 @@
             "title": "Blog de kardinal-admin",
             "draft_title": "Blog de kardinal-admin",
             "slug": "kardinal-admin",
-            "content_type": 35,
+            "content_type": 36,
             "url_path": "/inicio/blogs/kardinal-admin/",
             "owner": 1,
             "seo_title": "",
