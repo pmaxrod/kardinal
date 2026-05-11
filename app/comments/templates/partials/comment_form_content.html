@@ -1,0 +1,6 @@
+{% load widget_tweaks %}
+<fieldset class="fieldset">
+  <legend class="fieldset-legend">{{ form.content.label_tag }}</legend>
+  {{ form.content|add_class:'class:form-textarea textarea h-24 validator' }}
+  <div class="label">{{ form.content.help_text }}</div>
+</fieldset>

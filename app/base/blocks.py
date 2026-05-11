@@ -111,4 +111,3 @@ class BaseStreamBlock(StreamBlock):
 
     class Meta:
         block_counts = {"image": {"max_num": 10}, "embed_block": {"max_num": 10}}
-        template = "base/blocks/base_stream_block.html"

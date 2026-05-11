@@ -8,9 +8,9 @@ class CommentViewSet(ModelViewSet):
     form_fields = ["content"]
     icon = "comment"
     menu_label = _("Comentarios")
+    menu_order = 500
     add_to_admin_menu = True
     admin_url_namespace = "comments"
-    menu_order = 300
     list_display = ["page", "user", "content", "created_at", "edited_at", "like_count"]
     list_filter = ["page", "user", "content", "created_at", "edited_at"]
     list_per_page = 50

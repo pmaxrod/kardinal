@@ -1,22 +1,21 @@
-{% extends "base/partials/dropdown_menu.html" %}
+{% extends 'base/partials/dropdown_menu.html' %}
 {% block menu_content %}
-    {% if comment.user == user %}
-      <li class="w-26">
-        <button hx-get="{% url 'page_comments:edit_comment' comment.pk %}"
-        onclick="modal.showModal()" hx-target="#modal-box">
-          Editar
-          {% include 'base/icons/edit.svg' %}
-        </button>
-      </li>
-    {% endif %}
-    {% if comment.user == user or comment.page.owner == user %}
-      <li class="w-26">
-        <button class="text-error" hx-get="{% url 'page_comments:delete_comment' comment.pk %}" 
-        onclick="modal.showModal()" hx-target="#modal-box">
-          Borrar
-          {% include 'base/icons/delete.svg' %}
-        </button>
-      </li>
-    {% endif %}
+  {% if comment.user == user %}
+    <li class="w-26">
+      <button class="btn btn-ghost"
+      hx-get="{% url 'page_comments:edit_comment' comment.pk %}"
+      onclick="modal.showModal()" hx-target="#modal-box">
+        Editar
+      </button>
+    </li>
+  {% endif %}
+  {% if comment.user == user or comment.page.owner == user %}
+    <li class="w-26">
+      <button class="btn btn-ghost btn-error" 
+      hx-get="{% url 'page_comments:delete_comment' comment.pk %}"
+      onclick="modal.showModal()" hx-target="#modal-box">
+        Borrar
+      </button>
+    </li>
+  {% endif %}
 {% endblock %}
-
