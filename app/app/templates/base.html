@@ -44,16 +44,15 @@
   </head>
 
   <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'
-  class="min-h-screen flex flex-col mx-0{% block body_class %}{% endblock %}">
+  class="min-h-screen container flex flex-col mx-0{% block body_class %}{% endblock %}">
     {% include 'includes/header.html' %}
-    <main id="main" class="container max-w-7xl mx-auto px-4">
-      <div class="flex">
-        <div class="flex-1 p-6">
-          {% block content %}
-            {# Contenido de la página web #}
-          {% endblock %}     
-        </div>
-        {% include "includes/sidebar.html" %}
+    <main id="main" class="grow flex min-h-screen">
+      <div class="flex-1 p-6">
+        {% block content %}
+          {# Contenido de la página web #}
+        {% endblock %}     
+      </div>
+      {% include "includes/sidebar.html" %}
       </div>
     </main>
     {% include 'includes/footer.html' %}
