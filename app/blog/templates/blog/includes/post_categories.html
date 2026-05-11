@@ -1,0 +1,10 @@
+{% load wagtailroutablepage_tags %}
+<div id="categories">
+  <span>Categorías:</span>
+  {% for category in categories %}
+    <a class="category" href="{% routablepageurl blog 'posts_by_category' category.blog_category.slug %}" 
+      target="_blank" rel="noopener noreferrer">
+      {{ category }}
+    </a>
+  {% endfor %}
+</div>

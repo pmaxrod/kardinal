@@ -1,0 +1,10 @@
+{% load wagtailroutablepage_tags %}
+<div id="tags">
+  <span>Etiquetas:</span>
+  {% for tag in tags %}
+    <a class="tag" href="{% routablepageurl blog "posts_by_tag" tag.slug %}" 
+      target="_blank" rel="noopener noreferrer">
+      #{{ tag }}
+    </a>
+  {% endfor %}
+</div>

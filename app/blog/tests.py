@@ -1,7 +1,7 @@
-from wagtail import hooks
 from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailPageTestCase
-from blog.models import BlogDashboardPage, BlogIndexPage, BlogPostPage
+from blog.models import BlogIndexPage, BlogPostPage
+from dashboard.models import DashboardPage
 from home.models import HomePage
 
 
@@ -11,11 +11,11 @@ class BlogPagesTest(WagtailPageTestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.dashboard = BlogDashboardPage.objects.first()
+        cls.dashboard = DashboardPage.objects.first()
         cls.blog_index = BlogIndexPage.objects.first()
 
     def test_subpage_types(self):
-        self.assertAllowedSubpageTypes(BlogDashboardPage, {BlogIndexPage})
+        self.assertAllowedSubpageTypes(DashboardPage, {BlogIndexPage})
         self.assertAllowedSubpageTypes(BlogIndexPage, {BlogPostPage})
 
     def test_blogindexpage_routing(self):

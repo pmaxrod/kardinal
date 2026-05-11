@@ -13,19 +13,6 @@ from blog.blocks import BlogPostBlock
 from comments.forms import CommentForm
 
 
-class BlogDashboardPage(BasePage):
-    """Página que contiene las bandejas de entradas."""
-
-    page_description = _("Página padre de todos los blogs")
-
-    subpage_types = ["BlogIndexPage"]
-    max_count_per_parent = 1
-
-    class Meta:
-        verbose_name = _("Página de listado de blogs")
-        verbose_name_plural = _("Páginas de listado de blogs")
-
-
 class BlogIndexPage(RoutablePageMixin, BasePage):
     """Página para el blog de un usuario"""
 
@@ -52,6 +39,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
 
     search_fields = BasePage.search_fields + [index.SearchField("owner")]
 
+    parent_page_types = ["dashboard.DashboardPage"]
     subpage_types = ["BlogPostPage"]
 
     def get_context(self, request, *args, **kwargs):
@@ -86,7 +74,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
             request -- Petición realizada a la aplicación web
             tag     -- Etiqueta por la que filtrar
         """
-        posts = self.get_posts().filter(categories__blog_category_slug=category)
+        posts = self.get_posts().filter(categories__blog_category__slug=category)
         return self.render(request, context_overrides={"posts": posts})
 
     @path("")
@@ -104,7 +92,11 @@ class BlogPostPage(RoutablePageMixin, BasePage):
     """Página para las entradas de un blog de usuario."""
 
     page_description = _("Entrada de un blog")
-    body = StreamField(BlogPostBlock())
+    body = StreamField(
+        BlogPostBlock(),
+        verbose_name=_("Contenido"),
+        help_text=_("Contenido de la entrada del blog"),
+    )
     tags = ClusterTaggableManager(
         through="blog.BlogPostPageTag",
         blank=True,
@@ -125,7 +117,8 @@ class BlogPostPage(RoutablePageMixin, BasePage):
         index.AutocompleteField("tags"),
         index.AutocompleteField("categories"),
     ]
-    
+
+    parent_page_types = ["BlogIndexPage"]
     subpage_types = []
 
     @path("like/")
@@ -142,11 +135,9 @@ class BlogPostPage(RoutablePageMixin, BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["blog"] = self.get_parent()
         context["comments"] = self.comments.all().order_by("-created_at")
-        context["tags"] = self.tags.all()
-        context["categories"] = self.categories.all()
         context["form"] = CommentForm()
         return context
-    
+
     def liked_by_user(self, user):
         """Devuelve True si el usuario dio 'Me gusta' a la entrada."""
         return self.likes.filter(post=self, user=user).first()
@@ -171,11 +162,12 @@ class BlogPostLike(Like):
 
     def __str__(self):
         return f"Me gusta de {self.user} a {self.post} en {self.liked_at}"
-    
+
     class Meta:
         verbose_name = "Me Gusta (Entradas)"
         verbose_name_plural = "Me Gustas (Entradas)"
-        
+
+
 # Snippets para blogs
 class Tag(TaggitTag):
     """Snippet de etiquetas."""

@@ -2,77 +2,58 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
+from wagtail.models import Page
 from wagtail.admin.ui.tables import Column, UserColumn, RelatedObjectsColumn
 from wagtail.admin.views.pages.listing import IndexView
-from wagtail.admin.viewsets.pages import PageListingViewSet
-from wagtail.admin.viewsets.base import ViewSetGroup
+from wagtail.admin.viewsets.pages import PageListingViewSet, PageViewSet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
-from blog.models import BlogCategory, BlogIndexPage, BlogPostPage, Tag
+from blog.models import (
+    BlogCategory,
+    BlogIndexPage,
+    BlogPostPage,
+    Tag,
+)
+from dashboard.models import DashboardPage
 
 
 # Viewsets de páginas
-class BlogIndexView(IndexView):
-    """Vista para los índices de blogs."""
+class CustomPageIndexView(IndexView):
+    """Vista para las páginas."""
 
-    model = BlogIndexPage
-
-    def get_base_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_base_queryset()
-        else:
-            pages = (
-                self.model.objects.filter(depth__gt=1)
-                .filter(owner=self.request.user)
-                .values_list("pk", flat=True)
-            )
-            pages = self.annotate_queryset(pages)
-            return pages
-
-
-class BlogPostView(IndexView):
-    """Vista para las entradas de blog."""
-
-    model = BlogPostPage
+    model = Page
 
     def get_base_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_base_queryset()
-        else:
-            pages = (
-                self.model.objects.filter(depth__gt=1)
-                .filter(owner=self.request.user)
-                .values_list("pk", flat=True)
-            )
-            pages = self.annotate_queryset(pages)
-            return pages
+        pages = super().get_base_queryset()
+        blogger = self.request.user.groups.filter(name="Bloggers").exists()
+        if blogger:
+            pages = pages.filter(owner=self.request.user)
+        return pages
 
 
-class BlogIndexListingViewSet(PageListingViewSet):
-    """Listado de blogs de usuario."""
+class CustomPageViewSet(PageViewSet):
+    """ViewSet de campos para las páginas del sitio web."""
 
-    model = BlogIndexPage
-    menu_label = _("Índice del blog")
-    icon = "thumbtack"
-    index_view_class = BlogIndexView
-
-    columns = PageListingViewSet.columns + [
+    columns = PageViewSet.columns + [
         UserColumn("owner", label=_("Propietario"), sort_key="owner"),
+    ]
+
+
+class BlogIndexViewSet(CustomPageViewSet):
+    """ViewSet de campos para los índices del blog."""
+
+    model = BlogIndexPage
+    parent_models = [DashboardPage]
+    columns = CustomPageViewSet.columns + [
         Column("theme", label=_("Tema"), sort_key="theme"),
     ]
 
 
-class BlogPostListingViewSet(PageListingViewSet):
-    """Listado de entradas de blog."""
+class BlogPostViewSet(CustomPageViewSet):
+    """ViewSet de campos para las entradas del blog."""
 
     model = BlogPostPage
-    menu_label = _("Entradas del blog")
-    icon = "blogpost"
-    index_view_class = BlogPostView
-
-    columns = PageListingViewSet.columns + [
-        UserColumn("owner", label=_("Propietario"), sort_key="owner"),
+    parent_models = [BlogIndexPage]
+    columns = CustomPageViewSet.columns + [
         RelatedObjectsColumn(
             "categories", label=_("Categorías"), sort_key="categories"
         ),
@@ -80,13 +61,15 @@ class BlogPostListingViewSet(PageListingViewSet):
     ]
 
 
-class BlogPagesViewSetGroup(ViewSetGroup):
-    """Agrupador de páginas asociadas a blogs."""
+class BlogIndexListingViewSet(PageListingViewSet):
+    """Menú de listado de blogs de usuario."""
 
-    menu_label = _("Blog")
-    menu_icon = "blogindex"
-    menu_order = 200
-    items = (BlogIndexListingViewSet("blogs"), BlogPostListingViewSet("blogposts"))
+    model = BlogIndexPage
+    menu_label = _("Índice del blog")
+    icon = "thumbtack"
+    add_to_admin_menu = True
+    columns = BlogIndexViewSet.columns
+    index_view_class = CustomPageIndexView
 
 
 # Viewsets de snippets
@@ -119,31 +102,47 @@ class BlogSnippetsViewSetGroup(SnippetViewSetGroup):
 
     menu_label = _("Categorización")
     menu_icon = "snippet"
+    menu_order = 450
     items = (TagViewSet(), BlogCategoryViewSet())
 
 
+# Viewsets de atributos de páginas
 @hooks.register("register_admin_viewset")
-def register_blog_viewset():
-    return BlogPagesViewSetGroup()
+def register_page_viewset():
+    return CustomPageViewSet()
 
 
+@hooks.register("register_admin_viewset")
+def register_blog_index_page_viewset():
+    return BlogIndexViewSet()
+
+
+@hooks.register("register_admin_viewset")
+def register_blog_post_page_viewset():
+    return BlogPostViewSet()
+
+
+@hooks.register("register_admin_viewset")
+def register_blog_index_page_listing_viewset():
+    return BlogIndexListingViewSet("blog")
+
+
+# Grupos de viewsets
 @hooks.register("register_admin_viewset")
 def register_blog_snippets_viewset():
     return BlogSnippetsViewSetGroup()
 
 
 # Hooks para evitar comportamiento irresponsable de usuarios
-protected_pages = ("homepage", "blogdashboardpage", "blogindexpage")
+protected_pages = ("homepage", "dashboardPage", "blogindexpage")
 
 
 @hooks.register("before_create_page")
 def disable_extra_blogs(request, parent_page, page_class):
     """Impide que los usuarios puedan tener más de un blog."""
-    if page_class == BlogIndexPage:
-        has_blog = page_class.objects.filter(owner=request.user).exists()
-        if has_blog:
-            messages.error(request, "No se puede tener más de un blog.")
-            return HttpResponseRedirect(request.headers["referer"])
+    if not request.user.is_superuser and page_class == BlogIndexPage:
+        messages.error(request, "No puedes crear un blog.")
+        return HttpResponseRedirect(request.headers["referer"])
 
 
 @hooks.register("before_copy_page")
@@ -153,10 +152,17 @@ def disable_copy_page(request, page):
     return HttpResponseRedirect(request.headers["referer"])
 
 
+@hooks.register("before_move_page")
+def disable_move_page(request, parent_page, page_class):
+    """Bloquea el movimiento de páginas."""
+    messages.error(request, "No se pueden mover páginas.")
+    return HttpResponseRedirect(request.headers["referer"])
+
+
 @hooks.register("before_unpublish_page")
 def disable_unpublish_pages(request, page):
     """Impide que se puedan despublicar páginas importantes de la aplicación."""
-    if page.content_type.model in protected_pages and not request.user.is_superuser:
+    if not (request.user.is_superuser and page.content_type.model in protected_pages):
         messages.error(request, f"No se puede despublicar: '{page}'.")
         return HttpResponseRedirect(request.headers["referer"])
 
@@ -164,6 +170,32 @@ def disable_unpublish_pages(request, page):
 @hooks.register("before_delete_page")
 def disable_delete_pages(request, page):
     """Impide que se puedan borrar páginas importantes de la aplicación."""
-    if page.content_type.model in protected_pages and not request.user.is_superuser:
+    if not request.user.is_superuser and (
+        page.content_type.model in protected_pages or request.user != page.owner
+    ):
         messages.error(request, f"No se puede borrar '{page}'.")
         return HttpResponseRedirect(request.headers["referer"])
+
+
+@hooks.register("construct_explorer_page_queryset")
+def only_show_owned_pages(parent_page, pages, request):
+    """Limitar páginas visibles a los bloggers."""
+    blogger = request.user.groups.filter(name="Bloggers").exists()
+    if blogger:
+        pages = pages.filter(owner=request.user)
+
+    return pages
+
+
+@hooks.register("construct_page_chooser_queryset")
+def only_choose_owned_pages(pages, request):
+    """Limitar las páginas a escoger a las de los propios usuarios."""
+    pages = pages.filter(owner=request.user)
+    return pages
+
+
+@hooks.register("construct_page_listing_buttons")
+def hide_page_listing_buttons(buttons, page, user, context=None):
+    """Oculta las acciones sobre páginas en el listado de páginas."""
+    if page.is_root:
+        buttons.pop()

@@ -2,16 +2,10 @@
 {% block menu_content %}
   {% if user == page.owner or user.is_superuser %}
     <li class="join-item">
-      <a class="" href="{% url 'wagtailadmin_pages:edit' post.pk %}">
-        Editar
-        {% include 'base/icons/edit.svg' %}
-      </a>
+      <a class="btn btn-ghost" href="{% url 'wagtailadmin_pages:edit' post.pk %}">Editar</a>
     </li>
     <li class="join-item">
-      <a class="text-error" href="{% url 'wagtailadmin_pages:delete' post.pk %}">
-        Borrar
-        {% include 'base/icons/delete.svg' %}
-      </a>
+      <a class="btn btn-ghost btn-error" href="{% url 'wagtailadmin_pages:delete' post.pk %}">Borrar</a>
     </li>
   {% endif %}
 {% endblock %}
