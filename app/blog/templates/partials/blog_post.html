@@ -1,0 +1,21 @@
+{% load wagtailcore_tags base_tags %}
+<div class="card card-border bg-base-100 w-96 shadow-sm">
+  <div class="card-body">
+    <div class="card-actions justify-end">
+      {% include 'partials/blog_post_actions.html' %}
+    </div>
+    {% get_user_with_pfp user=page.owner %}
+    <div class="prose">
+      <div class="card-title">
+        <a href="{% pageurl page %}" class="link-neutral">{{ page.title }}</a>
+      </div>
+      <div>{{ page.title|truncatewords:15 }}</div>
+      <div>{{ page.subtitle|truncatewords:15 }}</div>
+    </div>
+    <div class="card-actions justify-end">
+      {% post_categories %}
+      {% post_tags %}
+      {% include 'partials/blog_post_likes.html' %}
+    </div>
+  </div>
+</div>

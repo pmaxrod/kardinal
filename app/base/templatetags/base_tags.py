@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from wagtail.models import Site
 from base.models import FooterText, SocialMediaLink
-from blog.models import BlogIndexPage, BlogPostPage
+from blog.models import BlogCategory, BlogIndexPage, BlogPostPage, Tag
 from comments.models import Comment
 from base.models import AppFontFamilies, AppThemes
 
@@ -62,6 +62,26 @@ def app_font_family_selector(context):
     """Devuelve el selector de tipos de fuente de la aplicación."""
     families = AppFontFamilies.choices
     return {"families": families}
+
+
+@register.inclusion_tag("blog/includes/post_categories.html", takes_context=True)
+def post_categories(context):
+    """Devuelve las categorías de una entrada de un blog."""
+    request = context.get("request")
+    post = context.get("page").specific
+    blog = post.get_parent().specific
+    categories = post.categories.all()
+    return {"request": request, "blog": blog, "categories": categories}
+
+
+@register.inclusion_tag("blog/includes/post_tags.html", takes_context=True)
+def post_tags(context):
+    """Devuelve las etiquetas de una entrada de un blog."""
+    request = context.get("request")
+    post = context.get("page").specific
+    blog = post.get_parent().specific
+    tags = post.tags.all()
+    return {"request": request, "blog": blog, "tags": tags}
 
 
 # Etiquetas de plantillas sin plantilla asociadas

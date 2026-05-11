@@ -1,6 +1,14 @@
 {% load wagtailimages_tags %}
 
 <figure>
-  {% image self.image original loading='lazy' %}
-  <figcaption>{{ self.image.caption }}</figcaption>
+  {% if self.size == 'original' %}
+    {% image self.image original loading='lazy' %}
+  {% elif self.size == '25%' %}
+    {% image self.image scale-25 loading='lazy' %}
+  {% elif self.size == '50%' %}
+    {% image self.image scale-50 loading='lazy' %}
+  {% elif self.size == '75%' %}
+    {% image self.image scale-75 loading='lazy' %}
+  {% endif %}
+  <figcaption class="italic font-extralight">{{ self.image.caption }}</figcaption>
 </figure>

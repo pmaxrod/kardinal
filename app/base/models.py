@@ -124,6 +124,7 @@ class TimeStampedMixin(models.Model):
     )
     edited_at = models.DateTimeField(auto_now=True, verbose_name=_("Fecha de edición"))
 
+    @property
     def edited(self):
         """Comprueba si un objeto ha sido modficado tras su creación.
 
@@ -132,7 +133,7 @@ class TimeStampedMixin(models.Model):
 
             False en caso contrario
         """
-        return not self.edited_at == self.created_at
+        return self.created_at != self.edited_at
 
     class Meta:
         abstract = True

@@ -17,10 +17,23 @@ class CustomImageBlock(StructBlock):
 
     Attributes:
         image: Imagen
+        size: Tamaño de la imagen
     """
 
     image = ImageBlock(required=True, label=_("Imagen"), help_text=_("Imagen del bloque"))
-
+    size = ChoiceBlock(
+        choices=[
+            ("", "Seleccione un tamaño para la imagen"),
+            ("original", _("Original")),
+            ("25%", _("25%")),
+            ("50%", _("50%")),
+            ("75%", _("75%")),
+        ],
+        blank=True,
+        required=True,
+        label=_("Tamaño"),
+        help_text=_("Tamaño de la imagen"),
+    )
     class Meta:
         template = "base/blocks/custom_image_block.html"
         label = _("Imagen")
@@ -98,3 +111,4 @@ class BaseStreamBlock(StreamBlock):
 
     class Meta:
         block_counts = {"image": {"max_num": 10}, "embed_block": {"max_num": 10}}
+        template = "base/blocks/base_stream_block.html"

@@ -1,7 +1,7 @@
 {% load wagtailcore_tags %}
 
 {% if ancestors|length > 1 %}
-  <div class="breadcrumbs text-sm">
+  <nav class="breadcrumbs text-sm" aria-label="breadcrumb">
     <ul>
       {% for ancestor in ancestors %}
         {% if not ancestor.is_root %}
@@ -12,7 +12,7 @@
           {% endif %}
         {% endif %}
       {% endfor %}
-      <li>{{ page.title|truncatewords:4 }}</li>
+      <li aria-current="page">{{ page.title|truncatewords:4 }}</li>
     </ul>
-  </div>
+  </nav>
 {% endif %}

@@ -19,7 +19,7 @@ class HomePage(BasePage):
     ]
 
     parent_page_types = ["wagtailcore.Page"]
-    subpage_types = ["blog.BlogDashboardPage"]
+    subpage_types = ["dashboard.DashboardPage"]
 
     class Meta:
         verbose_name = _("Página de Inicio")

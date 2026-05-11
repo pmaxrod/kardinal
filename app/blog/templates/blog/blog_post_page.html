@@ -9,28 +9,25 @@
 {% endblock %}
 
 {% block content %}
-  <div data-theme="{{ parent.theme }}">
+  <div data-theme="{{ blog.theme }}">
     {% get_breadcrumbs %}
     <article>
-      <h1 class="text-3xl">{{ page.title }}</h1>
-      <h2 class="text-2xl font-semibold">{{ page.subtitle }}</h2>
-      <span class>Publicado el {{ page.published_at|date:'SHORT_DATE_FORMAT' }}</span>
-      {% if page.edited %}
-        Editado el {{ page.last_published_at|date:'SHORT_DATE_FORMAT' }}
-      {% endif %}
+      <h1 class="text-3xl font-bold capitalize mb-4">{{ page.title }}</h1>
+      <h2 class="font-semibold mb-2">{{ page.subtitle }}</h2>
+      <div class="flex flex-col grid-cols-1 bg-base-200 p-4">
+        <div>
+          <span>Autor:</span>
+          {% get_user_with_pfp user=page.owner %}
+        </div>
+        <div class="divider bg-base-300 text-base-100"></div>
+        <span class="text-md">Publicado el <time>{{ page.first_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>
+        {% if page.edited %}
+          <span class="text-md">Editado el <time>{{ page.last_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>
+        {% endif %}
+      </div>
       <div class="prose">{{ page.body }}</div>
-      <div id="categories">
-        <span>Categorías:</span>
-        {% for category in categories %}
-          <label class="category">{{ category.blog_category.name }}</label>
-        {% endfor %}
-      </div>
-      <div id="tags">
-        <span>Etiquetas:</span>
-        {% for tag in tags %}
-          <label class="tag">#{{ tag }}</label>
-        {% endfor %}
-      </div>
+      {% post_categories %}
+      {% post_tags %}
       {% include 'partials/blog_post_likes.html' %}
     </article>
     <div class="divider"></div>
