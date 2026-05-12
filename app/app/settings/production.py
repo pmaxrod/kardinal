@@ -8,6 +8,7 @@ DEBUG = False
 # See https://docs.djangoproject.com/en/6.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
 STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 SESSION_COOKIE_SECURE = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 try:
     from .local import *

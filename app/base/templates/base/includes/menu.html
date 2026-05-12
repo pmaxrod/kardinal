@@ -10,8 +10,8 @@
   </div>
   <div class="navbar-end gap-4">
     {% if user.is_authenticated %}
-      {% get_user_with_pfp user %}
+      {% user_with_pfp user %}
     {% endif %}
-    {% include 'base/includes/account_actions.html' %}
+    {% include 'users/includes/account_actions.html' %}
   </div>
 </nav>

@@ -17,8 +17,6 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
 if DEBUG:
     INSTALLED_APPS += ["django_browser_reload"]
     MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]

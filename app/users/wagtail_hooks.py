@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.views.account import BaseSettingsPanel, SettingsTab
-from users.forms import UserProfileSettingsForm
+from users.forms import UserProfileForm
 
 custom_tab = SettingsTab(name="app", title="App", order=150)
 
@@ -11,7 +11,7 @@ class UserProfileSettingsPanel(BaseSettingsPanel):
     name = "custom"
     title = _("Biografía del usuario")
     order = 100
-    form_class = UserProfileSettingsForm
+    form_class = UserProfileForm
     tab = custom_tab
     form_object = "user"
     template_name = "users/admin/custom_settings.html"
