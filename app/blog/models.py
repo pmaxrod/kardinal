@@ -2,14 +2,18 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.shortcuts import render
 from taggit.models import Tag as TaggitTag, TaggedItemBase
-from wagtail.fields import StreamField
+from wagtail.admin.panels import (
+    FieldPanel,
+    MultiFieldPanel,
+    InlinePanel,
+)
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path, re_path
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.fields import StreamField
 from wagtail.search import index
 from modelcluster.fields import ParentalKey
 from modelcluster.tags import ClusterTaggableManager
 from base.models import BasePage, Like
-from blog.blocks import BlogPostBlock
+from blog.blocks import BlogBlock
 from comments.forms import CommentForm
 
 
@@ -27,24 +31,26 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         verbose_name=_("Tema"),
         help_text=_("Tema del blog"),
     )
-    # TODO: Añadir paneles para escoger categorías/etiquetas relacionadas y posts a destacar
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [FieldPanel("theme")],
             heading=_("Personalización"),
             icon="image",
-        ),
+        )
     ]
 
     search_fields = BasePage.search_fields + [index.SearchField("owner")]
 
     parent_page_types = ["dashboard.DashboardPage"]
-    subpage_types = ["BlogPostPage"]
+    subpage_types = ["BlogPage"]
 
     def get_context(self, request, *args, **kwargs):
         context = super(BlogIndexPage, self).get_context(request, *args, **kwargs)
         context["posts"] = self.get_posts()
+        context["blog_app"] = "blog"
+        context["blog_model"] = "blogpage"
+
         return context
 
     def get_posts(self):
@@ -53,7 +59,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         Returns:
             Array con las entradas del blog
         """
-        return BlogPostPage.objects.child_of(self).live()
+        return BlogPage.objects.child_of(self).live()
 
     @re_path(r"^tag/(?P<tag>[-\w]+)/$")
     def posts_by_tag(self, request, tag):
@@ -64,7 +70,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
             tag     -- Etiqueta por la que filtrar
         """
         posts = self.get_posts().filter(tags__slug=tag)
-        return self.render(request, context_overrides={"posts": posts})
+        return self.render(request, context_overrides={"posts": posts, "tag": tag})
 
     @re_path(r"^category/(?P<category>[-\w]+)/$")
     def posts_by_category(self, request, category):
@@ -75,7 +81,9 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
             tag     -- Etiqueta por la que filtrar
         """
         posts = self.get_posts().filter(categories__blog_category__slug=category)
-        return self.render(request, context_overrides={"posts": posts})
+        return self.render(
+            request, context_overrides={"posts": posts, "category": category}
+        )
 
     @path("")
     def posts_list(self, request, *args, **kwargs):
@@ -88,22 +96,21 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         get_latest_by = "first_published_at"
 
 
-class BlogPostPage(RoutablePageMixin, BasePage):
+class BlogPage(RoutablePageMixin, BasePage):
     """Página para las entradas de un blog de usuario."""
 
     page_description = _("Entrada de un blog")
     body = StreamField(
-        BlogPostBlock(),
+        BlogBlock(),
         verbose_name=_("Contenido"),
         help_text=_("Contenido de la entrada del blog"),
     )
     tags = ClusterTaggableManager(
-        through="blog.BlogPostPageTag",
+        through="blog.BlogPageTag",
         blank=True,
         verbose_name=_("Etiquetas"),
         help_text=_("Las etiquetas facilitan la búsqueda de tus entradas"),
     )
-
     content_panels = BasePage.content_panels + [
         FieldPanel("body"),
         MultiFieldPanel(
@@ -123,7 +130,7 @@ class BlogPostPage(RoutablePageMixin, BasePage):
 
     @path("like/")
     def like_post(self, request, *args, **kwargs):
-        post_like = BlogPostLike.objects.filter(post=self, user=request.user)
+        post_like = BlogLike.objects.filter(post=self, user=request.user)
         if post_like.exists():
             post_like.delete()
         else:
@@ -153,11 +160,11 @@ class BlogPostPage(RoutablePageMixin, BasePage):
         get_latest_by = "first_published_at"
 
 
-class BlogPostLike(Like):
+class BlogLike(Like):
     """Modelo para los 'Me gusta' de entradas de blog."""
 
     post = models.ForeignKey(
-        "blog.BlogPostPage", on_delete=models.CASCADE, related_name="likes"
+        "blog.BlogPage", on_delete=models.CASCADE, related_name="likes"
     )
 
     def __str__(self):
@@ -207,11 +214,11 @@ class BlogCategory(models.Model):
         verbose_name_plural = _("Categorías")
 
 
-class BlogPostPageBlogCategory(models.Model):
+class BlogPageBlogCategory(models.Model):
     """Modelo que conecta las entradas de un blog con las categorías del blog."""
 
     page = ParentalKey(
-        "blog.BlogPostPage", on_delete=models.CASCADE, related_name="categories"
+        "blog.BlogPage", on_delete=models.CASCADE, related_name="categories"
     )
     blog_category = models.ForeignKey(
         "blog.BlogCategory", on_delete=models.CASCADE, related_name="posts"
@@ -228,7 +235,7 @@ class BlogPostPageBlogCategory(models.Model):
         unique_together = ("page", "blog_category")
 
 
-class BlogPostPageTag(TaggedItemBase):
+class BlogPageTag(TaggedItemBase):
     """Modelo que conecta las entradas del blog con las etiquetas."""
 
-    content_object = ParentalKey("blog.BlogPostPage", related_name="post_tags")
+    content_object = ParentalKey("blog.BlogPage", related_name="post_tags")

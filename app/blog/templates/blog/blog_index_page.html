@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags %}
+{% load wagtailcore_tags base_tags %}
 
 {% block title %}
   {{ page.title }}
@@ -11,9 +11,26 @@
 {% block content %}
   <div data-theme="{{ page.theme }}">
     <h2 class="text-2xl font-bold mb-2 text-center">{{ page.subtitle }}</h2>
-    <a class="btn btn-primary" href="{% url 'wagtailadmin_pages:add' 'blog' 'blogpostpage' page.pk %}">Añadir entrada</a>
-    {% for post in posts %}
-      {% include "partials/blog_post.html" with page=post %}
-    {% endfor %}
+    {% if page.owner == request.user %}
+      <a class="btn btn-primary" href="{% url 'wagtailadmin_pages:add' blog_app blog_model page.pk %}">Añadir entrada</a>
+    {% endif %}
+    <div class="">
+      {% if tag %}
+        <span>Mostrando entradas etiquetadas como '{{ tag }}'</span>
+      {% endif %}
+      {% if category %}
+        <span>Mostrando entradas categorizadas como '{{ category }}'</span>
+      {% endif %}
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+      {% for post in posts %}
+        {% include 'partials/blog_post.html' with page=post %}
+      {% endfor %}
+      <aside class="card card-border shadow-md">
+        <div class="card-body">
+          {% get_user_with_pfp user show_bio=True %}
+        </div>
+      </aside>
+    </div>
   </div>
 {% endblock %}

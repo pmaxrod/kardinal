@@ -13,7 +13,7 @@ def global_admin_css():
 def register_icons(icons):
     """Registra iconos para las páginas de administración."""
     icons.append("wagtailadmin/icons/blogindex.svg")
-    icons.append("wagtailadmin/icons/blogpost.svg")
+    icons.append("wagtailadmin/icons/blog.svg")
     return icons
 
 

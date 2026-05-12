@@ -1,6 +1,6 @@
 from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailPageTestCase
-from blog.models import BlogIndexPage, BlogPostPage
+from blog.models import BlogIndexPage, BlogPage
 from dashboard.models import DashboardPage
 from home.models import HomePage
 
@@ -16,7 +16,7 @@ class BlogPagesTest(WagtailPageTestCase):
 
     def test_subpage_types(self):
         self.assertAllowedSubpageTypes(DashboardPage, {BlogIndexPage})
-        self.assertAllowedSubpageTypes(BlogIndexPage, {BlogPostPage})
+        self.assertAllowedSubpageTypes(BlogIndexPage, {BlogPage})
 
     def test_blogindexpage_routing(self):
         self.assertPageIsRoutable(self.blog_index, "/category/programacion/")

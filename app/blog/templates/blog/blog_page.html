@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags base_tags %}
+
+{% block title %}
+  {{ page.title }}
+{% endblock %}
+{% block body_class %}
+  template-blog
+{% endblock %}
+
+{% block content %}
+  <article data-theme="{{ blog.theme }}">
+    {% get_breadcrumbs %}
+    <h1 class="text-3xl font-bold capitalize mb-4">{{ page.title }}</h1>
+    <h2 class="font-semibold mb-2 px-2">{{ page.subtitle }}</h2>
+    <div class="grid grid-cols-1 bg-base-200 p-4 gap-4">
+      <span class="text-md">Autor</span>
+      <section id="author">
+        {% get_user_with_pfp user=page.owner %}
+      </section>
+      <section id="date">
+        <span class="text-md">Publicado el <time>{{ page.first_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>
+        {% if page.edited %}
+          <span class="text-md">Editado el <time>{{ page.last_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>
+        {% endif %}
+      </section>
+    </div>
+    <article class="prose prose-neutral">{{ page.body }}</article>
+    <div class="grid grid-cols-2 gap-4 mt-8">
+      <div class="col-span-1">
+        {% post_categories %}
+      </div>
+      <div class="col-span-1">
+        {% post_tags %}
+      </div>
+      {% include 'partials/blog_post_likes.html' %}
+    </div>
+  </article>
+  <div class="divider"></div>
+  {% include 'comments/comments.html' %}
+{% endblock %}

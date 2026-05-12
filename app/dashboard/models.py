@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from base.models import BasePage
-from blog.models import BlogPostPage
+from blog.models import BlogPage
 
 # Create your models here.
 
@@ -16,7 +16,7 @@ class DashboardPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super(DashboardPage, self).get_context(request, *args, **kwargs)
-        context["feed"] = BlogPostPage.objects.filter(owner=request.user).live().public()
+        context["feed"] = BlogPage.objects.filter(owner=request.user).live().public()
         return context
 
     class Meta:

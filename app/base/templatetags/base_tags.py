@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from wagtail.models import Site
 from base.models import FooterText, SocialMediaLink
-from blog.models import BlogCategory, BlogIndexPage, BlogPostPage, Tag
+from blog.models import BlogIndexPage, BlogPage
 from comments.models import Comment
 from base.models import AppFontFamilies, AppThemes
 
@@ -25,10 +25,13 @@ def get_footer_text(context):
 
 
 @register.inclusion_tag("base/includes/user_with_pfp.html")
-def get_user_with_pfp(user):
+def get_user_with_pfp(user, show_bio=False):
     """Devuelve el nombre del usuario junto con su foto de perfil
-    a partir del usuario que recibe como parámetro."""
-    return {"user": user}
+    a partir del usuario que recibe como parámetro.
+
+    La biografía se puede mostrar de forma opcional.
+    """
+    return {"user": user, "show_bio": show_bio}
 
 
 @register.inclusion_tag("base/includes/breadcrumbs.html", takes_context=True)
@@ -104,7 +107,7 @@ def post_liked_by_user(context):
     """Comprueba si una entrada ha recibido un 'Me gusta' por parte del usuario actual."""
     page = context.get("page")
     user = context.get("request").user
-    return BlogPostPage.liked_by_user(page, user)
+    return BlogPage.liked_by_user(page, user)
 
 
 @register.simple_tag()

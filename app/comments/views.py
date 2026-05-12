@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
-from blog.models import BlogPostPage
+from blog.models import BlogPage
 from comments.forms import CommentForm
 from comments.models import Comment, CommentLike
 
@@ -22,7 +22,7 @@ def add_page_comment(request, pk):
         Respuesta HTTP con el comentario añadido
     """
     # page = Page.objects.filter(slug=slug).first().specific
-    page = BlogPostPage.objects.get(pk=pk)
+    page = BlogPage.objects.get(pk=pk)
     form = CommentForm(request.POST, initial={"user": request.user, "page": page})
     if form.is_valid():
         comment = form.save(commit=False)
