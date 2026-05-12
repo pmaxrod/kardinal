@@ -1,5 +1,5 @@
 {% load base_tags wagtailroutablepage_tags %}
-<div class="post-likes">
+<section id="post-likes" class="post-likes">
   {% if user.is_authenticated %}
       {% post_liked_by_user as liked %}
       {% with liked_by_user_class=liked|yesno:'liked,not-liked' %}
@@ -12,4 +12,4 @@
       {% endwith %}
   {% endif %}
   <span>{{ page.like_count }} Me gusta</span>
-</div>
+</section>

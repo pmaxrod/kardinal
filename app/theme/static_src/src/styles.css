@@ -26,11 +26,11 @@
     }
 
     .category {
-        @apply badge badge-primary text-primary-content border-2 border-primary px-1 py-0.5
+        @apply badge badge-primary text-primary-content hover:badge-lg
     }
 
     .tag {
-        @apply badge badge-secondary text-secondary-content border-2 border-secondary px-1 py-0.5
+        @apply badge badge-secondary text-secondary-content hover:badge-lg
     }
 
     .icon-button {

@@ -10,7 +10,7 @@ from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from blog.models import (
     BlogCategory,
     BlogIndexPage,
-    BlogPostPage,
+    BlogPage,
     Tag,
 )
 from dashboard.models import DashboardPage
@@ -48,10 +48,10 @@ class BlogIndexViewSet(CustomPageViewSet):
     ]
 
 
-class BlogPostViewSet(CustomPageViewSet):
+class BlogViewSet(CustomPageViewSet):
     """ViewSet de campos para las entradas del blog."""
 
-    model = BlogPostPage
+    model = BlogPage
     parent_models = [BlogIndexPage]
     columns = CustomPageViewSet.columns + [
         RelatedObjectsColumn(
@@ -119,7 +119,7 @@ def register_blog_index_page_viewset():
 
 @hooks.register("register_admin_viewset")
 def register_blog_post_page_viewset():
-    return BlogPostViewSet()
+    return BlogViewSet()
 
 
 @hooks.register("register_admin_viewset")

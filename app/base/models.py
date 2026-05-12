@@ -163,8 +163,6 @@ class BasePage(Page):
         blank=True, verbose_name=_("Subtítulo"), help_text=_("Subtítulo de la página")
     )
 
-    # Definición para las páginas que lo necesiten
-    sidebar_panels = []
     content_panels = Page.content_panels + [FieldPanel("subtitle")]
     promote_panels = Page.promote_panels
     settings_panels = Page.settings_panels + [
@@ -185,7 +183,6 @@ class BasePage(Page):
     edit_handlers = TabbedInterface(
         [
             ObjectList(content_panels, heading=_("Contenido")),
-            ObjectList(sidebar_panels, heading=_("Barra lateral")),
             ObjectList(
                 promote_panels, heading=_("Promocionar"), permission="superuser"
             ),

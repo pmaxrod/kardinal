@@ -10,7 +10,7 @@ class Comment(TimeStampedMixin, models.Model):
     """Comentario en una entrada de un blog."""
 
     page = models.ForeignKey(
-        "blog.BlogPostPage",
+        "blog.BlogPage",
         related_name="comments",
         on_delete=models.CASCADE,
         verbose_name=_("Página"),

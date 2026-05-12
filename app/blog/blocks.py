@@ -1,6 +1,6 @@
 from base.blocks import BaseStreamBlock
 
 
-class BlogPostBlock(BaseStreamBlock):
+class BlogBlock(BaseStreamBlock):
     class Meta:
         icon="doc-full"
