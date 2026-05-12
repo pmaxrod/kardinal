@@ -17,7 +17,6 @@ from django.conf import settings
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
-INTERNAL_IPS = ("127.0.0.1", "192.168.20.131")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -137,19 +136,16 @@ EMAIL_SUBJECT_PREFIX = "[Kardinal] "
 # django-all-auth
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
-ACCOUNT_ACCOUNT_LOGIN_METHODS = {"username", "email"}
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
 ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
 ACCOUNT_LOGIN_FIELDS = ["username*", "email*", "password1*"]
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_VERIFICATION = False
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_EMAIL_VERIFICATION_SUPPORTS_RESEND = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/login/"
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal"]
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "kardinal-admin"]
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 
 ACCOUNT_FORMS = {"signup": "users.forms.UserSignupForm"}

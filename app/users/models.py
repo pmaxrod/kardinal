@@ -15,22 +15,6 @@ class User(AbstractUser):
         verbose_name=_("Biografía"),
         help_text=_("Escribe sobre tí"),
     )
-    profile_picture = models.ImageField(
-        upload_to=upload_avatar_to,
-        null=True,
-        blank=True,
-        verbose_name=_("Foto de perfil"),
-        help_text=_("Foto de perfil de la cuenta"),
-    )
-
-    @property
-    def has_pfp(self):
-        """Comprueba si el usuario tiene una foto de perfil
-
-        Returns:
-            True si la tiene; False en caso contrario
-        """
-        return self.profile_picture.url != None
 
     class Meta:
         get_latest_by = "date_joined"

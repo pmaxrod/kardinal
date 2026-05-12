@@ -10,8 +10,10 @@
 
 {% block content %}
   <div data-theme="{{ page.theme }}">
-    <h2 class="text-2xl font-bold mb-2 text-center">{{ page.subtitle }}</h2>
-    {% if page.owner == request.user %}
+    {% if page.subtitle %}
+      <h2 class="text-2xl font-bold mb-2 text-center">{{ page.subtitle }}</h2>
+    {% endif %}
+    {% if page.owner == user %}
       <a class="btn btn-primary" href="{% url 'wagtailadmin_pages:add' blog_app blog_model page.pk %}">Añadir entrada</a>
     {% endif %}
     <div class="">
@@ -28,7 +30,7 @@
       {% endfor %}
       <aside class="card card-border shadow-md">
         <div class="card-body">
-          {% get_user_with_pfp user show_bio=True %}
+          {% user_with_pfp page.owner show_bio=True %}
         </div>
       </aside>
     </div>

@@ -16,7 +16,7 @@
     <div class="grid grid-cols-1 bg-base-200 p-4 gap-4">
       <span class="text-md">Autor</span>
       <section id="author">
-        {% get_user_with_pfp user=page.owner %}
+        {% user_with_pfp user=page.owner %}
       </section>
       <section id="date">
         <span class="text-md">Publicado el <time>{{ page.first_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>

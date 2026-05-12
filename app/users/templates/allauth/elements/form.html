@@ -1,13 +1,16 @@
 {% load allauth %}
 {% for err in attrs.form.non_field_errors %}
-  <div role="alert" class="error-alert">
-    {{ err }}
-  </div>
+  <div role="alert" class="alert alert-error">{{ err }}</div>
 {% endfor %}
-<form class="" method="{{ attrs.method }}" action="{{ attrs.action }}">
-  {% slot body %}
-  {% endslot %}
-  <div class="border-t-2 border-dashed py-4"></div>
-  {% slot actions %}
-  {% endslot %}
-</form>
+<div class="card">
+  <form class="" method="{{ attrs.method }}" action="{{ attrs.action }}">
+    <div class="card-body">
+      {% slot body %}
+      {% endslot %}
+      <div class="card-actions">
+        {% slot actions %}
+        {% endslot %}
+      </div>
+    </div>
+  </form>
+</div>

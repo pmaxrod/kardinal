@@ -24,8 +24,8 @@ def get_footer_text(context):
     }
 
 
-@register.inclusion_tag("base/includes/user_with_pfp.html")
-def get_user_with_pfp(user, show_bio=False):
+@register.inclusion_tag("users/includes/user_with_pfp.html")
+def user_with_pfp(user, show_bio=False):
     """Devuelve el nombre del usuario junto con su foto de perfil
     a partir del usuario que recibe como parámetro.
 

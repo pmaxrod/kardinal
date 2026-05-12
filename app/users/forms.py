@@ -7,13 +7,13 @@ User = get_user_model()
 
 
 # Formularios públicos
-class UserProfileSettingsForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     """Formulario para el perfil del usuario"""
 
 
     class Meta:
         model = User
-        fields = ["bio", "profile_picture"]
+        fields = ["bio"]
 
 
 class UserSignupForm(SignupForm):
