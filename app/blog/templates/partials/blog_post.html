@@ -1,5 +1,5 @@
 {% load wagtailcore_tags base_tags %}
-<section id="post" class="card card-border bg-base-100 w-96 shadow-sm">
+<section id="post" class="card card-border bg-base-100 w-96 shadow-sm hover:drop-shadow-sm">
   <div class="card-body">
     <div class="card-actions justify-end">
       {% include 'partials/blog_post_actions.html' %}
@@ -9,7 +9,6 @@
       <div class="card-title">
         <a href="{% pageurl page %}" class="link-neutral">{{ page.title }}</a>
       </div>
-      <div>{{ page.title|truncatewords:15 }}</div>
       <div>{{ page.subtitle|truncatewords:15 }}</div>
     </div>
     {% post_categories %}

@@ -1,14 +1,12 @@
 {% load wagtailroutablepage_tags %}
 <section id="categories">
-  <h1 class="mb-2">Categorías:</h1>
-  <ul class="space-x-1 space-y-1">
+  <h3 class="text-lg font-bold">Categorías:</h3>
+  <div class="blog-button-container">
     {% for category in categories %}
-      <li class="category">
-        <a class="link link-hover" target="_blank" rel="noopener noreferrer"
-        href="{% routablepageurl blog 'posts_by_category' category.blog_category.slug %}">
-          {{ category }}
-        </a>
-      </li>
+      <a class="blog-button category" target="_blank" rel="noopener noreferrer"
+      href="{% routablepageurl blog 'posts_by_category' category.blog_category.slug %}">
+        {{ category }}
+      </a>
     {% endfor %}
-  </ul>
+  </div>
 </section>

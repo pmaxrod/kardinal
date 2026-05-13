@@ -1,0 +1,18 @@
+{% load wagtailadmin_tags wagtailcore_tags base_tags %}
+<div class="grid grid-cols-6 items-center gap-2">
+  <div class="space-x-2 col-span-4">
+    <div class="avatar">
+      <div class="w-12 rounded-full">
+        <img src="{% avatar_url user %}" alt="{{ user.username }}" decoding="async" loading="lazy" />
+      </div>
+    </div>
+    <a href="{% get_user_blog_index_url user %}" class="link link-hover">{{ user.username }}</a>
+  </div>
+  {% if show_bio %}
+    <a href="{% url 'wagtailadmin_account' %}#tab-app" class="btn btn-primary col-span-2"
+    target="_blank" rel="noopener noreferrer">
+      Editar biografía
+    </a>
+    <p class="break-normal md:break-all col-span-6">{{ user.bio }}</p>
+  {% endif %}
+</div>

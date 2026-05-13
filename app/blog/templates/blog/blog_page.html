@@ -9,13 +9,25 @@
 {% endblock %}
 
 {% block content %}
-  <article data-theme="{{ blog.theme }}">
-    {% get_breadcrumbs %}
-    <h1 class="text-3xl font-bold capitalize mb-4">{{ page.title }}</h1>
-    <h2 class="font-semibold mb-2 px-2">{{ page.subtitle }}</h2>
-    <div class="grid grid-cols-1 bg-base-200 p-4 gap-4">
-      <span class="text-md">Autor</span>
-      <section id="author">
+  <section data-theme="{{ blog.theme }}">
+    <header>
+      {% get_breadcrumbs %}
+      <h1 class="text-3xl font-bold capitalize mb-4">{{ page.title }}</h1>
+      <h2 class="font-semibold mb-2 px-2">{{ page.subtitle }}</h2>
+    </header>
+    <div class="grid grid-cols-2 gap-4">
+      <article class="prose prose-sm">{{ page.body }}</article>
+      <aside class="flex flex-row">
+        <div class="space-y-4">
+          {% post_categories %}
+          {% post_tags %}
+        </div>
+        {% include 'partials/blog_post_likes.html' %}
+      </aside>
+    </div>
+    <footer class="grid grid-cols-2 gap-2">
+      <section id="author" class="col-span-2">
+        <span class="text-md font-bold underline">Autor</span>
         {% user_with_pfp user=page.owner %}
       </section>
       <section id="date">
@@ -24,18 +36,9 @@
           <span class="text-md">Editado el <time>{{ page.last_published_at|date:'SHORT_DATE_FORMAT' }}</time></span>
         {% endif %}
       </section>
-    </div>
-    <article class="prose prose-neutral">{{ page.body }}</article>
-    <div class="grid grid-cols-2 gap-4 mt-8">
-      <div class="col-span-1">
-        {% post_categories %}
-      </div>
-      <div class="col-span-1">
-        {% post_tags %}
-      </div>
-      {% include 'partials/blog_post_likes.html' %}
-    </div>
-  </article>
+      <a href="{% pageurl blog %}" class="btn link link-hover">Volver al blog</a>
+    </footer>
+  </section>
   <div class="divider"></div>
   {% include 'comments/comments.html' %}
 {% endblock %}
