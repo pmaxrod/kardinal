@@ -133,7 +133,7 @@ class TimeStampedMixin(models.Model):
 
             False en caso contrario
         """
-        return self.created_at != self.edited_at
+        return not self.created_at.date() == self.edited_at.date()
 
     class Meta:
         abstract = True

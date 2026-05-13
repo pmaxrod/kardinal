@@ -24,7 +24,7 @@
         <span>Mostrando entradas categorizadas como '{{ category }}'</span>
       {% endif %}
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+    <div class="grid grid-cols-2 gap-4">
       {% for post in posts %}
         {% include 'partials/blog_post.html' with page=post %}
       {% endfor %}

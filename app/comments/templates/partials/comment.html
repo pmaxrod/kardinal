@@ -2,7 +2,7 @@
 <ul id="comment-{{ comment.pk }}" class="list">
   <li class="list-row">
     <div class="list-col-grow">
-      {% get_user_with_pfp comment.user %}
+      {% user_with_pfp comment.user %}
       <time class="text-sm font-semibold">{{ comment.created_at|date:'SHORT_DATE_FORMAT' }}</time>
       <p class="border-2 rounded-box p-2 list-col-wrap break-normal md:wrap-break-word lg:break-all">{{ comment.content }}</p>
       {% if comment.edited %}
