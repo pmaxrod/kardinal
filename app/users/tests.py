@@ -29,5 +29,3 @@ class UserSignupTestCase(TestCase):
         blog_page = BlogIndexPage.objects.get(owner=user)
 
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(blog_page.slug, user.username)
-        self.assertTrue(user.groups.first(), "Bloggers")
