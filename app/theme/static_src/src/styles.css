@@ -14,20 +14,16 @@
 @import "./themes/crow-theme.css";
 @import "./themes/swan-theme.css";
 
-[data-theme="dark"] .icon {
-    @apply invert
-}
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .icon {
         @apply invert
     }
-
 }
 
 @layer components {
     .icon {
-        @apply w-16 h-16 mask-contain mask-no-repeat hover:bg-base-content/20
+        @apply w-16 h-16 mask-contain mask-no-repeat bg-base-content/40 hover:bg-base-content/20
     }
 
     .logo {

@@ -1,6 +1,6 @@
 {% load allauth %}
 {% for err in attrs.form.non_field_errors %}
-  <div role="alert" class="alert alert-error">{{ err }}</div>
+  <div role="alert" class="alert alert-error">{{ err.message }}</div>
 {% endfor %}
 <div class="card">
   <form class="" method="{{ attrs.method }}" action="{{ attrs.action }}">

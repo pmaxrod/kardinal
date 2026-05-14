@@ -4,9 +4,8 @@
     --w-font-serif: Georgia, 'Times New Roman', Times, serif;
 
     /* Colores */
-    --w-color-primary-hue: 10;
-    --w-color-primary-saturation: 100%;
-    --w-color-primary-lightness: 35%;
+    --w-color-primary:oklch(63.7% 0.237 25.331);
+    --w-color-primary-200:oklch(50.5% 0.213 27.518);
     --w-color-secondary-hue: 200;
     --w--color-secondary-saturation: 60%;
     --w-color-secondary-lightness: 75%;
