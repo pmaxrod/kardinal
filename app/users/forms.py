@@ -3,15 +3,16 @@ from django.contrib.auth import get_user_model
 from allauth.account.forms import SignupForm
 from wagtail.users.forms import UserCreationForm, UserEditForm
 
+User = get_user_model()
+
+
 # Formularios públicos
 class UserProfileForm(forms.ModelForm):
     """Formulario para el perfil del usuario"""
 
-
     class Meta:
         model = User
         fields = ["bio"]
-
 
 
 class UserSignupForm(SignupForm):

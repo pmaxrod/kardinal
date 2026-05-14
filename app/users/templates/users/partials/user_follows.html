@@ -1,7 +1,26 @@
+{% load base_tags %}
 <div class="space-x-2 col-span-6" hx-target="this" id="follows">
-  {% with followers=user.followed_by.all %}
-    <span id="follower-count" class="text-sm">{{ user.follower_count }} seguidor{{ followers|pluralize:'es' }}</span>
-    <span id="following-count" class="text-sm">{{ user.following_count }} siguiendo</span>
+  {% with followers=user.followed_by.all following=user.follows.all %}
+    <details class="collapse border">
+      <summary id="follower-count" class="collapse-title">
+        {{ user.follower_count }} seguidor{{ followers|pluralize:'es' }}
+      </summary>
+      <div class="collapse-content">
+        {% for follower in followers %}
+          {% user_with_pfp user=follower %}
+        {% endfor %}
+      </div>
+    </details>
+    <details class="collapse border">
+      <summary id="following-count" class="collapse-title">
+        {{ user.following_count }} siguiendo
+      </summary>
+      <div class="collapse-content">
+        {% for follow in following %}
+          {% user_with_pfp user=follow %}
+        {% endfor %}
+      </div>
+    </details>
     {% if current_user != user %}
       {% if current_user not in followers %}
         <a hx-post="{% url 'users:follow_user' user.pk %}" 
