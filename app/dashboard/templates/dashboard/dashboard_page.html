@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags base_tags %}
-
+{% load wagtailroutablepage_tags %}
 {% block body_class %}
   template-dashboard
 {% endblock %}
@@ -10,8 +9,19 @@
 {% endblock %}
 {% block content %}
   <h1 class="text-2xl font-bold underline underline-offset-1">{{ page.subtitle }}</h1>
-  {% comment %}TODO Hacer el dash de posts de seguidores y de etiquetas seguidas{% endcomment %}
-  {% for post in feed %}
-    {% include "partials/blog_post.html" with page=post %}
-  {% endfor %}
+  <div class="tabs tabs-box gap-2" role="tablist">
+      <button role="tab" class="tab {% if active_tab == 'follows' %}tab-active{% endif %}"
+      hx-get="{% routablepageurl page 'follows_feed' %}" 
+      hx-target="#feed-tab">
+        Feed de usuarios seguidos
+      </button>
+      <button role="tab" class="tab {% if active_tab == 'tags' %}tab-active{% endif %}"
+      hx-get="{% routablepageurl page 'tags_feed' %}"
+      hx-target="#feed-tab">
+        Feed de etiquetas
+      </button>
+  </div>
+  <section role="tabpanel" class="p-10 border-2 bg-base-200" id="feed-tab" 
+  hx-get="{% routablepageurl page 'follows_feed' %}" hx-trigger="load delay:100ms" hx-swap="innerHTML">
+  </section>
 {% endblock %}

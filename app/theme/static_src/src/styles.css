@@ -1,7 +1,4 @@
 @import "tailwindcss";
-/* Importamos los temas personalizados */
-@import "./themes/kardinal-theme.css";
-
 @plugin "@tailwindcss/forms";
 
 @plugin "@tailwindcss/typography";
@@ -10,10 +7,22 @@
     --themes: light --default, dark --prefers-dark;
 }
 
-[data-theme="dark"] {
+/* Importamos los temas personalizados */
+@import "./themes/light-theme.css";
+@import "./themes/dark-theme.css";
+@import "./themes/kardinal-theme.css";
+@import "./themes/crow-theme.css";
+@import "./themes/swan-theme.css";
+
+[data-theme="dark"] .icon {
+    @apply invert
+}
+
+@media (prefers-color-scheme: dark) {
     .icon {
         @apply invert
     }
+
 }
 
 @layer components {

@@ -1,0 +1,10 @@
+{% load wagtailroutablepage_tags %}
+<p class="font-medium mb-4">Las etiquetas deben de estar separadas por espacios.</p>
+<form hx-post="{% routablepageurl page 'search_tags' %}" hx-target="#tags-feed" hx-swap="outerHTML" method="post" class="mb-4">
+  {% csrf_token %}
+  <div class="join">
+    <label class="join-item"><input class="input" placeholder="Búsqueda" type="search" name="tags" /></label>
+    <input type="submit" value="Buscar" class="btn btn-primary join-item" />
+  </div>
+</form>
+{% include 'dashboard/partials/tags_feed.html' %}

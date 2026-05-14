@@ -23,6 +23,8 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
     class BlogTheme(models.TextChoices):
         DEFAULT = "default", _("Predeterminado")
         KARDINAL = "kardinal", _("Cardenal rojo")
+        CROW = "crow", _("Cuervo")
+        SWAN = "swan", _("Cisne")
 
     page_description = _("Blog para un creador de contenido")
     theme = models.CharField(
@@ -40,7 +42,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         )
     ]
 
-    search_fields = BasePage.search_fields + [index.SearchField("owner")]
+    search_fields = BasePage.search_fields
 
     parent_page_types = ["dashboard.DashboardPage"]
     subpage_types = ["BlogPage"]
@@ -50,7 +52,6 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         context["posts"] = self.get_posts()
         context["blog_app"] = "blog"
         context["blog_model"] = "blogpage"
-
         return context
 
     def get_posts(self):
@@ -59,7 +60,7 @@ class BlogIndexPage(RoutablePageMixin, BasePage):
         Returns:
             Array con las entradas del blog
         """
-        return BlogPage.objects.child_of(self).live()
+        return BlogPage.objects.child_of(self).public().live()
 
     @re_path(r"^tag/(?P<tag>[-\w]+)/$")
     def posts_by_tag(self, request, tag):
@@ -120,9 +121,8 @@ class BlogPage(RoutablePageMixin, BasePage):
         ),
     ]
     search_fields = BasePage.search_fields + [
-        index.SearchField("tags"),
-        index.AutocompleteField("tags"),
-        index.AutocompleteField("categories"),
+        index.RelatedFields("tags", [index.SearchField("name")]),
+        index.RelatedFields("categories", [index.SearchField("name")]),
     ]
 
     parent_page_types = ["BlogIndexPage"]

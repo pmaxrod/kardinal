@@ -1,0 +1,14 @@
+@plugin "daisyui/theme" {
+    name: "swan";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: var(--color-zinc-50);
+    --color-base-200: var(--color-zinc-100);
+    --color-base-300: var(--color-zinc-200);
+    --color-base-content: var(--color-zinc-950);
+    --color-primary: var(--color-orange-400);
+    --color-primary-content: var(--color-orange-100);
+    --color-secondary: var(--color-stone-950);
+    --color-secondary-content: var(--color-stone-300);
+}

@@ -1,0 +1,9 @@
+<div id="tags-feed">
+  {% for post in tags_feed %}
+    {% include 'partials/blog_post.html' with page=post %}
+  {% empty %}
+    {% if tags %}
+      <p>No se han encontrado entradas con la{{ tags|pluralize:'s' }} etiqueta{{ tags|pluralize:'s' }} {{ tags }}</p>
+    {% endif %}
+  {% endfor %}
+</div>

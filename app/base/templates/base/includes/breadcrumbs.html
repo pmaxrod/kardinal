@@ -7,7 +7,7 @@
         {% if not ancestor.is_root %}
           {% if ancestor.depth > 2 %}
             <li class="breadcrumb-item">
-              <a href="{% pageurl ancestor %}" title="{{ ancestor.title }}" class="link link-primary link-hover">{{ ancestor.title|truncatewords:4 }}</a>
+              <a href="{% pageurl ancestor %}" title="{{ ancestor.title }}" class="link link-hover">{{ ancestor.title|truncatewords:4 }}</a>
             </li>
           {% endif %}
         {% endif %}

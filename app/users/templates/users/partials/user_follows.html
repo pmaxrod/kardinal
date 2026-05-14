@@ -1,0 +1,22 @@
+<div class="space-x-2 col-span-6" hx-target="this" id="follows">
+  {% with followers=user.followed_by.all %}
+    <span id="follower-count" class="text-sm">{{ user.follower_count }} seguidor{{ followers|pluralize:'es' }}</span>
+    <span id="following-count" class="text-sm">{{ user.following_count }} siguiendo</span>
+    {% if current_user != user %}
+      {% if current_user not in followers %}
+        <a hx-post="{% url 'users:follow_user' user.pk %}" 
+        class="btn btn-sm btn-primary"
+        hx-target="#follows" 
+        hx-swap="outerHTML">
+          Seguir
+      </a>
+      {% else %}
+        <a hx-post="{% url 'users:follow_user' user.pk %}" class="btn btn-sm"
+        hx-target="#follows" 
+        hx-swap="outerHTML">
+          Siguiendo
+        </a>
+      {% endif %}
+    {% endif %}
+  {% endwith %}
+</div>

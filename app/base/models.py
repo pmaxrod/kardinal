@@ -194,6 +194,10 @@ class BasePage(Page):
     def edited(self):
         return not self.first_published_at == self.last_published_at
 
+    def get_published_pages(self):
+        """Devuelve las páginas publicadas del tipo especificado."""
+        return Page.objects.type(self).live().public().specific()
+    
     class Meta:
         abstract = True
 

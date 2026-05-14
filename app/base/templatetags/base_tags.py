@@ -25,13 +25,13 @@ def get_footer_text(context):
 
 
 @register.inclusion_tag("users/includes/user_with_pfp.html")
-def user_with_pfp(user, show_bio=False):
+def user_with_pfp(user, current_user=None, show_bio=False, show_follows=False):
     """Devuelve el nombre del usuario junto con su foto de perfil
     a partir del usuario que recibe como parámetro.
 
-    La biografía se puede mostrar de forma opcional.
+    La biografía y los datos de seguimiento se puede mostrar de forma opcional.
     """
-    return {"user": user, "show_bio": show_bio}
+    return {"user": user, "current_user": current_user, "show_bio": show_bio, "show_follows": show_follows}
 
 
 @register.inclusion_tag("base/includes/breadcrumbs.html", takes_context=True)
