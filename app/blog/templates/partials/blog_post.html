@@ -5,12 +5,11 @@
       {% include 'partials/blog_post_actions.html' %}
     </div>
     {% user_with_pfp user=page.owner %}
-    <div class="prose">
-      <div class="card-title">
-        <a href="{% pageurl page %}" class="link-neutral">{{ page.title }}</a>
-      </div>
-      <div>{{ page.subtitle|truncatewords:15 }}</div>
-    </div>
+    <h1 class="card-title">
+      <a href="{% pageurl page %}" class="link link-hover">{{ page.title }}</a>
+      <time>{{ page.first_published_at|date:'SHORT_DATE_FORMAT' }}</time>
+    </h1>
+    <h2 class="font-bold">{{ page.subtitle|truncatewords:15 }}</h2>
     {% post_categories %}
     {% post_tags %}
     <div class="card-actions justify-end mt-2">

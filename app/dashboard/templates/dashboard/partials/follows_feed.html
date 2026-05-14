@@ -1,0 +1,7 @@
+<div id="follows-feed">
+  {% for post in follows_feed %}
+    {% include 'partials/blog_post.html' with page=post %}
+  {% empty %}
+    <p>No se han encontrado entradas de usuarios seguidos.</p>
+  {% endfor %}
+</div>

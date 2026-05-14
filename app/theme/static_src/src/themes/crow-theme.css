@@ -1,0 +1,14 @@
+@plugin "daisyui/theme" {
+    name: "crow";
+    default: false;
+    prefersdark: false;
+    color-scheme: "dark";
+    --color-base-100: var(--color-zinc-800);
+    --color-base-200: var(--color-zinc-900);
+    --color-base-300: var(--color-zinc-950);
+    --color-base-content: var(--color-zinc-300);
+    --color-primary: var(--color-orange-400);
+    --color-primary-content: var(--color-orange-100);
+    --color-secondary: var(--color-blue-950);
+    --color-secondary-content: var(--color-blue-300);
+}

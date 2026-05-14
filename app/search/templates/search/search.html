@@ -10,12 +10,16 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="text-2xl">Búsqueda de páginas</h1>
-
-  <form action="{% url 'search' %}" method="get">
-    <input class="" placeholder="Búsqueda" type="search" 
-    name="query"{% if search_query %} value="{{ search_query }}"{% endif %} />
-    <input type="submit" value="Buscar" class="btn btn-primary" />
+  <h1 class="text-2xl mb-4">Búsqueda de entradas de blog</h1>
+  <p class="font-light">Se pueden buscar según autor, etiquetas, categorías, entre otros atributos.</p>
+  <form action="{% url 'search' %}" method="get" class="mb-4">
+    <div class="join">
+      <label class="join-item">
+        <input class="input" placeholder="Búsqueda" type="search" 
+        name="query"{% if search_query %} value="{{ search_query }}"{% endif %} />  
+      </label>
+      <input type="submit" value="Buscar" class="btn btn-primary join-item" />
+    </div>
   </form>
 
   {% if search_results %}
@@ -27,12 +31,10 @@
       resultado{{ total_results|pluralize }}
       encontrado{{ total_results|pluralize }}.
     </p>
-    <ol>
+    <ol class="list">
       {% for result in search_results %}
-        <li>
-          <span>
-            <a class="link link-secondary link-hover" href="{% pageurl result %}">{{ result }}</a>
-          </span>
+        <li class="list-row">
+          <a class="link link-hover" href="{% pageurl result %}">{{ result }}</a>
           {% if result.search_description %}
             {{ result.search_description }}
           {% endif %}
@@ -46,25 +48,22 @@
 
     <ul class="join">
       {% if search_results.has_previous %}
-        <li>
-          <a class="join-item btn btn-link link-hover" 
-            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">
+        <li class="join-item btn">
+          <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">
             Anterior
           </a>
         </li>
       {% endif %}
       {% for page_num in page_range %}
-        <li>
-          <a class="join-item btn{% if page_num == search_results.number %}btn-active{% endif %}" 
-            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ page_num }}">
+        <li class="join-item btn {% if page_num == search_results.number %}btn-active{% endif %}">
+          <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ page_num }}">
             {{ page_num }}
           </a>
         </li>
       {% endfor %}
       {% if search_results.has_next %}
-        <li>
-          <a class="join-item btn" 
-            href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">
+        <li class="join-item btn">
+          <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">
             Siguiente
           </a>
         </li>

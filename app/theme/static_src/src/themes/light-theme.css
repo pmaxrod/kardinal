@@ -1,0 +1,12 @@
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-primary: var(--color-red-500);
+    --color-primary-content: var(--color-red-100);
+    --color-secondary: var(--color-blue-500);
+    --color-secondary-content: var(--color-blue-100);
+    --color-neutral: var(--color-stone-900);
+    --color-neutral-content: var(--color-stone-300);
+}

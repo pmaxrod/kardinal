@@ -2,12 +2,12 @@
 <nav class="navbar bg-base-200 h-36 shadow-md">
   {% get_site_root as site_root %}
   <a href="#main" class="skip-link">Saltar al contenido</a>
-  <div class="navbar-start">
-    <a href="{% pageurl site_root %}"><img class="logo w-16 h-16" src="{% static 'img/kardinal-logo.svg' %}" alt="Logo de Kardinal" /></a>
+  <div class="flex-none">
+    <a href="{% pageurl site_root %}">
+      <img class="logo w-16 h-16" src="{% static 'img/kardinal-logo.svg' %}" alt="Logo de Kardinal" />
+    </a>
   </div>
-  <div class="navbar-center">
-    {% main_menu max_levels=1 template='menus/main_menu.html' apply_active_classes=True %}
-  </div>
+  {% main_menu max_levels=1 template='menus/main_menu.html' apply_active_classes=True %}
   <div class="navbar-end gap-4">
     {% if user.is_authenticated %}
       {% user_with_pfp user %}
